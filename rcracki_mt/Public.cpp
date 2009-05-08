@@ -222,7 +222,7 @@ void Logo()
 {
 	printf("RainbowCrack (improved) - Making a Faster Cryptanalytic Time-Memory Trade-Off\n");
 	printf("by Martin Westergaard <martinwj2005@gmail.com>\n");
-	printf("multi-threaded and enhanced by neinbrucke (version 0.5)\n");
+	printf("multi-threaded and enhanced by neinbrucke (version 0.6-svn)\n");
 	printf("http://www.freerainbowtables.com/\n");
 	printf("original code by Zhu Shuanglei <shuanglei@hotmail.com>\n");
 	printf("http://www.antsight.com/zsl/rainbowcrack/\n\n");

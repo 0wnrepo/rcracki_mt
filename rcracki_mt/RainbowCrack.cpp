@@ -17,15 +17,12 @@
 
 #include "CrackEngine.h"
 #include "lm2ntlm.h"
-//#include <vector>
 #include <algorithm>
-//#include <iostream>
 
 
 
 #ifdef _WIN32
 	#include <io.h>
-	//#include <direct.h>
 #else
 	#include <sys/types.h>
 	#include <sys/stat.h>
@@ -318,14 +315,12 @@ void Usage()
 
 int main(int argc, char* argv[])
 {
-	//using namespace std;
-//#ifdef _WIN32
 	if (argc < 2)
 	{
 		Usage();
 		return 0;
 	}
-	// vPathName
+
 	vector<string> vPathName;
 	vector<string> vDefaultRainbowTablePath;
 	string sWildCharPathName = "";
@@ -338,7 +333,6 @@ int main(int argc, char* argv[])
 	string sSessionPathName  = "rcracki.session";
 	string sProgressPathName = "rcracki.progress";
 	string sPrecalcPathName  = "rcracki.precalc";
-	//string sPrecalcIndexPathName  = "rcracki.precalc.index";
 	bool resumeSession       = false;
 	bool useDefaultRainbowTablePath = false;
 	bool debug               = false;
@@ -357,6 +351,7 @@ int main(int argc, char* argv[])
 		sApplicationPath = sApplicationPath.substr(0, nIndex);
 	//printf ("The application directory is %s\n", sApplicationPath.c_str());
 #endif
+
 	// Read defaults from ini file;
 	bool readFromIni = false;
 	vector<string> vLine;
@@ -565,7 +560,6 @@ int main(int argc, char* argv[])
 	}
 	printf("Found %d rainbowtable files...\n\n", vPathName.size());
 
-	// fCrackerType, vHash, vUserName, vLMHash
 	bool fCrackerType;			// true: hash cracker, false: lm cracker
 	vector<string> vHash;		// hash cracker
 	vector<string> vUserName;	// lm cracker
@@ -697,11 +691,6 @@ int main(int argc, char* argv[])
 				buffer += "sPathName=" + vPathName[i] + "\n";
 			}
 
-			/*for (i = 0; i < hs.GetStatHashTotal(); i++)
-			{
-				buffer += "sHash=" + hs.GetHashInfo(i) + "\n";
-			}*/
-
 			if (writeOutput)
 				buffer += "outputFile=" + outputFile + "\n";
 
@@ -803,7 +792,6 @@ int main(int argc, char* argv[])
 				{
 					printf("%-14s\t%s\thex:%s\n", vUserName[i].c_str(), sPlain.c_str(), sBinary.c_str());
 					LM2NTLMcorrector corrector;
-					//if (corrector.LMPasswordCorrectUnicode(sPlain, NTLMHash, sNTLMPassword))
 					if (corrector.LMPasswordCorrectUnicode(sBinary, NTLMHash, sNTLMPassword))
 					{
 						sPlain = sNTLMPassword;

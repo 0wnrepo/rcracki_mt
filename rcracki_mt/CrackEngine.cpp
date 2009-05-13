@@ -12,6 +12,68 @@
 
 #include <time.h>
 
+// Code comes from nmap, used for the linux implementation of kbhit()
+#ifndef _WIN32
+#include <unistd.h>
+#include <termios.h>
+#include <fcntl.h>
+
+static int tty_fd = 0;
+static struct termios saved_ti;
+
+static int tty_getchar()
+{
+        int c, numChars;
+
+        if (tty_fd && tcgetpgrp(tty_fd) == getpid()) {
+                c = 0;
+                numChars = read(tty_fd, &c, 1);
+                if (numChars > 0) return c;
+        }
+
+        return -1;
+}
+
+static void tty_done()
+{
+        if (!tty_fd) return;
+
+        tcsetattr(tty_fd, TCSANOW, &saved_ti);
+
+        close(tty_fd);
+        tty_fd = 0;
+}
+
+void tty_init()
+{
+        struct termios ti;
+
+        if (tty_fd)
+                return;
+
+        if ((tty_fd = open("/dev/tty", O_RDONLY | O_NONBLOCK)) < 0) return;
+
+        tcgetattr(tty_fd, &ti);
+        saved_ti = ti;
+        ti.c_lflag &= ~(ICANON | ECHO);
+        ti.c_cc[VMIN] = 1;
+        ti.c_cc[VTIME] = 0;
+        tcsetattr(tty_fd, TCSANOW, &ti);
+
+        atexit(tty_done);
+}
+
+
+static void tty_flush(void)
+{
+        /* we don't need to test for tty_fd==0 here because
+ *          * this isn't called unless we succeeded
+ *                   */
+
+        tcflush(tty_fd, TCIFLUSH);
+}
+#endif
+
 CCrackEngine::CCrackEngine()
 {
 	ResetStatistics();
@@ -327,6 +389,35 @@ void CCrackEngine::SearchTableChunkOld(RainbowChainO* pChain, int nRainbowChainL
 				printf( "\nPress 'P' to pause...\n");
 			}
 		}
+		#else
+		int c = tty_getchar();
+		if (c >= 0) {
+			tty_flush();
+			if (c==112) { // = p
+				pausing = true;
+				printf( "\nPausing, press 'p' again to continue... ");
+				clock_t t1 = clock();
+				while (pausing)
+				{
+					if ((c = tty_getchar()) >= 0)
+					{
+						tty_flush();
+						if (c == 112)
+						{
+							printf( " [Continuing]\n");
+							pausing = false;
+							clock_t t2 = clock();
+							float fTime = 1.0f * (t2 - t1) / CLOCKS_PER_SEC;
+							m_fTotalCryptanalysisTime -= fTime;
+						}
+					}
+					usleep(500*1000);
+				}
+			}
+			else {
+				printf( "\nPress 'p' to pause...\n");
+			}
+		}
 		#endif
 		unsigned char TargetHash[MAX_HASH_LEN];
 		int nHashLen;
@@ -586,6 +677,35 @@ void CCrackEngine::SearchTableChunk(RainbowChain* pChain, int nRainbowChainLen, 
 			else
 			{
 				printf( "\nPress 'P' to pause...\n");
+			}
+		}
+		#else
+		int c = tty_getchar();
+		if (c >= 0) {
+			tty_flush();
+			if (c==112) { // = p
+				pausing = true;
+				printf( "\nPausing, press 'p' again to continue... ");
+				clock_t t1 = clock();
+				while (pausing)
+				{
+					if ((c = tty_getchar()) >= 0)
+					{
+						tty_flush();
+						if (c == 112)
+						{
+							printf( " [Continuing]\n");
+							pausing = false;
+							clock_t t2 = clock();
+							float fTime = 1.0f * (t2 - t1) / CLOCKS_PER_SEC;
+							m_fTotalCryptanalysisTime -= fTime;
+						}
+					}
+					usleep(500*1000);
+				}
+			}
+			else {
+				printf( "\nPress 'p' to pause...\n");
 			}
 		}
 		#endif
@@ -1133,6 +1253,9 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads, bool resume, bool bDebug)
 {
+#ifndef _WIN32
+	tty_init();
+#endif
 	resumeSession = resume;
 	debug = bDebug;
 
@@ -1164,6 +1287,10 @@ void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads,
 	// delete precalc files
 	if (!keepPrecalcFiles)
 		m_cws.removePrecalcFiles();
+
+#ifndef _WIN32
+	tty_done();
+#endif
 }
 
 void CCrackEngine::setOutputFile(string sPathName)

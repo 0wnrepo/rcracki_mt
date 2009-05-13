@@ -16,6 +16,68 @@
 
 #include "lm2ntlm.h"
 
+// Code comes from nmap, used for the linux implementation of kbhit()
+#ifndef _WIN32
+#include <unistd.h>
+#include <termios.h>
+#include <fcntl.h>
+
+static int tty_fd = 0;
+static struct termios saved_ti;
+
+static int tty_getchar()
+{
+        int c, numChars;
+
+        if (tty_fd && tcgetpgrp(tty_fd) == getpid()) {
+                c = 0;
+                numChars = read(tty_fd, &c, 1);
+                if (numChars > 0) return c;
+        }
+
+        return -1;
+}
+
+static void tty_done()
+{
+        if (!tty_fd) return;
+
+        tcsetattr(tty_fd, TCSANOW, &saved_ti);
+
+        close(tty_fd);
+        tty_fd = 0;
+}
+
+void tty_init()
+{
+        struct termios ti;
+
+        if (tty_fd)
+                return;
+
+        if ((tty_fd = open("/dev/tty", O_RDONLY | O_NONBLOCK)) < 0) return;
+
+        tcgetattr(tty_fd, &ti);
+        saved_ti = ti;
+        ti.c_lflag &= ~(ICANON | ECHO);
+        ti.c_cc[VMIN] = 1;
+        ti.c_cc[VTIME] = 0;
+        tcsetattr(tty_fd, TCSANOW, &ti);
+
+        atexit(tty_done);
+}
+
+
+static void tty_flush(void)
+{
+        /* we don't need to test for tty_fd==0 here because
+ *          * this isn't called unless we succeeded
+ *                   */
+
+        tcflush(tty_fd, TCIFLUSH);
+}
+#endif
+
 LM2NTLMcorrector::LM2NTLMcorrector()
 {
 	progressCurrentCombination = 0;
@@ -63,18 +125,28 @@ bool LM2NTLMcorrector::LMPasswordCorrectUnicode(string hexPassword, unsigned cha
 	startClock = clock();
 	previousClock = clock();
 
+#ifndef _WIN32
+	tty_init();
+#endif
+
 	if (startCorrecting(sPlain, NTLMHash, sNTLMPassword, pLMPassword))
 	{
 		sBinary = ByteToStr(pLMPassword, tmpLength).c_str();
 		//printf("\nFound unicode password: %s\n", sNTLMPassword.c_str());
 		//printf("Password in hex: %s\n", sBinary.c_str());
 		writeEndStats();
+#ifndef _WIN32
+		tty_done();
+#endif
 		return true;
 	}
 	else
 	{
 		//printf("\ncase correction for password %s fail!\n", sPlain.c_str());
 		writeEndStats();
+#ifndef _WIN32
+		tty_done();
+#endif
 		return false;
 	}
 }
@@ -301,6 +373,18 @@ bool LM2NTLMcorrector::checkPermutations(int length, unsigned char* pMuteMe, uns
 					else
 					{
 						printf( "\nPress 'S' to skip unicode correction for this hash...\n");
+					}
+				}
+				#else
+				int c = tty_getchar();
+				if (c >= 0) {
+					tty_flush();
+					if (c==115) { // = s
+						aborting = true;
+						printf( "\nAborting unicode correction for this hash...\n");
+					}
+					else {
+						printf( "\nPress 's' to skip unicode correction for this hash...\n");
 					}
 				}
 				#endif

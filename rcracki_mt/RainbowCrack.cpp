@@ -307,8 +307,13 @@ void Usage()
 	printf("                  -k keep precalculation on disk\n");
 	printf("                  -v show debug information\n");
 	printf("\n");
+#ifdef _WIN32
 	printf("example: rcracki_mt -h 5d41402abc4b2a76b9719d911017c592 -t 2 [path]\\MD5\n");
 	printf("         rcracki_mt -l hash.txt [path_to_specific_table]\\*\n");
+#else
+	printf("example: rcracki_mt -h 5d41402abc4b2a76b9719d911017c592 -t 2 [path]/MD5\n");
+	printf("         rcracki_mt -l hash.txt [path_to_specific_table]/*\n");
+#endif
 	printf("         rcracki_mt -f hash.txt -t 4 -o results.txt *.rti\n");
 
 }
@@ -341,28 +346,15 @@ int main(int argc, char* argv[])
 	int maxThreads			 = 1;
 	CHashSet hs;
 
-#ifdef _WIN32
-	char fullPath[FILENAME_MAX];
-	GetModuleFileName(NULL, fullPath, FILENAME_MAX);
-	//printf ("The application full path is %s\n", xxx);
-	sApplicationPath = fullPath;
-	int nIndex = sApplicationPath.find_last_of('\\');
-	if (nIndex != -1)
-		sApplicationPath = sApplicationPath.substr(0, nIndex);
-	//printf ("The application directory is %s\n", sApplicationPath.c_str());
-#endif
-
 	// Read defaults from ini file;
 	bool readFromIni = false;
 	vector<string> vLine;
 	if (ReadLinesFromFile(sIniPathName, vLine)) {
 		readFromIni = true;
 	}
-#ifdef _WIN32
-	else if (ReadLinesFromFile(sApplicationPath + "\\" + sIniPathName, vLine)) {
+	else if (ReadLinesFromFile(GetApplicationPath() + sIniPathName, vLine)) {
 		readFromIni = true;
 	}
-#endif
 	if (readFromIni)
 	{
 		int i;
@@ -487,6 +479,9 @@ int main(int argc, char* argv[])
 			GetTableList(cla, vPathName);
 		}
 	}
+
+	if (debug && !readFromIni)
+		printf("Debug: Couldn't read rcracki_mt.ini, continuing anyway.\n");
 
 	// Load session data if we are resuming
 	if (resumeSession)

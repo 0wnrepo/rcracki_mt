@@ -66,31 +66,15 @@ bool CChainWalkContext::LoadCharset(string sName)
 	{
 		m_nHybridCharset = 0;
 	}
-//	vector<string> vLine;
-
-#ifdef _WIN32
-	string sApplicationPath  = "";
-	char fullPath[FILENAME_MAX];
-	GetModuleFileName(NULL, fullPath, FILENAME_MAX);
-	//printf ("The application full path is %s\n", xxx);
-	sApplicationPath = fullPath;
-	int nIndex = sApplicationPath.find_last_of('\\');
-	if (nIndex != -1)
-		sApplicationPath = sApplicationPath.substr(0, nIndex);
-	//printf ("The application directory is %s\n", sApplicationPath.c_str());
-#endif
-	// Read defaults from ini file;
+	
 	bool readCharset = false;
 	vector<string> vLine;
 	if (ReadLinesFromFile("charset.txt", vLine)) {
 		readCharset = true;
 	}
-#ifdef _WIN32
-	else if (ReadLinesFromFile(sApplicationPath + "\\" + "charset.txt", vLine)) {
+	else if (ReadLinesFromFile(GetApplicationPath() + "charset.txt", vLine)) {
 		readCharset = true;
 	}
-#endif
-//	if (ReadLinesFromFile("charset.txt", vLine))
 	if (readCharset)
 	{
 		int i;
@@ -463,6 +447,7 @@ void CChainWalkContext::IndexToPlain()
 		m_nPlainLen = m_nPlainLenMinTotal;
 	uint64 nIndexOfX = m_nIndex - m_nPlainSpaceUpToX[m_nPlainLen - 1];
 
+// maybe this code should be used for some other 64 bit systems as well, added check for LP64 to try this
 #if defined(_WIN64) || defined(_LP64)
 	
 	// Slow version

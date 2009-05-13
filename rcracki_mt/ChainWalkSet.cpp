@@ -59,7 +59,7 @@ string CChainWalkSet::CheckOrRotatePreCalcFile()
 			if (nextFileLen < ((unsigned)2 * 1024 * 1024 * 1024))
 			{
 				// We might want to vPrecalcFiles.push_back(sReturnPreCalcPath) if we just created this file
-				// We don't only newly generated chainwalksets will be stored to this new file, so we don't have to look there
+				// We don't as only newly generated chainwalksets will be stored to this new file, so we don't have to look there
 				if (debug) printf("Debug: Using for precalc: %s\n", sReturnPreCalcPath.c_str());
 				fclose(file);
 				return sReturnPreCalcPath;
@@ -114,9 +114,7 @@ void CChainWalkSet::removePrecalcFiles()
 
 		if (remove(sCurrentPrecalcIndexPathName.c_str()) != 0)
 			if (debug) printf("Debug: Failed removing precalc index file: %s\n", sCurrentPrecalcIndexPathName.c_str());
-	
-		//else
-		//	break;
+
 	}
 }
 
@@ -223,8 +221,6 @@ void CChainWalkSet::StoreToFile(uint64* pIndexE, unsigned char* pHash, int nHash
 	else
 		printf("Cannot open precalculation file %s\n", sCurrentPrecalcPathName.c_str());
 
-	//printf("\npStartPosIndexE[0]: %s\n", uint64tostr(x1).c_str());
-	//printf("\npStartPosIndexE[nRainbowChainLen-2]: %s\n", uint64tostr(pStartPosIndexE[nRainbowChainLen-2]).c_str());
 }
 
 uint64* CChainWalkSet::RequestWalk(unsigned char* pHash, int nHashLen,

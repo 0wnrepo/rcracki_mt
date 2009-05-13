@@ -31,8 +31,6 @@ private:
 	static int m_nHashLen;										// Configuration
 	static bool isOldRtFormat;
 
-//	static unsigned char m_PlainCharset[256];					// Configuration
-//	static unsigned char m_PlainCharset2[256];					// Configuration
 	static vector<stCharset> m_vCharset;
 	static int m_nPlainLenMinTotal, m_nPlainLenMaxTotal;
 	static uint64 m_nPlainSpaceUpToX[MAX_PLAIN_LEN + 1];		// Performance consideration
@@ -81,7 +79,6 @@ public:
 	const uint64* GetIndexPtr();
 	string GetPlain();
 	string GetBinary();
-//	string GetPlainBinary();
 	string GetHash();
 	bool CheckHash(unsigned char* pHash);	// The length should be m_nHashLen
 };

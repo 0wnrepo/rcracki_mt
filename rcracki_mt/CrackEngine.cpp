@@ -855,6 +855,8 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			printf("file length mismatch\n");
 		else
 		{
+			fseek(file, 0, SEEK_SET);
+
 			unsigned int bytesForChainWalkSet = hs.GetStatHashTotal() * (nRainbowChainLen-1) * 8;
 			if (debug) printf("Debug: Saving %u bytes of memory for chainwalkset.\n", bytesForChainWalkSet);
 
@@ -870,7 +872,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 				{
 					nAllocatedSize = nAllocatedSize / sizeOfChain * sizeOfChain;		// Round to sizeOfChain boundary
 
-					fseek(file, 0, SEEK_SET);
+					//fseek(file, 0, SEEK_SET);
 					//bool fVerified = false;
 					while (true)	// Chunk read loop
 					{
@@ -941,6 +943,8 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 				}
 				else
 					printf("memory allocation fail\n");
+				
+				//delete pChain;
 			}
 			else
 			{
@@ -948,7 +952,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 				unsigned int nAllocatedSizeIndex;
 
 				//int nIndexSize = 0;
-				IndexChain *pIndex = NULL;
+				//IndexChain *pIndex = NULL;
 
 				FILE* fIndex = fopen(((string)(sPathName + string(".index"))).c_str(), "rb");
 				if(fIndex != NULL)
@@ -964,7 +968,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 					{
 						//printf("index nSize: %d\n", nSize);
 						//pIndex = (IndexChain*)new unsigned char[nSize];
-						IndexChain* pIndex = (IndexChain*)mpIndex.Allocate(nFileLenIndex, nAllocatedSizeIndex);
+						IndexChain *pIndex = (IndexChain*)mpIndex.Allocate(nFileLenIndex, nAllocatedSizeIndex);
 						if (debug) printf("Debug: Allocated %u bytes for index with filelen %u\n", nAllocatedSizeIndex, nFileLenIndex);
 						
 						if (pIndex != NULL && nAllocatedSizeIndex > 0)
@@ -980,7 +984,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 									break;
 
 								// Load index chunk
-								if (debug) printf("Debug: Setting index to 0x00 in memory\n");
+								if (debug) printf("Debug: Setting index to 0x00 in memory, %u bytes\n", nAllocatedSizeIndex);
 								memset(pIndex, 0x00, nAllocatedSizeIndex);
 								printf("reading index... ");
 								clock_t t1 = clock();
@@ -1008,12 +1012,15 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 								{
 									nAllocatedSize = nAllocatedSize / sizeOfChain * sizeOfChain;		// Round to sizeOfChain boundary
 
-									fseek(file, 0, SEEK_SET);
+									//fseek(file, 0, SEEK_SET);
 									//bool fVerified = false;
 									int nProcessedChains = 0;
 									while (true)	// Chunk read loop
 									{
 										if (ftell(file) == nFileLen)
+											break;
+
+										if (nProcessedChains >= nCoveredRainbowTableChains)
 											break;
 
 										// Load table chunk
@@ -1092,6 +1099,8 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 									}
 								}
 								else printf("memory allocation failed for rainbow table\n");
+
+								//delete pChain;
 							}
 						}
 						else printf("memory allocation failed for index\n");
@@ -1104,7 +1113,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 				}
 				fclose(fIndex);
 				
-				delete pIndex;
+				//delete pIndex;
 			}
 		}
 		fclose(file);

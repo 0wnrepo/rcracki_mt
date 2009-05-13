@@ -204,6 +204,34 @@ unsigned int GetAvailPhysMemorySize()
 #endif
 }
 
+string GetApplicationPath()
+{
+	char fullPath[FILENAME_MAX];
+
+#ifdef _WIN32
+	GetModuleFileName(NULL, fullPath, FILENAME_MAX);
+#else
+	char szTmp[32];
+	sprintf(szTmp, "/proc/%d/exe", getpid());
+	int bytes = readlink(szTmp, fullPath, FILENAME_MAX);
+	if(bytes >= 0)
+        	fullPath[bytes] = '\0';
+#endif
+
+	string sApplicationPath = fullPath;
+#ifdef _WIN32
+	int nIndex = sApplicationPath.find_last_of('\\');
+#else
+	int nIndex = sApplicationPath.find_last_of('/');
+#endif
+
+	if (nIndex != -1)
+		sApplicationPath = sApplicationPath.substr(0, nIndex+1);
+
+	//printf ("\n\nDebug: The application directory is %s\n", sApplicationPath.c_str());
+	return sApplicationPath;
+}
+
 void ParseHash(string sHash, unsigned char* pHash, int& nHashLen)
 {
 	int i;

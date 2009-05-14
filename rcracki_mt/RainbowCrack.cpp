@@ -528,7 +528,8 @@ int main(int argc, char* argv[])
 	if (maxThreads<1)
 		maxThreads = 1;
 
-	if (useDefaultRainbowTablePath)
+	// don't load these if we are resuming a session that already has a list of tables
+	if (useDefaultRainbowTablePath && !resumeSession)
 	{
 		int i;
 		for (i = 0; i < vDefaultRainbowTablePath.size(); i++)

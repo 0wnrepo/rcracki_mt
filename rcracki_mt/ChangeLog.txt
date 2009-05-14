@@ -7,6 +7,7 @@
 * Session support, use -s session_name. Combine this with -r to resume a session other then the default
 * Ini file support, store some default values such as rainbow table directories.
 * Tab separated results (stdout)
+* Support pause during cracking and 'skip' during unicode correction for Linux
 * A readme / 'manual' !
 
 0.5 (16 Apr 2009, 22:47):

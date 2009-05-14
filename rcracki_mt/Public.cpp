@@ -255,3 +255,38 @@ void Logo()
 	printf("original code by Zhu Shuanglei <shuanglei@hotmail.com>\n");
 	printf("http://www.antsight.com/zsl/rainbowcrack/\n\n");
 }
+
+// Code comes from nmap, used for the linux implementation of kbhit()
+#ifndef _WIN32
+int tty_getchar()
+{
+        int c, numChars;
+
+        if (tty_fd && tcgetpgrp(tty_fd) == getpid()) {
+                c = 0;
+                numChars = read(tty_fd, &c, 1);
+                if (numChars > 0) return c;
+        }
+
+        return -1;
+}
+
+void tty_init()
+{
+        struct termios ti;
+
+        if (tty_fd)
+                return;
+
+        if ((tty_fd = open("/dev/tty", O_RDONLY | O_NONBLOCK)) < 0) return;
+
+        tcgetattr(tty_fd, &ti);
+        saved_ti = ti;
+        ti.c_lflag &= ~(ICANON | ECHO);
+        ti.c_cc[VMIN] = 1;
+        ti.c_cc[VTIME] = 0;
+        tcsetattr(tty_fd, TCSANOW, &ti);
+
+        atexit(tty_done);
+}
+#endif

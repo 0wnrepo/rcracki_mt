@@ -16,68 +16,6 @@
 
 #include "lm2ntlm.h"
 
-// Code comes from nmap, used for the linux implementation of kbhit()
-#ifndef _WIN32
-#include <unistd.h>
-#include <termios.h>
-#include <fcntl.h>
-
-static int tty_fd = 0;
-static struct termios saved_ti;
-
-static int tty_getchar()
-{
-        int c, numChars;
-
-        if (tty_fd && tcgetpgrp(tty_fd) == getpid()) {
-                c = 0;
-                numChars = read(tty_fd, &c, 1);
-                if (numChars > 0) return c;
-        }
-
-        return -1;
-}
-
-static void tty_done()
-{
-        if (!tty_fd) return;
-
-        tcsetattr(tty_fd, TCSANOW, &saved_ti);
-
-        close(tty_fd);
-        tty_fd = 0;
-}
-
-void tty_init()
-{
-        struct termios ti;
-
-        if (tty_fd)
-                return;
-
-        if ((tty_fd = open("/dev/tty", O_RDONLY | O_NONBLOCK)) < 0) return;
-
-        tcgetattr(tty_fd, &ti);
-        saved_ti = ti;
-        ti.c_lflag &= ~(ICANON | ECHO);
-        ti.c_cc[VMIN] = 1;
-        ti.c_cc[VTIME] = 0;
-        tcsetattr(tty_fd, TCSANOW, &ti);
-
-        atexit(tty_done);
-}
-
-
-static void tty_flush(void)
-{
-        /* we don't need to test for tty_fd==0 here because
- *          * this isn't called unless we succeeded
- *                   */
-
-        tcflush(tty_fd, TCIFLUSH);
-}
-#endif
-
 LM2NTLMcorrector::LM2NTLMcorrector()
 {
 	progressCurrentCombination = 0;

@@ -86,6 +86,35 @@ typedef struct
 #define MAX_HASH_LEN  256
 #define MAX_SALT_LEN  256
 
+// Code comes from nmap, used for the linux implementation of kbhit()
+#ifndef _WIN32
+#include <unistd.h>
+#include <termios.h>
+#include <fcntl.h>
+
+static int tty_fd = 0;
+static struct termios saved_ti;
+
+int tty_getchar();
+
+static void tty_done()
+{
+        if (!tty_fd) return;
+
+        tcsetattr(tty_fd, TCSANOW, &saved_ti);
+
+        close(tty_fd);
+        tty_fd = 0;
+}
+
+void tty_init();
+
+static void tty_flush(void)
+{
+         tcflush(tty_fd, TCIFLUSH);
+}
+#endif
+
 unsigned int GetFileLen(FILE* file);
 string TrimString(string s);
 bool ReadLinesFromFile(string sPathName, vector<string>& vLine);

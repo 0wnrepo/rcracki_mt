@@ -1,0 +1,45 @@
+[rcracki_mt ChangeLog]
+
+0.6:
+* Finding .rti files recursively
+* Fixed memory allocation bugs (also trying to save appropriate amount of memory for chainwalksets... these can become really large with the new tables)
+* Real pause/resume function, you can resume a session with -r
+* Session support, use -s session_name. Combine this with -r to resume a session other then the default
+* Ini file support, store some default values such as rainbow table directories.
+* Tab separated results (stdout)
+* Support pause during cracking and 'skip' during unicode correction for Linux
+* A readme / 'manual' !
+
+0.5 (16 Apr 2009, 22:47):
+* Support for the old non-indexed .rt format, it should work with both type of tables in one run... I didn't test this feature thoroughly
+* Using some other pieces of code for algorithms
+* Support for .lst files from Cain as input (patch from James Dickson) - use for example -c LMNT.lst
+* Fixed some bugs
+* Dunno anymore, left this version lying around for too long...
+
+0.4 (oops, a second 0.4) (13 Dec 2008, 18:20):
+* Improved file reading performance
+
+0.4 (27 Nov 2008, 00:09):
+* Source included
+* Memory usage down to about 50% (tnx sc00bz for pointing out the inefficiency, tnx jci for helping with the code)
+* Works under Linux! (using pthreads now instead of Windows threads)
+* Speed up: implemented MD4 reference implementation, not using OpenSSL for NTLM anymore (tnx Bitweasil for supplying 98% of the code)
+* Speed up: using OpenSSL a lot faster (tnx jci for pointing that out)
+* Probably some more small things i forgot
+
+0.3 (16 Nov 2008, 01:01):
+* Improved command line argument parsing (order no longer matters)
+* Option to write (temporary) output to a file, use -o pick_a_nice_filename.txt
+* Option to pause, press 'P' to pause/unpause (Windows only)
+* For pwdump searches: unicode correction is done when case correction fails
+
+0.2 (28 Oct 2008, 01:42):
+* False alarm checking now also multi threaded
+* Search one level of subdirectories for rainbow table files
+
+0.1 (27 Oct 2008, 00:14):
+* Initial multithreaded version, using Windows threads.
+* Using multiple threads for the pre-calculation part.
+* Added a simple 'progress' message, so you can see how many hashes are being pre-calculated
+

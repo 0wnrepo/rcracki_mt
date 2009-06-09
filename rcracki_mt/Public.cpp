@@ -248,7 +248,7 @@ void ParseHash(string sHash, unsigned char* pHash, int& nHashLen)
 
 void Logo()
 {
-	printf("RainbowCrack (improved) - Making a Faster Cryptanalytic Time-Memory Trade-Off\n");
+	printf("RainbowCrack (improved, multi-threaded) - Making a Faster Cryptanalytic Time-Memory Trade-Off\n");
 	printf("by Martin Westergaard <martinwj2005@gmail.com>\n");
 	printf("multi-threaded and enhanced by neinbrucke (version 0.6-svn)\n");
 	printf("http://www.freerainbowtables.com/\n");

@@ -1,6 +1,9 @@
 [rcracki_mt ChangeLog]
 
-0.6:
+0.6.1 (14 May 2009, 22:12):
+* bug fixed where the list of rainbow tables is doubled when you resume a session and you have default RT locations in your ini
+
+0.6 (14 May 2009, 20:47):
 * Finding .rti files recursively
 * Fixed memory allocation bugs (also trying to save appropriate amount of memory for chainwalksets... these can become really large with the new tables)
 * Real pause/resume function, you can resume a session with -r

@@ -119,6 +119,13 @@ void GetTableList(string sWildCharPathName, vector<string>& vPathName)
 		}
 		else if (S_ISREG(buf.st_mode))
 		{
+			if (sWildCharPathName.size()>3)
+			{
+				if (sWildCharPathName.substr(sWildCharPathName.size()-3, 3) == ".rt")
+				{
+					vPathName.push_back(sWildCharPathName);
+				}
+			}
 			if (sWildCharPathName.size()>4)
 			{
 				if (sWildCharPathName.substr(sWildCharPathName.size()-4, 4) == ".rti")

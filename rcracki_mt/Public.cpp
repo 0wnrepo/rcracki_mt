@@ -258,6 +258,10 @@ void Logo()
 
 // Code comes from nmap, used for the linux implementation of kbhit()
 #ifndef _WIN32
+
+static int tty_fd = 0;
+struct termios saved_ti;
+
 int tty_getchar()
 {
         int c, numChars;
@@ -269,6 +273,16 @@ int tty_getchar()
         }
 
         return -1;
+}
+
+void tty_done()
+{
+        if (!tty_fd) return;
+
+        tcsetattr(tty_fd, TCSANOW, &saved_ti);
+
+        close(tty_fd);
+        tty_fd = 0;
 }
 
 void tty_init()
@@ -288,5 +302,10 @@ void tty_init()
         tcsetattr(tty_fd, TCSANOW, &ti);
 
         atexit(tty_done);
+}
+
+void tty_flush(void)
+{
+        tcflush(tty_fd, TCIFLUSH);
 }
 #endif

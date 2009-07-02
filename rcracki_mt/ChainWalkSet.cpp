@@ -127,7 +127,7 @@ bool CChainWalkSet::FindInFile(uint64* pIndexE, unsigned char* pHash, int nHashL
 
 	string sCurrentPrecalcPathName = "";
 	string sCurrentPrecalcIndexPathName = "";
-	int offset = 0;
+	int offset;
 
 	int i;
 	for (i = 0; i < (int)vPrecalcFiles.size() && gotPrecalcOnLine == -1; i++)
@@ -135,7 +135,7 @@ bool CChainWalkSet::FindInFile(uint64* pIndexE, unsigned char* pHash, int nHashL
 		sCurrentPrecalcPathName = vPrecalcFiles[i];
 		sCurrentPrecalcIndexPathName = sCurrentPrecalcPathName + ".index";
 
-		int offset = 0;
+		offset = 0;
 
 		vector<string> precalcLines;
 		if (ReadLinesFromFile(sCurrentPrecalcIndexPathName.c_str(), precalcLines))

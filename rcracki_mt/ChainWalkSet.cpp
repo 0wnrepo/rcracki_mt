@@ -140,18 +140,18 @@ bool CChainWalkSet::FindInFile(uint64* pIndexE, unsigned char* pHash, int nHashL
 		vector<string> precalcLines;
 		if (ReadLinesFromFile(sCurrentPrecalcIndexPathName.c_str(), precalcLines))
 		{
-			int i;
-			for (i = 0; i < (int)precalcLines.size(); i++)
+			int j;
+			for (j = 0; j < (int)precalcLines.size(); j++)
 			{
-				if (precalcString.compare(0, precalcString.size()-1, precalcLines[i]) == 0)
+				if (precalcString.compare(0, precalcString.size()-1, precalcLines[j]) == 0)
 				{
-					gotPrecalcOnLine = i;
+					gotPrecalcOnLine = j;
 					break;
 				}
 
 				// Parse
 				vector<string> vPart;
-				if (SeperateString(precalcLines[i], "___:", vPart))
+				if (SeperateString(precalcLines[j], "___:", vPart))
 				{
 					// add to offset
 					offset += ((atoi(vPart[3].c_str())-1) * sizeof(uint64));

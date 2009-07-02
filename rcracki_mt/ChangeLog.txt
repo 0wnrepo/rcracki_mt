@@ -1,5 +1,9 @@
 [rcracki_mt ChangeLog]
 
+0.6.2 (2 Juli 2009, 13:37):
+* Fixed linux support (tty stuff and now actually compiles)
+* Fixed precalculation code
+
 0.6.1 (14 May 2009, 22:12):
 * bug fixed where the list of rainbow tables is doubled when you resume a session and you have default RT locations in your ini
 

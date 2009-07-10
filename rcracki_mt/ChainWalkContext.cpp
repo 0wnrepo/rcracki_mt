@@ -459,7 +459,7 @@ void CChainWalkContext::IndexToPlain()
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset
 			{
-				m_Plain[i] = m_vCharset[j].m_PlainCharset[nIndexOfX % m_nPlainCharsetLen];
+				m_Plain[i] = m_vCharset[j].m_PlainCharset[nIndexOfX % m_vCharset[j].m_nPlainCharsetLen];
 				nIndexOfX /= m_vCharset[j].m_nPlainCharsetLen;
 			}
 		}

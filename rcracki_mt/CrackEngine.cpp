@@ -1098,7 +1098,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 										
 										if (!fVerified)
 										{
-											printf("verifying the file...\n");
+											printf("verifying the file... ");
 
 											// Chain length test
 											int nIndexToVerify = nRainbowChainCountRead / 2;
@@ -1139,6 +1139,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 											}
 
 											fVerified = true;
+											printf("ok\n");
 										}
 
 										// Search table chunk

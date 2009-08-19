@@ -12,6 +12,9 @@
 
 #ifdef _WIN32
 	#include <windows.h>
+#endif
+#ifdef __APPLE__
+	#include <sys/sysctl.h>
 #else
 	#include <sys/sysinfo.h>
 #endif
@@ -197,10 +200,18 @@ unsigned int GetAvailPhysMemorySize()
 		MEMORYSTATUS ms;
 		GlobalMemoryStatus(&ms);
 		return ms.dwAvailPhys;
+#endif
+#ifdef __APPLE__
+		int mib[2] = { CTL_HW, HW_PHYSMEM };
+		unsigned int physMem;
+		size_t len;
+		len = sizeof(physMem);
+		sysctl(mib, 2, &physMem, &len, NULL, 0);
+		return physMem;
 #else
-	struct sysinfo info;
-	sysinfo(&info);			// This function is Linux-specific
-	return info.freeram;
+		struct sysinfo info;
+		sysinfo(&info);			// This function is Linux-specific
+		return info.freeram;
 #endif
 }
 

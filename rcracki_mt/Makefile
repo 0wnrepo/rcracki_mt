@@ -6,4 +6,4 @@ else
 endif
 
 clean:
-	rm rcracki_mt
+	rm -f rcracki_mt

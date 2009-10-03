@@ -13,7 +13,8 @@
 #ifdef _WIN32
 	#include <windows.h>
 #else
-	#ifdef __APPLE__
+	#if defined(__APPLE__) || defined(__OpenBSD__)
+		#include <sys/param.h>
 		#include <sys/sysctl.h>
 	#else
 		#include <sys/sysinfo.h>
@@ -202,7 +203,7 @@ unsigned int GetAvailPhysMemorySize()
 		GlobalMemoryStatus(&ms);
 		return ms.dwAvailPhys;
 #else
-	#ifdef __APPLE__
+	#if defined(__APPLE__) || defined(__OpenBSD__)
 			int mib[2] = { CTL_HW, HW_PHYSMEM };
 			unsigned int physMem;
 			size_t len;

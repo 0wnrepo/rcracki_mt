@@ -1,9 +1,17 @@
-rcracki_mt:
-ifeq ($(shell uname -s), Darwin)
-	g++ *.cpp -lssl -lcrypto -lpthread -O3 -o rcracki_mt
+OSNAME = $(shell uname -s)
+
+ifeq ($(OSNAME), Darwin)
+	LIBS = -lssl -lcrypto -lpthread
 else
-	g++ *.cpp -lssl -lpthread -O3 -o rcracki_mt
+	ifeq ($(OSNAME), OpenBSD)
+		LIBS = -lssl -lcrypto -lpthread
+	else
+		LIBS = -lssl -lpthread
+	endif
 endif
+
+rcracki_mt:
+		g++ *.cpp $(LIBS) -O3 -o rcracki_mt
 
 clean:
 	rm -f rcracki_mt

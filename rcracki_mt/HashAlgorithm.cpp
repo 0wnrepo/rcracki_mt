@@ -23,6 +23,11 @@
 #ifdef _WIN32
 	#pragma comment(lib, "libeay32.lib")
 #endif
+
+#ifdef __NetBSD__
+	#include <des.h>
+#endif
+
 #define MSCACHE_HASH_SIZE 16
 void setup_des_key(unsigned char key_56[], des_key_schedule &ks)
 {

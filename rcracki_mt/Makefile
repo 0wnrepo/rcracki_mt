@@ -6,7 +6,11 @@ else
 	ifeq ($(OSNAME), OpenBSD)
 		LIBS = -lssl -lcrypto -lpthread
 	else
-		LIBS = -lssl -lpthread
+		ifeq ($(OSNAME), NetBSD)
+			LIBS = -lssl -ldes -lpthread
+		else
+			LIBS = -lssl -lpthread
+		endif
 	endif
 endif
 

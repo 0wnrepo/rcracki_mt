@@ -117,6 +117,7 @@ The source should also work on other platforms and has been tested on:
 32-bit MacOSX (10.5)
 
 32-bit FreeBSD (7.2)
+64-bit FreeBSD (7.2)
 32-bit NetBSD (5.0)
 32-bit OpenBSD (4.5) - you must install and use eg++ (g++ 4.2 from ports)
 64-bit OpenBSD (4.5)

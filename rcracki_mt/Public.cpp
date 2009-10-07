@@ -13,11 +13,19 @@
 #ifdef _WIN32
 	#include <windows.h>
 #else
-	#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+	#if defined(__APPLE__) || \
+	((defined(__unix__) || defined(unix)) && !defined(USG))
 		#include <sys/param.h>
-		#include <sys/sysctl.h>
-	#else
-		#include <sys/sysinfo.h>
+
+		#if defined(BSD)
+			#include <sys/sysctl.h>
+		#else
+			#if defined(linux)
+				#include <sys/sysinfo.h>
+			#else
+				#error Unsupported Operating System
+			#endif
+		#endif
 	#endif
 #endif
 
@@ -203,17 +211,21 @@ unsigned int GetAvailPhysMemorySize()
 		GlobalMemoryStatus(&ms);
 		return ms.dwAvailPhys;
 #else
-	#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-			int mib[2] = { CTL_HW, HW_PHYSMEM };
-			unsigned int physMem;
-			size_t len;
-			len = sizeof(physMem);
-			sysctl(mib, 2, &physMem, &len, NULL, 0);
-			return physMem;
+	#if defined(BSD)
+		int mib[2] = { CTL_HW, HW_PHYSMEM };
+		unsigned int physMem;
+		size_t len;
+		len = sizeof(physMem);
+		sysctl(mib, 2, &physMem, &len, NULL, 0);
+		return physMem;
 	#else
+		#if defined(linux)
 			struct sysinfo info;
 			sysinfo(&info);			// This function is Linux-specific
 			return info.freeram;
+		#else
+			#error Unsupported Operating System
+		#endif
 	#endif
 #endif
 }

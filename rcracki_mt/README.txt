@@ -92,6 +92,8 @@ faster and smaller. Rcracki also supported hybrid tables.
 Daniël Niggebrugge <neinbrucke> further enhanced this version and made it multi threaded, creating rcracki_mt. More 
 features were added over time, making it less of an unofficial version with every release.
 
+James Nobis - <quel> is making improvements on the *nix compatibility.
+
 
 SUPPORTED HASH ALGORITHMS
 ================
@@ -104,22 +106,24 @@ HALFLMCHALL, SHA1
 
 SUPPORTED PLATFORMS
 ================
-Rcracki_mt is released both as win32 binary and as source package. Rcracki_mt should work on any Microsoft Windows system, but is only tested on a 32 bit Windows XP. The source should work on Linux versions, but this has only been tested on 32 bit Ubuntu (8.10).
+Rcracki_mt is released both as win32 binary and as source package. Rcracki_mt should work on any Microsoft Windows system, but is only tested on a 32 bit Windows XP. 
 
-Some people have reported issues with compiling on 64 bit Linux. If you have trouble, please report details, as workaround try this suggested solution for AMD64 UBUNTU 8.10:
+The source should work on Linux versions.  It has been tested on:
+32-bit Ubuntu 8.10 (Intrepid Ibex)
+32-bit Debian GNU/Linux 5.0 (Lenny)
+64-bit Debian GNU/Linux 5.0 (Lenny)
 
-    sudo apt-get install ia32-libs
+The source should also work on other platforms and has been tested on:
+32-bit MacOSX (10.5)
 
+32-bit FreeBSD (7.2)
+32-bit NetBSD (5.0)
+32-bit OpenBSD (4.5) - you must install and use eg++ (g++ 4.2 from ports)
+64-bit OpenBSD (4.5)
 
-you might need to do:
-    cd /usr/lib32/
-    sudo ln -s libstdc++.so.6 libstdc++.so
-    sudo ln -s libssl.so.0.9.8 libssl.so
+Please note that to compile under the BSDs you must use gmake.
 
-
-add -m32 to the compilerline in the Makefile
-    g++ -m32 *.cpp -L/usr/lib32 -lssl -lpthread -O3 -o rcracki_mt
-
+OpenBSD threading is a work in progress.
 
 'OPTIONAL' TODO
 ================

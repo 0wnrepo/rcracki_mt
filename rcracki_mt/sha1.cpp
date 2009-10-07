@@ -269,6 +269,7 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	E = H2;
 	//D = 2079550178;
 	//C = 1506887872;
+	//XXX warning: this decimal constant is unsigned only in ISO C90
 	B = 2679412915 + W[0];
 	if (length < 4) {
 		A = SHA1CircularShift(5,B) + 1722862861;

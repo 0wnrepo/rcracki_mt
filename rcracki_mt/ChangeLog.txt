@@ -1,6 +1,11 @@
 [rcracki_mt ChangeLog]
 
-0.6.2 (2 Juli 2009, 13:37):
+TBA (TBA):
+* Fixed x86_64 linux compilation
+* Fixed x86_64 linux segmentation fault
+* Added support for: FreeBSD, NetBSD, OpenBSD, and MacOSX
+
+0.6.2 (2 Jul 2009, 13:37):
 * Fixed linux support (tty stuff and now actually compiles)
 * Fixed precalculation code
 

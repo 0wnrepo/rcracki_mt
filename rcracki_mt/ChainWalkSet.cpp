@@ -67,6 +67,8 @@ string CChainWalkSet::CheckOrRotatePreCalcFile()
 			fclose(file);
 		}
 	}
+
+	return string("");
 }
 
 void CChainWalkSet::updateUsedPrecalcFiles()
@@ -176,7 +178,7 @@ bool CChainWalkSet::FindInFile(uint64* pIndexE, unsigned char* pHash, int nHashL
 			fseek(fp, offset, SEEK_SET);
 
 			// We should do some verification here, for example by recalculating the middle chain, to catch corrupted files
-			if(fread(pIndexE, sizeof(uint64), m_nRainbowChainLen-1, fp) != m_nRainbowChainLen-1)
+			if(fread(pIndexE, sizeof(uint64), (unsigned long)m_nRainbowChainLen-1, fp) != (unsigned long)m_nRainbowChainLen-1)
 				printf("File read error.");
 			fclose(fp);
 		}
@@ -203,7 +205,7 @@ void CChainWalkSet::StoreToFile(uint64* pIndexE, unsigned char* pHash, int nHash
 	FILE* fp = fopen(sCurrentPrecalcPathName.c_str(), "ab");
 	if(fp!=NULL)
 	{
-		if(fwrite(pIndexE, sizeof(uint64), m_nRainbowChainLen-1, fp) != m_nRainbowChainLen-1)
+		if(fwrite(pIndexE, sizeof(uint64), (unsigned long)m_nRainbowChainLen-1, fp) != (unsigned long)m_nRainbowChainLen-1)
 			printf("File write error.");
 		else
 		{

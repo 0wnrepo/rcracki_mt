@@ -1,21 +1,26 @@
+SHELL = /bin/sh
 OSNAME = $(shell uname -s)
+CFLAGS = -O3
+LIBS = -lssl -lpthread
 
-ifeq ($(OSNAME), Darwin)
-	LIBS = -lssl -lcrypto -lpthread
-else
-	ifeq ($(OSNAME), OpenBSD)
-		LIBS = -lssl -lcrypto -lpthread
-	else
-		ifeq ($(OSNAME), NetBSD)
-			LIBS = -lssl -ldes -lpthread
-		else
-			LIBS = -lssl -lpthread
-		endif
-	endif
-endif
+LIBS_Darwin = -lcrypto
+LIBS_NetBSD = -ldes
+LIBS_OpenBSD = -lcrypto
+
+LIBS += ${LIBS_$(OSNAME)}
 
 rcracki_mt:
-		g++ *.cpp $(LIBS) -O3 -o rcracki_mt
+	g++ -Wall *.cpp $(LIBS) $(CFLAGS) -o rcracki_mt
+
+all: rcracki_mt
 
 clean:
 	rm -f rcracki_mt
+
+install:
+	install --group=root --owner=root --mode=755 rcracki_mt /usr/local/bin/rcracki_mt
+
+rebuild: clean all
+
+uninstall:
+	rm -f /usr/local/bin/rcracki_mt

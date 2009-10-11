@@ -71,7 +71,7 @@ bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset)
 	string sChar = sCharset.substr(nStart + 1, nEnd - nStart - 1);
 	vector<string> vParts;
 	SeperateString(sChar, ",", vParts);
-	for(int i = 0; i < vParts.size(); i++)
+	for(size_t i = 0; i < vParts.size(); i++)
 	{
 		tCharset stCharset;
 		vector<string> vParts2;
@@ -260,7 +260,7 @@ string GetApplicationPath()
 
 void ParseHash(string sHash, unsigned char* pHash, int& nHashLen)
 {
-	int i;
+	size_t i;
 	for (i = 0; i < sHash.size() / 2; i++)
 	{
 		string sSub = sHash.substr(i * 2, 2);

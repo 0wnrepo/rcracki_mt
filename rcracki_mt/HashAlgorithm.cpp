@@ -410,7 +410,7 @@ char *strupr(char *s1)
 	char *p = s1;
 	while(*p)
 	{
-		toupper(*p);
+		*p = toupper(*p);
 		p++;
 	}
 	return s1;

@@ -77,7 +77,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 	}
 	if (readCharset)
 	{
-		int i;
+		size_t i;
 		for (i = 0; i < vLine.size(); i++)
 		{
 			// Filter comment
@@ -94,7 +94,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 								
 				// sCharsetName charset check
 				bool fCharsetNameCheckPass = true;
-				int j;
+				size_t j;
 				for (j = 0; j < sCharsetName.size(); j++)
 				{
 					if (   !isalpha(sCharsetName[j])
@@ -136,7 +136,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 					GetHybridCharsets(sName, vCharsets);
 					if(sCharsetName == vCharsets[m_vCharset.size()].sName)
 					{
-						stCharset tCharset = {0};
+						stCharset tCharset;
 						tCharset.m_nPlainCharsetLen = sCharsetContent.size();							
 						memcpy(tCharset.m_PlainCharset, sCharsetContent.c_str(), tCharset.m_nPlainCharsetLen);
 						tCharset.m_sPlainCharsetName = sCharsetName;
@@ -205,7 +205,7 @@ bool CChainWalkContext::SetPlainCharset(string sCharsetName, int nPlainLenMin, i
 	m_nPlainLenMaxTotal = 0;
 	m_nPlainLenMinTotal = 0;
 	uint64 nTemp = 1;
-	int j, k = 1;
+	size_t j, k = 1;
 	for(j = 0; j < m_vCharset.size(); j++)
 	{
 		int i;
@@ -303,7 +303,7 @@ bool CChainWalkContext::SetupWithPathName(string sPathName, int& nRainbowChainLe
 	}
 	else
 	{
-		if (sCharsetDefinition.find('#') == -1)		// For backward compatibility, "#1-7" is implied
+		if (sCharsetDefinition.find('#') == (unsigned long)-1)		// For backward compatibility, "#1-7" is implied
 		{			
 			sCharsetName = sCharsetDefinition;
 			nPlainLenMin = 1;
@@ -454,7 +454,7 @@ void CChainWalkContext::IndexToPlain()
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
 		int nCharsetLen = 0;
-		for(int j = 0; j < m_vCharset.size(); j++)
+		for(size_t j = 0; j < m_vCharset.size(); j++)
 		{
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset
@@ -478,7 +478,7 @@ void CChainWalkContext::IndexToPlain()
 			break;
 #endif
 		int nCharsetLen = 0;
-		for(int j = 0; j < m_vCharset.size(); j++)
+		for(size_t j = 0; j < m_vCharset.size(); j++)
 		{
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset
@@ -494,7 +494,7 @@ void CChainWalkContext::IndexToPlain()
 	for (; i >= 0; i--)
 	{
 		int nCharsetLen = 0;
-		for(int j = 0; j < m_vCharset.size(); j++)
+		for(size_t j = 0; j < m_vCharset.size(); j++)
 		{
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset

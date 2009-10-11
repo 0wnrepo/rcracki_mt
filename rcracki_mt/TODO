@@ -5,14 +5,6 @@ OpenBSD threading
 misc warnings:
 sha1.cpp:272: warning: this decimal constant is unsigned only in ISO C90
 
-In file included from CrackEngine.h:15,
-                 from CrackEngine.cpp:11:
-rcrackiThread.h:1:9: warning: #pragma once is obsolete
-In file included from CrackEngine.h:15,
-                 from RainbowCrack.cpp:18:
-rcrackiThread.h:1:9: warning: #pragma once is obsolete
-In file included from rcrackiThread.cpp:5:
-rcrackiThread.h:1:9: warning: #pragma once is obsolete
 /tmp//ccWUTqDK.o(.text+0xcc7): In function `HashORACLE(unsigned char*, int, unsigned char*)':
 : warning: strcpy() is almost always misused, please use strlcpy()
 /usr/lib/libstdc++.so.47.0: warning: strcat() is almost always misused, please use strlcat()

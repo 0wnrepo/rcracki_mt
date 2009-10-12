@@ -2,7 +2,7 @@ SHELL = /bin/sh
 OSNAME = $(shell uname -s)
 CFLAGS = -O3
 LIBS = -lssl -lpthread
-DESTDIR = /usr/local/bin
+BIN = $(DESTDIR)/usr/bin
 
 LIBS_Darwin = -lcrypto
 LIBS_NetBSD = -ldes
@@ -19,9 +19,10 @@ clean:
 	rm -f rcracki_mt
 
 install:
-	install --group=root --owner=root --mode=755 rcracki_mt $(DESTDIR)/rcracki_mt
+	install -d $(BIN)
+	install --group=root --owner=root --mode=755 rcracki_mt $(BIN)
 
 rebuild: clean all
 
 uninstall:
-	rm -f $(DESTDIR)/rcracki_mt
+	rm -f $(BIN)/rcracki_mt

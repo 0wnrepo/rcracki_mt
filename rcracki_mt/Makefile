@@ -2,7 +2,7 @@ SHELL = /bin/sh
 OSNAME = $(shell uname -s)
 CFLAGS = -O3
 LIBS = -lssl -lpthread
-DESTDIR = /usr/local/bin/
+DESTDIR = /usr/local/bin
 
 LIBS_Darwin = -lcrypto
 LIBS_NetBSD = -ldes

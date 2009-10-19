@@ -122,6 +122,9 @@ The source should also work on other platforms and has been tested on:
 32-bit OpenBSD (4.5) - you must install and use eg++ (g++ 4.2 from ports)
 64-bit OpenBSD (4.5)
 
+Only compilation has been tested on:
+64-bit MacOSX (10.6)
+
 Please note that to compile under the BSDs you must use gmake.
 
 OpenBSD threading is a work in progress.

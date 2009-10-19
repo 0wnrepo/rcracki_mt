@@ -1,4 +1,7 @@
-#pragma once
+#ifdef _WIN32
+	#pragma once
+#endif
+
 #include "ChainWalkContext.h"
 #include "Public.h"
 #include "HashSet.h"

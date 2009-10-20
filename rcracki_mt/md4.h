@@ -1,7 +1,7 @@
 #ifndef MD4_H
 #define MD4_H
 
-typedef unsigned int UINT4;
+#include "global.h"
 
 //Main function
 void MD4_NEW( unsigned char * buf, int len, unsigned char * pDigest);

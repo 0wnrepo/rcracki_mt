@@ -12,8 +12,7 @@
  */
 
 
-typedef unsigned int UINT4;
-
+#include "fast_md5.h"
 
 /* MD5 defines as per RFC reference implementation */
 

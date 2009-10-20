@@ -9,6 +9,9 @@
 
 #include <string>
 #include <vector>
+
+#include "global.h"
+
 using namespace std;
 
 typedef void (*HASHROUTINE)(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);

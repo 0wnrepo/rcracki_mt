@@ -15,6 +15,7 @@
 #ifndef FAST_MD5_H
 #define FAST_MD5_H
 
+#include "global.h"
 
 void
 fast_MD5(unsigned char *pData, int len, unsigned char *pDigest);

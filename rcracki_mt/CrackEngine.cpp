@@ -292,7 +292,7 @@ void CCrackEngine::SearchTableChunkOld(RainbowChainO* pChain, int nRainbowChainL
 
 	bool pausing = false;
 
-	size_t nHashIndex;
+	UINT4 nHashIndex;
 	for (nHashIndex = 0; nHashIndex < vHash.size(); nHashIndex++)
 	{
 		#ifdef _WIN32
@@ -389,7 +389,7 @@ void CCrackEngine::SearchTableChunkOld(RainbowChainO* pChain, int nRainbowChainL
 			threadPool.clear();
 			pThreads.clear();
 			
-			size_t thread_ID;
+			UINT4 thread_ID;
 			for (thread_ID = 0; thread_ID < (unsigned long)maxThreads; thread_ID++)
 			{
 				rcrackiThread* r_Thread = new rcrackiThread(TargetHash, thread_ID, nRainbowChainLen, maxThreads, pStartPosIndexE);
@@ -450,7 +450,7 @@ void CCrackEngine::SearchTableChunkOld(RainbowChainO* pChain, int nRainbowChainL
 			threadPool.push_back(r_Thread);
 		}
 
-		size_t thread_ID = 0;
+		UINT4 thread_ID = 0;
 		int nPos;
 		for (nPos = nRainbowChainLen - 2; nPos >= 0; nPos--)
 		{
@@ -584,7 +584,7 @@ void CCrackEngine::SearchTableChunk(RainbowChain* pChain, int nRainbowChainLen, 
 
 	bool pausing = false;
 
-	size_t nHashIndex;
+	UINT4 nHashIndex;
 	for (nHashIndex = 0; nHashIndex < vHash.size(); nHashIndex++)
 	{
 		#ifdef _WIN32
@@ -684,7 +684,7 @@ void CCrackEngine::SearchTableChunk(RainbowChain* pChain, int nRainbowChainLen, 
 			threadPool.clear();
 			pThreads.clear();
 			
-			size_t thread_ID;
+			UINT4 thread_ID;
 			for (thread_ID = 0; thread_ID < (unsigned long)maxThreads; thread_ID++)
 			{
 				rcrackiThread* r_Thread = new rcrackiThread(TargetHash, thread_ID, nRainbowChainLen, maxThreads, pStartPosIndexE);
@@ -749,7 +749,7 @@ void CCrackEngine::SearchTableChunk(RainbowChain* pChain, int nRainbowChainLen, 
 			threadPool.push_back(r_Thread);
 		}
 
-		size_t thread_ID = 0;
+		UINT4 thread_ID = 0;
 		int nPos;
 		for (nPos = nRainbowChainLen - 2; nPos >= 0; nPos--)
 		{
@@ -859,7 +859,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 		vector<string> sessionFinishedPathNames;
 		if (ReadLinesFromFile(sProgressPathName.c_str(), sessionFinishedPathNames))
 		{
-			size_t i;
+			UINT4 i;
 			for (i = 0; i < sessionFinishedPathNames.size(); i++)
 			{
 				if (sessionFinishedPathNames[i] == sPathName)
@@ -904,9 +904,9 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 	{
 		// File length check
 		bool doOldFormat = CChainWalkContext::isOldFormat();
-		size_t sizeOfChain;
+		UINT4 sizeOfChain;
 		bool fVerified = false;
-		size_t nFileLen = GetFileLen(file);
+		UINT4 nFileLen = GetFileLen(file);
 
 		if (doOldFormat)
 			sizeOfChain = 16;
@@ -1076,7 +1076,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 									//fseek(file, 0, SEEK_SET);
 									//bool fVerified = false;
-									size_t nProcessedChains = 0;
+									UINT4 nProcessedChains = 0;
 									while (true)	// Chunk read loop
 									{
 										if ((unsigned long)ftell(file) == nFileLen)
@@ -1101,7 +1101,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 										
 										if (!fVerified)
 										{
-											printf("verifying the file... ");
+											printf("verifying the file...\n");
 
 											// Chain length test
 											int nIndexToVerify = nRainbowChainCountRead / 2;
@@ -1142,7 +1142,6 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 											}
 
 											fVerified = true;
-											printf("ok\n");
 										}
 
 										// Search table chunk
@@ -1207,7 +1206,7 @@ void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads,
 	ResetStatistics();
 
 	// Sort vPathName (CChainWalkSet need it)
-	size_t i, j;
+	UINT4 i, j;
 	for (i = 0; i < vPathName.size() - 1; i++)
 		for (j = 0; j < vPathName.size() - i - 1; j++)
 		{

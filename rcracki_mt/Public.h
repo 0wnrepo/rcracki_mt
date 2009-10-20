@@ -14,17 +14,11 @@
 #include <string>
 #include <vector>
 #include <list>
+
+#include "global.h"
+
 using namespace std;
 
-#ifdef _WIN32
-	#define uint64 unsigned __int64
-#else
-	#ifndef u_int64_t
-		#define uint64 unsigned long long
-	#else
-		#define uint64 u_int64_t
-	#endif
-#endif
 
 struct RainbowChainO
 {

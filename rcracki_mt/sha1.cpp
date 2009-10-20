@@ -4,7 +4,7 @@
 #endif
 #include <string.h>
 
-
+#include "sha1.h"
 
 #define SHA1CircularShift(bits,word) (((word) << (bits)) | ((word) >> (32-(bits))))
 
@@ -49,7 +49,6 @@
 #define H3 0x10325476
 #define H4 0xC3D2E1F0
 
-typedef unsigned int UINT4;
 #define SHA1HashSize 20
 
 void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)

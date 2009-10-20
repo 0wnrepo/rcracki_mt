@@ -150,7 +150,7 @@ bool NormalizeHash(string& sHash)
 		return false;
 
 	// Make lower
-	size_t i;
+	UINT4 i;
 	for (i = 0; i < sNormalizedHash.size(); i++)
 	{
 		if (sNormalizedHash[i] >= 'A' && sNormalizedHash[i] <= 'F')
@@ -174,7 +174,7 @@ void LoadLMHashFromPwdumpFile(string sPathName, vector<string>& vUserName, vecto
 	vector<string> vLine;
 	if (ReadLinesFromFile(sPathName, vLine))
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vLine.size(); i++)
 		{
 			vector<string> vPart;
@@ -208,7 +208,7 @@ void LoadLMHashFromCainLSTFile(string sPathName, vector<string>& vUserName, vect
 	vector<string> vLine;
 	if (ReadLinesFromFile(sPathName, vLine))
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vLine.size(); i++)
 		{
 			vector<string> vPart;
@@ -279,7 +279,7 @@ bool LMPasswordCorrectCase(string sLMPassword, unsigned char* pNTLMHash, string&
 	}
 
 	unsigned char* pLMPassword = new unsigned char[sLMPassword.size() * 2];
-	size_t i;
+	UINT4 i;
 	for (i = 0; i < sLMPassword.size(); i++)
 	{
 		pLMPassword[i * 2    ] = sLMPassword[i];
@@ -364,7 +364,7 @@ int main(int argc, char* argv[])
 	}
 	if (readFromIni)
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vLine.size(); i++)
 		{
 			if (vLine[i].substr(0,1) != "#")
@@ -497,7 +497,7 @@ int main(int argc, char* argv[])
 		vector<string> sSessionData;
 		if (ReadLinesFromFile(sSessionPathName.c_str(), sSessionData))
 		{
-			size_t i;
+			UINT4 i;
 			for (i = 0; i < sSessionData.size(); i++)
 			{
 				vector<string> vPart;
@@ -538,7 +538,7 @@ int main(int argc, char* argv[])
 	// don't load these if we are resuming a session that already has a list of tables
 	if (useDefaultRainbowTablePath && !resumeSession)
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vDefaultRainbowTablePath.size(); i++)
 		{
 			vector<string> vPart;
@@ -587,7 +587,7 @@ int main(int argc, char* argv[])
 		vector<string> vLine;
 		if (ReadLinesFromFile(sPathName, vLine))
 		{
-			size_t i;
+			UINT4 i;
 			for (i = 0; i < vLine.size(); i++)
 			{
 				string sHash = vLine[i];
@@ -633,13 +633,13 @@ int main(int argc, char* argv[])
 
 	if (fCrackerType)
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vHash.size(); i++)
 			hs.AddHash(vHash[i]);
 	}
 	else
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vLMHash.size(); i++)
 		{
 			hs.AddHash(vLMHash[i].substr(0, 16));
@@ -653,7 +653,7 @@ int main(int argc, char* argv[])
 		vector<string> sSessionData;
 		if (ReadLinesFromFile(sSessionPathName.c_str(), sSessionData))
 		{
-			size_t i;
+			UINT4 i;
 			for (i = 0; i < sSessionData.size(); i++)
 			{
 				vector<string> vPart;
@@ -689,7 +689,7 @@ int main(int argc, char* argv[])
 			buffer += "sInputType=" + sInputType + "\n";
 			buffer += "sInput=" + sInput + "\n";
 
-			size_t i;
+			UINT4 i;
 			for (i = 0; i < vPathName.size(); i++)
 			{
 				buffer += "sPathName=" + vPathName[i] + "\n";
@@ -741,7 +741,7 @@ int main(int argc, char* argv[])
 	printf("-------------------------------------------------------\n");
 	if (fCrackerType)
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vHash.size(); i++)
 		{
 			string sPlain, sBinary;
@@ -756,7 +756,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		size_t i;
+		UINT4 i;
 		for (i = 0; i < vLMHash.size(); i++)
 		{
 			string sPlain1, sBinary1;

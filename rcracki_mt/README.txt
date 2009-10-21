@@ -129,6 +129,9 @@ Please note that to compile under the BSDs you must use gmake.
 
 OpenBSD threading is a work in progress.
 
+openSUSE >= 11.2:
+make LIBS="-lcrypto -lpthread"
+
 'OPTIONAL' TODO
 ================
 - verification of an endpoint when restoring a chainwalkset from disk.

@@ -1,7 +1,7 @@
 #ifndef _GLOBAL_H
 #define _GLOBAL_H
 
-#include <stdint.h>
+//#include <stdint.h>
 
 #ifdef _WIN32
 	#define uint64 unsigned __int64

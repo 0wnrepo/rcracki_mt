@@ -1,7 +1,7 @@
 /*
-   RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
+	RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
 
-   Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
+	Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
 */
 
 #ifndef _CHAINWALKSET_H

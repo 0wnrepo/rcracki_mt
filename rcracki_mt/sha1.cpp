@@ -56,7 +56,7 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	if (length > 16)
 		return;
 
-    UINT4 Message_Block_Index    = 0;
+	UINT4 Message_Block_Index    = 0;
 
 	union
 	{
@@ -72,28 +72,28 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 
 	UINT4 Intermediate_Hash[5] = { H0, H1, H2, H3, H4 };
 	
- 	memcpy(Message_Block, pData, length);
+	memcpy(Message_Block, pData, length);
 	Message_Block_Index += length;
 
 	//padMessage
 	Message_Block[length] = 0x80;
 	
 	UINT4 W_15 = length << 3;
-	
-    int           t;                 /* Loop counter                */
-    UINT4      temp;              /* Temporary word value        */
-    UINT4      W[80];             /* Word sequence               */
-    UINT4      A, B, C, D, E;     /* Word buffers                */
+
+	int           t;                 /* Loop counter                */
+	UINT4      temp;              /* Temporary word value        */
+	UINT4      W[80];             /* Word sequence               */
+	UINT4      A, B, C, D, E;     /* Word buffers                */
 
     /*
      *  Initialize the first 16 words in the array W
      */
 
 	#define INIT_OLD(x) \
-        W[x] = (Message_Block[(x) * 4] << 24) | \
-        	(Message_Block[(x) * 4 + 1] << 16) | \
-        	(Message_Block[(x) * 4 +2] << 8) | \
-        	(Message_Block[(x) * 4 +3])
+		W[x] = (Message_Block[(x) * 4] << 24) | \
+			(Message_Block[(x) * 4 + 1] << 16) | \
+			(Message_Block[(x) * 4 +2] << 8) | \
+			(Message_Block[(x) * 4 +3])
 
 	#define INIT(x) W[x] = Message_Block_W[x];
 	
@@ -236,21 +236,21 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	
 	#define ROTATE2(t) \
 		temp = SHA1CircularShift(5,A) + F_20_39(B,C,D) + E + W[t] + K1; \
-        E = D; D = C; \
-        C = SHA1CircularShift(30,B); \
-        B = A; A = temp;
+		E = D; D = C; \
+		C = SHA1CircularShift(30,B); \
+		B = A; A = temp;
 
 	#define ROTATE2_W(w) \
 		temp = SHA1CircularShift(5,A) + F_20_39(B,C,D) + E + w + K1; \
-        E = D; D = C; \
-        C = SHA1CircularShift(30,B); \
-        B = A; A = temp;
+		E = D; D = C; \
+		C = SHA1CircularShift(30,B); \
+		B = A; A = temp;
 
 	#define ROTATE3(t) \
 		temp = SHA1CircularShift(5,A) + F_40_59(B,C,D) + E + W[t] + K2; \
-        E = D; D = C; \
-        C = SHA1CircularShift(30,B); \
-        B = A; A = temp;
+		E = D; D = C; \
+		C = SHA1CircularShift(30,B); \
+		B = A; A = temp;
 
 	#define ROTATE4(t) \
 		temp = SHA1CircularShift(5,A) + F_60_79(B,C,D) + E + W[t] + K3; \
@@ -259,12 +259,12 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 		B = A; A = temp;
 
 	A = H0;
-    B = H1;
-    C = H2;
-    D = H3;
-    E = H4;
+	B = H1;
+	C = H2;
+	D = H3;
+	E = H4;
 
-	
+
 	E = H2;
 	//D = 2079550178;
 	//C = 1506887872;
@@ -314,36 +314,36 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	ROTATE1_NULL_5_14;
 
 	ROTATE1_NEW( A, B, C, D, E, W_15 );
-    ROTATE1_NEW( E, A, B, C, D, W[16] );
-    ROTATE1_NEW( D, E, A, B, C, W[17] );
-    ROTATE1_NEW( C, D, E, A, B, W[18] );
-    ROTATE1_NEW( B, C, D, E, A, W[19] );
-	
-    for(t = 20; t < 40; t++)
-    {
+	ROTATE1_NEW( E, A, B, C, D, W[16] );
+	ROTATE1_NEW( D, E, A, B, C, W[17] );
+	ROTATE1_NEW( C, D, E, A, B, W[18] );
+	ROTATE1_NEW( B, C, D, E, A, W[19] );
+		
+	for(t = 20; t < 40; t++)
+	{
 		if (t == 21 && length < 8) {
 			ROTATE2_W((length<<5)); // *32
 		}
 		else {
 			ROTATE2(t);
 		}
-    }
+	}
 
-    for(t = 40; t < 60; t++)
-    {
-  		ROTATE3(t);
-    }
-
-    for(t = 60; t < 80; t++)
-    {
+	for(t = 40; t < 60; t++)
+	{
+		ROTATE3(t);
+	}
+	
+	for(t = 60; t < 80; t++)
+	{
 		ROTATE4(t);
-    }
-
-    Intermediate_Hash[0] += A;
-    Intermediate_Hash[1] += B;
-    Intermediate_Hash[2] += C;
-    Intermediate_Hash[3] += D;
-    Intermediate_Hash[4] += E;
+	}
+	
+	Intermediate_Hash[0] += A;
+	Intermediate_Hash[1] += B;
+	Intermediate_Hash[2] += C;
+	Intermediate_Hash[3] += D;
+	Intermediate_Hash[4] += E;
 
 	Endian_Reverse32(Intermediate_Hash[0]);
 	Endian_Reverse32(Intermediate_Hash[1]);

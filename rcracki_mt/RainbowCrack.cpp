@@ -1,14 +1,14 @@
 /*
-   RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
-
-   Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
-
-   Modified by Martin Westergaard Jørgensen <martinwj2005@gmail.com> to support indexed and hybrid tables
-
-   Modified by neinbrucke to support multi threading and a bunch of other stuff :)
-
-      2009-01-04 - <james.dickson@comhem.se> - Slightly modified (or "fulhack" as we say in sweden)  
-				to support cain .lst files.
+	RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
+	
+	Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
+	
+	Modified by Martin Westergaard Jørgensen <martinwj2005@gmail.com> to support indexed and hybrid tables
+	
+	Modified by neinbrucke to support multi threading and a bunch of other stuff :)
+	
+	2009-01-04 - <james.dickson@comhem.se> - Slightly modified (or "fulhack" as we say in sweden)  
+					to support cain .lst files.
 */
 
 #ifdef _WIN32

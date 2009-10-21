@@ -114,9 +114,9 @@
 
 // md5 step
 #define MD5STEP(f, a, b, c, d, AC, x, s) {	\
-    (a) += f ((b), (c), (d));		\
+	(a) += f ((b), (c), (d));		\
 	(a) += (AC) + (x);				\
-    (a) = ROTATE_LEFT ((a), (s));	\
+	(a) = ROTATE_LEFT ((a), (s));	\
 	(a) += (b);						\
 }
 

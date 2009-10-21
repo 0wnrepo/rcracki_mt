@@ -1,9 +1,9 @@
 /*
-   RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
+	RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
 
-   Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
+	Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
 
-   Changes: not using OpenSSL routines the slow way anymore, as suggested by jci.
+	Changes: not using OpenSSL routines the slow way anymore, as suggested by jci.
 */
 
 #include "HashAlgorithm.h"
@@ -114,38 +114,38 @@ void HashHALFLMCHALL(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 
 void HashNTLMCHALL(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
-  unsigned char UnicodePlain[MAX_PLAIN_LEN];
-  static unsigned char spoofed_challange[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88}; 
-  
-  int len = (nPlainLen < 127) ? nPlainLen : 127;
-  int i;
-  
-  for (i = 0; i < len; i++)
-  {
-    UnicodePlain[i * 2] = pPlain[i];
-    UnicodePlain[i * 2 + 1] = 0x00;
-  }
-
-  des_key_schedule ks;
-  unsigned char lm[21];
-
-  /*MD4_CTX ctx;
-  MD4_Init(&ctx);
-  MD4_Update(&ctx, UnicodePlain, len * 2);
-  MD4_Final(lm, &ctx);  */
-  MD4_NEW(UnicodePlain, len * 2, lm);
-
-  //MD4(UnicodePlain, len * 2, lm);
-  lm[16] = lm[17] = lm[18] = lm[19] = lm[20] = 0;
-
-  setup_des_key(lm, ks);
-  des_ecb_encrypt((des_cblock*)spoofed_challange, (des_cblock*)pHash, ks, DES_ENCRYPT);
-
-  setup_des_key(&lm[7], ks);
-  des_ecb_encrypt((des_cblock*)spoofed_challange, (des_cblock*)&pHash[8], ks, DES_ENCRYPT);
-
-  setup_des_key(&lm[14], ks);
-  des_ecb_encrypt((des_cblock*)spoofed_challange, (des_cblock*)&pHash[16], ks, DES_ENCRYPT);
+	unsigned char UnicodePlain[MAX_PLAIN_LEN];
+	static unsigned char spoofed_challange[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88}; 
+	
+	int len = (nPlainLen < 127) ? nPlainLen : 127;
+	int i;
+	
+	for (i = 0; i < len; i++)
+	{
+	UnicodePlain[i * 2] = pPlain[i];
+	UnicodePlain[i * 2 + 1] = 0x00;
+	}
+	
+	des_key_schedule ks;
+	unsigned char lm[21];
+	
+	/*MD4_CTX ctx;
+	MD4_Init(&ctx);
+	MD4_Update(&ctx, UnicodePlain, len * 2);
+	MD4_Final(lm, &ctx);  */
+	MD4_NEW(UnicodePlain, len * 2, lm);
+	
+	//MD4(UnicodePlain, len * 2, lm);
+	lm[16] = lm[17] = lm[18] = lm[19] = lm[20] = 0;
+	
+	setup_des_key(lm, ks);
+	des_ecb_encrypt((des_cblock*)spoofed_challange, (des_cblock*)pHash, ks, DES_ENCRYPT);
+	
+	setup_des_key(&lm[7], ks);
+	des_ecb_encrypt((des_cblock*)spoofed_challange, (des_cblock*)&pHash[8], ks, DES_ENCRYPT);
+	
+	setup_des_key(&lm[14], ks);
+	des_ecb_encrypt((des_cblock*)spoofed_challange, (des_cblock*)&pHash[16], ks, DES_ENCRYPT);
 }
 
 
@@ -321,19 +321,19 @@ void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash)
 
 inline void mysql_hash_password_323(unsigned long *result, const char *password) 
 {
-  register unsigned long nr=1345345333L, add=7, nr2=0x12345671L;
-  unsigned long tmp;
-  for (; *password ; password++) 
-  {
-    if (*password == ' ' || *password == '\t') continue;
-	tmp= (unsigned long) (unsigned char) *password;
-	nr^= (((nr & 63)+add)*tmp)+ (nr << 8);
-	nr2+=(nr2 << 8) ^ nr;
-	add+=tmp;
-  }
-  result[0]=nr & (((unsigned long) 1L << 31) -1L); /* Don't use sign bit (str2int) */;
-  result[1]=nr2 & (((unsigned long) 1L << 31) -1L);
-  return;
+	register unsigned long nr=1345345333L, add=7, nr2=0x12345671L;
+	unsigned long tmp;
+	for (; *password ; password++) 
+	{
+		if (*password == ' ' || *password == '\t') continue;
+		tmp= (unsigned long) (unsigned char) *password;
+		nr^= (((nr & 63)+add)*tmp)+ (nr << 8);
+		nr2+=(nr2 << 8) ^ nr;
+		add+=tmp;
+	}
+	result[0]=nr & (((unsigned long) 1L << 31) -1L); /* Don't use sign bit (str2int) */;
+	result[1]=nr2 & (((unsigned long) 1L << 31) -1L);
+	return;
 }
 
 void HashMySQL323(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
@@ -368,14 +368,14 @@ void HashMySQLSHA1(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 // Code for PIX password hashing
 //*********************************************************************************
 static char itoa64[] =          /* 0 ... 63 => ascii - 64 */
-        "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 void _crypt_to64(char *s, unsigned long v, int n)
 {
-        while (--n >= 0) {
-                *s++ = itoa64[v&0x3f];
-                v >>= 6;
-        }
+	while (--n >= 0) {
+		*s++ = itoa64[v&0x3f];
+		v >>= 6;
+	}
 }
 
 void HashPIX(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)

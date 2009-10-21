@@ -1,7 +1,7 @@
 /*
-   RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
+	RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
 
-   Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
+	Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
 */
 
 #ifdef _WIN32
@@ -241,7 +241,7 @@ string GetApplicationPath()
 	sprintf(szTmp, "/proc/%d/exe", getpid());
 	int bytes = readlink(szTmp, fullPath, FILENAME_MAX);
 	if(bytes >= 0)
-        	fullPath[bytes] = '\0';
+		fullPath[bytes] = '\0';
 #endif
 
 	string sApplicationPath = fullPath;
@@ -290,48 +290,48 @@ struct termios saved_ti;
 
 int tty_getchar()
 {
-        int c, numChars;
+	int c, numChars;
 
-        if (tty_fd && tcgetpgrp(tty_fd) == getpid()) {
-                c = 0;
-                numChars = read(tty_fd, &c, 1);
-                if (numChars > 0) return c;
-        }
+	if (tty_fd && tcgetpgrp(tty_fd) == getpid()) {
+		c = 0;
+		numChars = read(tty_fd, &c, 1);
+		if (numChars > 0) return c;
+	}
 
-        return -1;
+	return -1;
 }
 
 void tty_done()
 {
-        if (!tty_fd) return;
+	if (!tty_fd) return;
 
-        tcsetattr(tty_fd, TCSANOW, &saved_ti);
+	tcsetattr(tty_fd, TCSANOW, &saved_ti);
 
-        close(tty_fd);
-        tty_fd = 0;
+	close(tty_fd);
+	tty_fd = 0;
 }
 
 void tty_init()
 {
-        struct termios ti;
+	struct termios ti;
 
-        if (tty_fd)
-                return;
+	if (tty_fd)
+		return;
 
-        if ((tty_fd = open("/dev/tty", O_RDONLY | O_NONBLOCK)) < 0) return;
+	if ((tty_fd = open("/dev/tty", O_RDONLY | O_NONBLOCK)) < 0) return;
 
-        tcgetattr(tty_fd, &ti);
-        saved_ti = ti;
-        ti.c_lflag &= ~(ICANON | ECHO);
-        ti.c_cc[VMIN] = 1;
-        ti.c_cc[VTIME] = 0;
-        tcsetattr(tty_fd, TCSANOW, &ti);
+	tcgetattr(tty_fd, &ti);
+	saved_ti = ti;
+	ti.c_lflag &= ~(ICANON | ECHO);
+	ti.c_cc[VMIN] = 1;
+	ti.c_cc[VTIME] = 0;
+	tcsetattr(tty_fd, TCSANOW, &ti);
 
-        atexit(tty_done);
+	atexit(tty_done);
 }
 
 void tty_flush(void)
 {
-        tcflush(tty_fd, TCIFLUSH);
+	tcflush(tty_fd, TCIFLUSH);
 }
 #endif

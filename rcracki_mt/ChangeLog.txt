@@ -1,5 +1,8 @@
 [rcracki_mt ChangeLog]
 
+TBA (TBA):
+* fix linux memory code - using only info.freeram is incorrect
+
 0.6.3 (21 Oct 2009, 21:05):
 * Fixed x86_64 linux compilation
 * Fixed x86_64 linux segmentation fault

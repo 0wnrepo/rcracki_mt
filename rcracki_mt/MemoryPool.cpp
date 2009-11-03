@@ -13,16 +13,11 @@ CMemoryPool::CMemoryPool(unsigned int bytesForChainWalkSet)
 	m_nMemSize = 0;
 
 	unsigned int nAvailPhys = GetAvailPhysMemorySize();
-	if (nAvailPhys < 32 * 1024 * 1024)
-	{
-		nAvailPhys = 256 * 1024 * 1024; // There is atleast 256 mb available (Some Linux distros returns a really low GetAvailPhysMemorySize())
-	}
 	
 	m_nMemMax = nAvailPhys - bytesForChainWalkSet;	// Leave memory for CChainWalkSet	
 
 	if (m_nMemMax < 16 * 1024 * 1024)
 		m_nMemMax = 16 * 1024 * 1024;
-
 }
 
 CMemoryPool::~CMemoryPool()

@@ -222,7 +222,7 @@ unsigned int GetAvailPhysMemorySize()
 		#if defined(linux)
 			struct sysinfo info;
 			sysinfo(&info);			// This function is Linux-specific
-			return info.freeram;
+			return ( info.freeram + info.bufferram ) * info.mem_unit;
 		#else
 			#error Unsupported Operating System
 		#endif

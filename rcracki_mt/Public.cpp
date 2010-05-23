@@ -1,8 +1,30 @@
 /*
-	RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
-
-	Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
-*/
+ * authors have been contacted and the code in this file has been approved
+ * for gpl 2/3
+ *
+ * rcracki_mt is a multithreaded implementation and fork of the original 
+ * RainbowCrack
+ *
+ * Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
+ * Copyright Martin Westergaard Jørgensen <martinwj2005@gmail.com>
+ * Copyright 2009 Daniël Niggebrugge <niggebrugge@fox-it.com>
+ * Copyright 2009 James Nobis <frt@quelrod.net>
+ *
+ * This file is part of racrcki_mt.
+ *
+ * rcracki_mt is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * rcracki_mt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifdef _WIN32
 	#pragma warning(disable : 4786 4267 4018)
@@ -12,20 +34,17 @@
 
 #ifdef _WIN32
 	#include <windows.h>
-#else
-	#if defined(__APPLE__) || \
+#elif defined(__APPLE__) || \
 	((defined(__unix__) || defined(unix)) && !defined(USG))
-		#include <sys/param.h>
 
-		#if defined(BSD)
-			#include <sys/sysctl.h>
-		#else
-			#if defined(linux)
-				#include <sys/sysinfo.h>
-			#else
-				#error Unsupported Operating System
-			#endif
-		#endif
+	#include <sys/param.h>
+
+	#if defined(BSD)
+		#include <sys/sysctl.h>
+	#elif defined(linux)
+		#include <sys/sysinfo.h>
+	#else
+		#error Unsupported Operating System
 	#endif
 #endif
 
@@ -66,8 +85,9 @@ bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset)
 	// Example: hybrid(mixalpha-numeric-all-space#1-6,numeric#1-4)
 	if(sCharset.substr(0, 6) != "hybrid") // Not hybrid charset
 		return false;
-	size_t nEnd = sCharset.rfind(')');
-	size_t nStart = sCharset.rfind('(');
+
+	UINT4 nEnd = sCharset.rfind(')');
+	UINT4 nStart = sCharset.rfind('(');
 	string sChar = sCharset.substr(nStart + 1, nEnd - nStart - 1);
 	vector<string> vParts;
 	SeperateString(sChar, ",", vParts);
@@ -207,26 +227,23 @@ string HexToStr(const unsigned char* pData, int nLen)
 unsigned int GetAvailPhysMemorySize()
 {
 #ifdef _WIN32
-		MEMORYSTATUS ms;
-		GlobalMemoryStatus(&ms);
-		return ms.dwAvailPhys;
+	MEMORYSTATUS ms;
+	GlobalMemoryStatus(&ms);
+	return ms.dwAvailPhys;
+#elif defined(BSD)
+	int mib[2] = { CTL_HW, HW_PHYSMEM };
+	unsigned int physMem;
+	//XXX warning size_t isn't portable
+	size_t len;
+	len = sizeof(physMem);
+	sysctl(mib, 2, &physMem, &len, NULL, 0);
+	return physMem;
+#elif defined(linux)
+	struct sysinfo info;
+	sysinfo(&info);
+	return ( info.freeram + info.bufferram ) * info.mem_unit;
 #else
-	#if defined(BSD)
-		int mib[2] = { CTL_HW, HW_PHYSMEM };
-		unsigned int physMem;
-		size_t len;
-		len = sizeof(physMem);
-		sysctl(mib, 2, &physMem, &len, NULL, 0);
-		return physMem;
-	#else
-		#if defined(linux)
-			struct sysinfo info;
-			sysinfo(&info);			// This function is Linux-specific
-			return ( info.freeram + info.bufferram ) * info.mem_unit;
-		#else
-			#error Unsupported Operating System
-		#endif
-	#endif
+	#error Unsupported Operating System
 #endif
 }
 

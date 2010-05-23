@@ -1,12 +1,73 @@
+* fix licensing issues
+* linux thread priorities
+* testing/benchmarking suite
+* test new linux free memory code
+* remove openssl dependencies
+	lm2ntlm.h
+	ChainWalkContext.cpp
+	HashAlgorithm.cpp
+* more generic method for path seperator than _WIN32 ifdef?
+
+testing:
+32-bit Debian GNU/Linux 5.0 (Lenny)
+	lm - complete
+	md5
+	ntlm
+	sha1
+64-bit Debian GNU/Linux 5.0 (Lenny)
+	lm - complete
+	md5
+	ntlm
+	sha1	
+
+32-bit MacOSX (10.5)
+	lm
+	md5 - complete
+	ntlm
+	sha1
+
+32-bit FreeBSD (7.2)
+	lm - lm_alpha-numeric
+	md5 - only 1 set
+	ntlm
+	sha1
+
+64-bit FreeBSD (7.2)
+	lm
+	md5 - only 1 set
+	ntlm
+	sha1
+
+32-bit NetBSD (5.0)
+	lm - lm_alpha-numeric
+	md5	
+	ntlm
+	sha1
+	
+64-bit OpenBSD (4.5)
+	lm - lm_alpha-numeric#1-7 and lm_all-space#1-7
+
 OpenBSD threading
 -Wall
 -pedantic
 
 misc warnings:
-sha1.cpp:272: warning: this decimal constant is unsigned only in ISO C90
+sha1.cpp:298: warning: this decimal constant is unsigned only in ISO C90
 
 /tmp//ccWUTqDK.o(.text+0xcc7): In function `HashORACLE(unsigned char*, int, unsigned char*)':
 : warning: strcpy() is almost always misused, please use strlcpy()
 /usr/lib/libstdc++.so.47.0: warning: strcat() is almost always misused, please use strlcat()
+
 /tmp//ccmjYwuS.o(.text+0xbf9): In function `CChainWalkSet::CheckOrRotatePreCalcFile()':
 : warning: sprintf() is often misused, please use snprintf()
+
+ChainWalkSet.cpp: In member function 'bool CChainWalkSet::FindInFile(long long
+unsigned int*, unsigned char*, int)':
+ChainWalkSet.cpp:154: warning: 'offset' may be used uninitialized in this
+function
+
+ChainWalkContext.cpp: In member function 'void CChainWalkContext::HashToIndex(int)':
+ChainWalkContext.cpp:544: warning: dereferencing type-punned pointer will break strict-aliasing rules
+
+HashAlgorithm.cpp: In function 'void HashPIX(unsigned char*, int, unsigned char*)':
+HashAlgorithm.cpp:396: warning: dereferencing type-punned pointer will break strict-aliasing rules

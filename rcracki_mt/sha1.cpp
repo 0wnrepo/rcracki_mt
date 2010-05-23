@@ -1,7 +1,35 @@
+/*
+ * authors have been contacted and the code in this file has been approved
+ * for gpl 2/3
+ *
+ * rcracki_mt is a multithreaded implementation and fork of the original 
+ * RainbowCrack
+ *
+ * Copyright Martin Westergaard Jørgensen <martinwj2005@gmail.com>
+ * Copyright 2009 Daniël Niggebrugge <niggebrugge@fox-it.com>
+ * Copyright 2009 James Nobis <frt@quelrod.net>
+ *
+ * This file is part of racrcki_mt.
+ *
+ * rcracki_mt is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * rcracki_mt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 //#include <stdio.h>
 #if defined(WIN32)
-#include <windows.h>
+	#include <windows.h>
 #endif
+
 #include <string.h>
 
 #include "sha1.h"
@@ -10,9 +38,9 @@
 
 // this rotate isn't faster with me
 #if defined(WIN32)
-#define ROTATE(a,n)     _lrotl(a,n)
+	#define ROTATE(a,n)     _lrotl(a,n)
 #else
-#define ROTATE(a,n)     (((a)<<(n))|(((a)&0xffffffff)>>(32-(n))))
+	#define ROTATE(a,n)     (((a)<<(n))|(((a)&0xffffffff)>>(32-(n))))
 #endif
 
 /* A nice byte order reversal from Wei Dai <weidai@eskimo.com> */
@@ -145,7 +173,6 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	#define EXPAND_16(t) W[t] = SHA1CircularShift(1,W[t-16]);
 	#define EXPAND_3_8(t) W[t] = SHA1CircularShift(1,W[t-3] ^ W[t-8]);
 
-
 	if (length < 4) {
 		INIT_NULL_1_14;
 		W[15] = W_15;
@@ -174,7 +201,6 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 		EXPAND(17);
 		EXPAND(18);
 	}
-
 
 	if (length < 12) {
 		EXPAND_3(19);

@@ -1,14 +1,28 @@
 /*
-* Copyright (C) Daniël Niggebrugge <niggebrugge@fox-it.com>
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, [...] etc :p
-*/
+ * authors have been contacted and the code in this file has been approved
+ * for gpl 2/3
+ *
+ * rcracki_mt is a multithreaded implementation and fork of the original 
+ * RainbowCrack
+ *
+ * Copyright 2009 Daniël Niggebrugge <niggebrugge@fox-it.com>
+ * Copyright 2009 James Nobis <frt@quelrod.net>
+ *
+ * This file is part of racrcki_mt.
+ *
+ * rcracki_mt is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * rcracki_mt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifdef _WIN32
 	#pragma warning(disable : 4786 4267 4018)
@@ -399,7 +413,6 @@ int LM2NTLMcorrector::calculateTotalCombinations(int length, int setSize)
 {
 	return factorial(length) / (factorial(setSize) * factorial(length-setSize));
 }
-
 
 int LM2NTLMcorrector::factorial (int num)
 {

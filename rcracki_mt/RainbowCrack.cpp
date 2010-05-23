@@ -1,15 +1,23 @@
 /*
-	RainbowCrack - a general propose implementation of Philippe Oechslin's faster time-memory trade-off technique.
-	
-	Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
-	
-	Modified by Martin Westergaard Jørgensen <martinwj2005@gmail.com> to support indexed and hybrid tables
-	
-	Modified by neinbrucke to support multi threading and a bunch of other stuff :)
-	
-	2009-01-04 - <james.dickson@comhem.se> - Slightly modified (or "fulhack" as we say in sweden)  
-					to support cain .lst files.
-*/
+ * authors have been contacted and the code in this file has been approved
+ * for gpl 2/3
+ *
+ * rcracki_mt is a multithreaded implementation and fork of the original 
+ * RainbowCrack
+ *
+ * Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
+ * Copyright Martin Westergaard Jørgensen <martinwj2005@gmail.com>
+ * Copyright 2009 Daniël Niggebrugge <niggebrugge@fox-it.com>
+ * Copyright James Dickson
+ * Copyright 2009 James Nobis <frt@quelrod.net>
+ *
+ * Modified by Martin Westergaard Jørgensen <martinwj2005@gmail.com> to support  * indexed and hybrid tables
+ *
+ * Modified by neinbrucke to support multi threading and a bunch of other stuff :)
+ *
+ * 2009-01-04 - <james.dickson@comhem.se> - Slightly modified (or "fulhack" as 
+ * we say in sweden)  to support cain .lst files.
+ */
 
 #ifdef _WIN32
 	#pragma warning(disable : 4786 4267 4018)
@@ -18,8 +26,6 @@
 #include "CrackEngine.h"
 #include "lm2ntlm.h"
 #include <algorithm>
-
-
 
 #ifdef _WIN32
 	#include <io.h>
@@ -30,7 +36,8 @@
 	#include <dirent.h>
 #endif
 
-#include <openssl/md4.h>
+//#include <openssl/md4.h>
+
 #ifdef _WIN32
 	#pragma comment(lib, "libeay32.lib")
 #endif
@@ -202,7 +209,7 @@ void LoadLMHashFromPwdumpFile(string sPathName, vector<string>& vUserName, vecto
 		printf("can't open %s\n", sPathName.c_str());
 }
 
-// 2009-01-04 - james - Added this so we can load hashes from cain .LST files.
+// 2009-01-04 - james.dickson - Added this so we can load hashes from cain .LST files.
 void LoadLMHashFromCainLSTFile(string sPathName, vector<string>& vUserName, vector<string>& vLMHash, vector<string>& vNTLMHash)
 {
 	vector<string> vLine;
@@ -322,7 +329,6 @@ void Usage()
 	printf("         rcracki_mt -l hash.txt [path_to_specific_table]/*\n");
 #endif
 	printf("         rcracki_mt -f hash.txt -t 4 -o results.txt *.rti\n");
-
 }
 
 int main(int argc, char* argv[])
@@ -609,7 +615,7 @@ int main(int argc, char* argv[])
 	}
 	else if (sInputType == "-c")
 	{
-		// 2009-01-04 - james - Added this for cain-files.
+		// 2009-01-04 - james.dickson - Added this for cain-files.
 		fCrackerType = false;
 		string sPathName = sInput;
 		LoadLMHashFromCainLSTFile(sPathName, vUserName, vLMHash, vNTLMHash);
@@ -717,6 +723,7 @@ int main(int argc, char* argv[])
 
 	// Remove session files
 	if (debug) printf("Debug: Removing session files.\n");
+
 	if (remove(sSessionPathName.c_str()) == 0)
 		remove(sProgressPathName.c_str());
 	else

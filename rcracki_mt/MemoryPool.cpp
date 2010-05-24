@@ -29,12 +29,19 @@
 #include "MemoryPool.h"
 #include "Public.h"
 
-CMemoryPool::CMemoryPool(unsigned int bytesForChainWalkSet)
+CMemoryPool::CMemoryPool(unsigned int bytesForChainWalkSet, bool bDebug)
 {
 	m_pMem = NULL;
 	m_nMemSize = 0;
+	debug = bDebug;
 
 	unsigned int nAvailPhys = GetAvailPhysMemorySize();
+
+	if ( debug )
+	{
+		printf( "Debug: nAvailPhys: %d\n", nAvailPhys );
+		printf( "Debug: bytesForChainWalkSet: %d\n", bytesForChainWalkSet );
+	}
 	
 	m_nMemMax = nAvailPhys - bytesForChainWalkSet;	// Leave memory for CChainWalkSet	
 

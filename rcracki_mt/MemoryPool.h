@@ -32,10 +32,11 @@
 class CMemoryPool  
 {
 public:
-	CMemoryPool(unsigned int bytesForChainWalkSet);
+	CMemoryPool(unsigned int bytesForChainWalkSet, bool bDebug);
 	virtual ~CMemoryPool();
 
 private:
+	bool debug;
 	unsigned char* m_pMem;
 	unsigned int m_nMemSize;
 

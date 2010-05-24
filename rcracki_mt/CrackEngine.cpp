@@ -944,7 +944,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			unsigned int bytesForChainWalkSet = hs.GetStatHashTotal() * (nRainbowChainLen-1) * 8;
 			if (debug) printf("Debug: Saving %u bytes of memory for chainwalkset.\n", bytesForChainWalkSet);
 
-			static CMemoryPool mp(bytesForChainWalkSet);
+			static CMemoryPool mp(bytesForChainWalkSet, debug);
 			unsigned int nAllocatedSize;
 			
 			if (doOldFormat)
@@ -1032,7 +1032,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			}
 			else
 			{
-				static CMemoryPool mpIndex(bytesForChainWalkSet);
+				static CMemoryPool mpIndex(bytesForChainWalkSet, debug);
 				unsigned int nAllocatedSizeIndex;
 
 				//int nIndexSize = 0;

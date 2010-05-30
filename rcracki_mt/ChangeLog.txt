@@ -4,7 +4,10 @@ TBA (TBA):
 * fix linux memory code - using only info.freeram is incorrect
 * cleanup of the nested if/elif/else stuctures
 * annotate x86 specific sections of code
-* begin review of licensing and add annotations
+* licensing review and GPLv2 compliance
+* cleanup of unused items
+* restructure Makefile
+* cleanup memory leaks
 
 0.6.3 (21 Oct 2009, 21:05):
 * Fixed x86_64 linux compilation

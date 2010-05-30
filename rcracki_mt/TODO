@@ -1,6 +1,10 @@
 * linux thread priorities
 * testing/benchmarking suite
 * test new linux free memory code
+* replace clock_t usage:
+	"Note that the time can wrap around.  On a 32-bit system where CLOCKS_PER_SEC
+	equals 1000000 this function will return the same value approximately every
+	72 minutes."
 * remove openssl dependencies
 	lm2ntlm.h
 	ChainWalkContext.cpp

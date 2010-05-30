@@ -248,7 +248,7 @@
 
 
 #ifndef MD5_pad_w1
-static inline UINT4 MD5_pad_w1(UINT4 data)
+static __inline__ UINT4 MD5_pad_w1(UINT4 data)
 {
 // XXX x86 specific
 	__asm__ (
@@ -266,7 +266,7 @@ static inline UINT4 MD5_pad_w1(UINT4 data)
 #endif
 
 #ifndef MD5_pad_w3
-static inline UINT4 MD5_pad_w3(UINT4 data)
+static __inline__ UINT4 MD5_pad_w3(UINT4 data)
 {
 // XXX x86 specific
 	__asm__ (
@@ -282,7 +282,7 @@ static inline UINT4 MD5_pad_w3(UINT4 data)
 #endif
 
 
-static inline void MD5_copy_pad_block(UINT4 *dData, UINT4 *wIn, int blocklen, int len)
+static __inline__ void MD5_copy_pad_block(UINT4 *dData, UINT4 *wIn, int blocklen, int len)
 {
 	register int cl;
 

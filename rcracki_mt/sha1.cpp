@@ -6,6 +6,7 @@
  * RainbowCrack
  *
  * Copyright Martin Westergaard Jørgensen <martinwj2005@gmail.com>
+ * Copyright Wei Dai <weidai@eskimo.com>
  * Copyright 2009 Daniël Niggebrugge <niggebrugge@fox-it.com>
  * Copyright 2009 James Nobis <frt@quelrod.net>
  *
@@ -117,12 +118,6 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
      *  Initialize the first 16 words in the array W
      */
 
-	#define INIT_OLD(x) \
-		W[x] = (Message_Block[(x) * 4] << 24) | \
-			(Message_Block[(x) * 4 + 1] << 16) | \
-			(Message_Block[(x) * 4 +2] << 8) | \
-			(Message_Block[(x) * 4 +3])
-
 	#define INIT(x) W[x] = Message_Block_W[x];
 	
 	#define INIT_NULL(x) W[x] = 0;
@@ -147,18 +142,6 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 		INIT_NULL(5);  INIT_NULL(6);  INIT_NULL(7); \
 		INIT_NULL(8);  INIT_NULL(9);  INIT_NULL(10); INIT_NULL(11); \
 		INIT_NULL(12); INIT_NULL(13); INIT_NULL(14);
-
-	#define ROTATE1_NULL_1_14 \
-		ROTATE1_NULL;  ROTATE1_NULL_2_14;
-
-	#define ROTATE1_NULL_2_14 \
-		ROTATE1_NULL;  ROTATE1_NULL_3_14;
-
-	#define ROTATE1_NULL_3_14 \
-		ROTATE1_NULL;  ROTATE1_NULL_4_14;
-
-	#define ROTATE1_NULL_4_14 \
-		ROTATE1_NULL; ROTATE1_NULL_5_14;
 
 	#define ROTATE1_NULL_5_14 \
 		ROTATE1_NULL; ROTATE1_NULL; ROTATE1_NULL; \
@@ -234,21 +217,9 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	EXPAND(76);	EXPAND(77);	EXPAND(78);	EXPAND(79);
 
 
-	#define ROTATE1(t) \
-			temp = SHA1CircularShift(5,A) + F_00_19(B,C,D) + E + W[t] + K0; \
-			E = D; D = C; \
-			C = SHA1CircularShift(30,B); \
-			B = A; A = temp; \
-
 	#define ROTATE1_NEW(a, b, c, d, e, x) \
 			e += SHA1CircularShift(5,a) + F_00_19(b,c,d) + x + K0; \
 			b = SHA1CircularShift(30,b);
-
-	#define ROTATE1_W(w) \
-			temp = SHA1CircularShift(5,A) + F_00_19(B,C,D) + E + w + K0; \
-			E = D; D = C; \
-			C = SHA1CircularShift(30,B); \
-			B = A; A = temp;
 
 	#define ROTATE1_NULL \
 			temp = SHA1CircularShift(5,A) + F_00_19(B,C,D) + E + K0; \

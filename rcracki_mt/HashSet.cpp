@@ -182,5 +182,5 @@ int CHashSet::GetStatHashFound()
 
 int CHashSet::GetStatHashTotal()
 {
-	return m_vHash.size();
+	return (int) m_vHash.size();
 }

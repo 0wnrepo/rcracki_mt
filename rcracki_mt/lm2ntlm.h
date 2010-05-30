@@ -58,10 +58,10 @@ private:
 
 private:
 	bool checkNTLMPassword(unsigned char* pLMPassword, int nLMPasswordLen, string& sNTLMPassword);
-	bool startCorrecting(string sLMPassword, unsigned char* pNTLMHash, string& sNTLMPassword, unsigned char* pLMPassword);
+	bool startCorrecting(string sLMPassword, string& sNTLMPassword, unsigned char* pLMPassword);
 	void printString(unsigned char* muteThis, int length);
 	void setupCombinationAtPositions(int length, unsigned char* pMuteMe, unsigned char* pTempMute, int* jAtPos, bool* fullAtPos, int* sizeAtPos);
-	bool checkPermutations(int length, unsigned char* pMuteMe, unsigned char* pTempMute, int* jAtPos, int* sizeAtPos, unsigned char* pLMPassword, string& sNTLMPassword);
+	bool checkPermutations(int length, unsigned char* pTempMute, int* jAtPos, int* sizeAtPos, unsigned char* pLMPassword, string& sNTLMPassword);
 
 	int calculateTotalCombinations(int length, int setSize);
 	int factorial (int num);

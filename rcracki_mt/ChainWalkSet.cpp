@@ -56,7 +56,7 @@ void CChainWalkSet::DiscardAll()
 
 	list<ChainWalk>::iterator it;
 	for (it = m_lChainWalk.begin(); it != m_lChainWalk.end(); it++)
-		delete it->pIndexE;
+		delete [] it->pIndexE;
 	m_lChainWalk.clear();
 }
 
@@ -76,7 +76,7 @@ string CChainWalkSet::CheckOrRotatePreCalcFile()
 		if(file!=NULL)
 		{
 			fileLen = GetFileLen(file);
-			unsigned int nextFileLen = fileLen + (sizeof(uint64) * (m_nRainbowChainLen-1));
+			long unsigned int nextFileLen = fileLen + (sizeof(uint64) * (m_nRainbowChainLen-1));
 			// Rotate to next file if we are going to pass 2GB filesize
 			if (nextFileLen < ((unsigned)2 * 1024 * 1024 * 1024))
 			{
@@ -151,7 +151,7 @@ bool CChainWalkSet::FindInFile(uint64* pIndexE, unsigned char* pHash, int nHashL
 
 	string sCurrentPrecalcPathName = "";
 	string sCurrentPrecalcIndexPathName = "";
-	int offset;
+	long unsigned int offset;
 
 	int i;
 	for (i = 0; i < (int)vPrecalcFiles.size() && gotPrecalcOnLine == -1; i++)
@@ -192,7 +192,7 @@ bool CChainWalkSet::FindInFile(uint64* pIndexE, unsigned char* pHash, int nHashL
 
 	if (gotPrecalcOnLine > -1)
 	{
-		if (debug) printf("Debug: Reading pre calculations from file, line %d offset %d\n", gotPrecalcOnLine, offset);
+		if (debug) printf("Debug: Reading pre calculations from file, line %d offset %lu\n", gotPrecalcOnLine, offset);
 		
 		FILE* fp = fopen(sCurrentPrecalcPathName.c_str(), "rb");
 

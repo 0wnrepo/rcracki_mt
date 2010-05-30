@@ -53,7 +53,7 @@ CMemoryPool::~CMemoryPool()
 {
 	if (m_pMem != NULL)
 	{
-		delete m_pMem;
+		delete [] m_pMem;
 		m_pMem = NULL;
 		m_nMemSize = 0;
 	}
@@ -76,7 +76,7 @@ unsigned char* CMemoryPool::Allocate(unsigned int nFileLen, unsigned int& nAlloc
 	// Free existing memory
 	if (m_pMem != NULL)
 	{
-		delete m_pMem;
+		delete [] m_pMem;
 		m_pMem = NULL;
 		m_nMemSize = 0;
 	}

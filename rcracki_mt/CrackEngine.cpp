@@ -744,6 +744,7 @@ void CCrackEngine::SearchTableChunk(RainbowChain* pChain, int nRainbowChainLen, 
 					
 				rcrackiThread* rThread = threadPool[thread_ID];
 				nChainWalkStep += rThread->GetChainWalkStep();
+				delete rThread;
 			}
 
 			m_cws.StoreToFile(pStartPosIndexE, TargetHash, nHashLen);
@@ -896,7 +897,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 #ifdef _WIN32
 	int nIndex = sPathName.find_last_of('\\');
 #else
-	int nIndex = sPathName.find_last_of('/');
+	int nIndex = (int) sPathName.find_last_of('/');
 #endif
 	string sFileName;
 	if (nIndex != -1)

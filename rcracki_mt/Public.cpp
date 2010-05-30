@@ -41,7 +41,7 @@
 
 	#if defined(BSD)
 		#include <sys/sysctl.h>
-	#elif defined(linux)
+	#elif defined(__linux__)
 		#include <sys/sysinfo.h>
 	#else
 		#error Unsupported Operating System
@@ -52,9 +52,9 @@
 
 unsigned int GetFileLen(FILE* file)
 {
-	unsigned int pos = ftell(file);
+	long int pos = ftell(file);
 	fseek(file, 0, SEEK_END);
-	unsigned int len = ftell(file);
+	long int len = ftell(file);
 	fseek(file, pos, SEEK_SET);
 
 	return len;
@@ -86,8 +86,8 @@ bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset)
 	if(sCharset.substr(0, 6) != "hybrid") // Not hybrid charset
 		return false;
 
-	UINT4 nEnd = sCharset.rfind(')');
-	UINT4 nStart = sCharset.rfind('(');
+	UINT4 nEnd = (int) sCharset.rfind(')');
+	UINT4 nStart = (int) sCharset.rfind('(');
 	string sChar = sCharset.substr(nStart + 1, nEnd - nStart - 1);
 	vector<string> vParts;
 	SeperateString(sChar, ",", vParts);
@@ -118,7 +118,7 @@ bool ReadLinesFromFile(string sPathName, vector<string>& vLine)
 		data[len] = '\0';
 		string content = data;
 		content += "\n";
-		delete data;
+		delete [] data;
 
 		unsigned int i;
 		for (i = 0; i < content.size(); i++)
@@ -238,11 +238,12 @@ unsigned int GetAvailPhysMemorySize()
 	len = sizeof(physMem);
 	sysctl(mib, 2, &physMem, &len, NULL, 0);
 	return physMem;
-#elif defined(linux)
+#elif defined(__linux__)
 	struct sysinfo info;
 	sysinfo(&info);
-	return ( info.freeram + info.bufferram ) * info.mem_unit;
+	return ( info.freeram + info.bufferram ) * (unsigned long) info.mem_unit;
 #else
+	return 0;
 	#error Unsupported Operating System
 #endif
 }
@@ -286,7 +287,7 @@ void ParseHash(string sHash, unsigned char* pHash, int& nHashLen)
 		pHash[i] = (unsigned char)nValue;
 	}
 
-	nHashLen = sHash.size() / 2;
+	nHashLen = (int) sHash.size() / 2;
 }
 
 void Logo()

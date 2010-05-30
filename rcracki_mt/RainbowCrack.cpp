@@ -161,7 +161,7 @@ bool NormalizeHash(string& sHash)
 	for (i = 0; i < sNormalizedHash.size(); i++)
 	{
 		if (sNormalizedHash[i] >= 'A' && sNormalizedHash[i] <= 'F')
-			sNormalizedHash[i] = sNormalizedHash[i] - 'A' + 'a';
+			sNormalizedHash[i] = (char) sNormalizedHash[i] - 'A' + 'a';
 	}
 
 	// Character check
@@ -268,10 +268,10 @@ bool NTLMPasswordSeek(unsigned char* pLMPassword, int nLMPasswordLen, int nLMPas
 	if (   pLMPassword[nLMPasswordNext * 2] >= 'A'
 		&& pLMPassword[nLMPasswordNext * 2] <= 'Z')
 	{
-		pLMPassword[nLMPasswordNext * 2] = pLMPassword[nLMPasswordNext * 2] - 'A' + 'a';
+		pLMPassword[nLMPasswordNext * 2] = (unsigned char) pLMPassword[nLMPasswordNext * 2] - 'A' + 'a';
 		if (NTLMPasswordSeek(pLMPassword, nLMPasswordLen, nLMPasswordNext + 1, pNTLMHash, sNTLMPassword))
 			return true;
-		pLMPassword[nLMPasswordNext * 2] = pLMPassword[nLMPasswordNext * 2] - 'a' + 'A';
+		pLMPassword[nLMPasswordNext * 2] = (unsigned char) pLMPassword[nLMPasswordNext * 2] - 'a' + 'A';
 	}
 
 	return false;

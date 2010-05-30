@@ -73,7 +73,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 		stCharset tCharset;
 		int i;
 		for (i = 0x00; i <= 0xff; i++)
-			tCharset.m_PlainCharset[i] = i;
+			tCharset.m_PlainCharset[i] = (unsigned char) i;
 		tCharset.m_nPlainCharsetLen = 256;
 		tCharset.m_sPlainCharsetName = sName;
 		tCharset.m_sPlainCharsetContent = "0x00, 0x01, ... 0xff";
@@ -159,7 +159,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 					if(sCharsetName == vCharsets[m_vCharset.size()].sName)
 					{
 						stCharset tCharset;
-						tCharset.m_nPlainCharsetLen = sCharsetContent.size();							
+						tCharset.m_nPlainCharsetLen = (int) sCharsetContent.size();							
 						memcpy(tCharset.m_PlainCharset, sCharsetContent.c_str(), tCharset.m_nPlainCharsetLen);
 						tCharset.m_sPlainCharsetName = sCharsetName;
 						tCharset.m_sPlainCharsetContent = sCharsetContent;	
@@ -174,7 +174,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 				else if (sCharsetName == sName)
 				{
 					stCharset tCharset;
-					tCharset.m_nPlainCharsetLen = sCharsetContent.size();							
+					tCharset.m_nPlainCharsetLen = (int) sCharsetContent.size();							
 					memcpy(tCharset.m_PlainCharset, sCharsetContent.c_str(), tCharset.m_nPlainCharsetLen);
 					tCharset.m_sPlainCharsetName = sCharsetName;
 					tCharset.m_sPlainCharsetContent = sCharsetContent;							
@@ -275,7 +275,7 @@ bool CChainWalkContext::SetupWithPathName(string sPathName, int& nRainbowChainLe
 #ifdef _WIN32
 	int nIndex = sPathName.find_last_of('\\');
 #else
-	int nIndex = sPathName.find_last_of('/');
+	int nIndex = (int) sPathName.find_last_of('/');
 #endif
 	if (nIndex != -1)
 		sPathName = sPathName.substr(nIndex + 1);

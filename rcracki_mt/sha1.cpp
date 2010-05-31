@@ -27,7 +27,7 @@
  */
 
 //#include <stdio.h>
-#if defined(WIN32)
+#if defined(_WIN32)
 	#include <windows.h>
 #endif
 
@@ -38,14 +38,14 @@
 #define SHA1CircularShift(bits,word) (((word) << (bits)) | ((word) >> (32-(bits))))
 
 // this rotate isn't faster with me
-#if defined(WIN32)
+#if defined(_WIN32)
 	#define ROTATE(a,n)     _lrotl(a,n)
 #else
 	#define ROTATE(a,n)     (((a)<<(n))|(((a)&0xffffffff)>>(32-(n))))
 #endif
 
 /* A nice byte order reversal from Wei Dai <weidai@eskimo.com> */
-#if defined(WIN32)
+#if defined(_WIN32)
 /* 5 instructions with rotate instruction, else 9 */
 #define Endian_Reverse32(a) \
 	{ \

@@ -29,21 +29,23 @@
 #ifndef _MEMORYPOOL_H
 #define _MEMORYPOOL_H
 
+#include "global.h"
+
 class CMemoryPool  
 {
 public:
-	CMemoryPool(unsigned int bytesForChainWalkSet, bool bDebug);
+	CMemoryPool(unsigned int bytesSaved, bool bDebug, uint64 maxMem);
 	virtual ~CMemoryPool();
 
 private:
 	bool debug;
 	unsigned char* m_pMem;
-	unsigned int m_nMemSize;
+	uint64 m_nMemSize;
 
-	unsigned int m_nMemMax;
+	uint64 m_nMemMax;
 
 public:
-	unsigned char* Allocate(unsigned int nFileLen, unsigned int& nAllocatedSize);
+	unsigned char* Allocate(unsigned int nFileLen, uint64& nAllocatedSize);
 };
 
 #endif

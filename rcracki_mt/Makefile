@@ -95,7 +95,7 @@ lm2ntlm.o: lm2ntlm.h lm2ntlm.cpp Public.h
 md4.o: md4.h md4.cpp global.h
 	 $(CC) $(CFLAGS) md4.cpp
 
-MemoryPool.o: MemoryPool.h MemoryPool.cpp Public.h
+MemoryPool.o: MemoryPool.h MemoryPool.cpp Public.h global.h
 	 $(CC) $(CFLAGS) MemoryPool.cpp
 
 Public.o: Public.h Public.cpp global.h

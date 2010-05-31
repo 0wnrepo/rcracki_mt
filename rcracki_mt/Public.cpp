@@ -224,7 +224,7 @@ string HexToStr(const unsigned char* pData, int nLen)
 	return sRet;
 }
 
-unsigned int GetAvailPhysMemorySize()
+uint64 GetAvailPhysMemorySize()
 {
 #ifdef _WIN32
 	MEMORYSTATUS ms;
@@ -232,7 +232,7 @@ unsigned int GetAvailPhysMemorySize()
 	return ms.dwAvailPhys;
 #elif defined(BSD)
 	int mib[2] = { CTL_HW, HW_PHYSMEM };
-	unsigned int physMem;
+	uint64 physMem;
 	//XXX warning size_t isn't portable
 	size_t len;
 	len = sizeof(physMem);

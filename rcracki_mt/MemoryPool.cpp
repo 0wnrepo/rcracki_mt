@@ -29,21 +29,24 @@
 #include "MemoryPool.h"
 #include "Public.h"
 
-CMemoryPool::CMemoryPool(unsigned int bytesForChainWalkSet, bool bDebug)
+CMemoryPool::CMemoryPool(unsigned int bytesSaved, bool bDebug, uint64 maxMem)
 {
 	m_pMem = NULL;
 	m_nMemSize = 0;
 	debug = bDebug;
 
-	unsigned int nAvailPhys = GetAvailPhysMemorySize();
+	uint64 nAvailPhys = GetAvailPhysMemorySize();
 
 	if ( debug )
 	{
-		printf( "Debug: nAvailPhys: %d\n", nAvailPhys );
-		printf( "Debug: bytesForChainWalkSet: %d\n", bytesForChainWalkSet );
+		printf( "Debug: nAvailPhys: %llu\n", nAvailPhys );
+		printf( "Debug: bytesSaved: %d\n", bytesSaved );
 	}
+
+	if ( maxMem > 0 && maxMem < nAvailPhys )
+		nAvailPhys = maxMem;
 	
-	m_nMemMax = nAvailPhys - bytesForChainWalkSet;	// Leave memory for CChainWalkSet	
+	m_nMemMax = nAvailPhys - bytesSaved;	// Leave memory for CChainWalkSet	
 
 	if (m_nMemMax < 16 * 1024 * 1024)
 		m_nMemMax = 16 * 1024 * 1024;
@@ -59,7 +62,7 @@ CMemoryPool::~CMemoryPool()
 	}
 }
 
-unsigned char* CMemoryPool::Allocate(unsigned int nFileLen, unsigned int& nAllocatedSize)
+unsigned char* CMemoryPool::Allocate(unsigned int nFileLen, uint64& nAllocatedSize)
 {
 	if (nFileLen <= m_nMemSize)
 	{

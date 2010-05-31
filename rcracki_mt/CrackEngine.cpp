@@ -945,14 +945,14 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			unsigned int bytesForChainWalkSet = hs.GetStatHashTotal() * (nRainbowChainLen-1) * 8;
 			if (debug) printf("Debug: Saving %u bytes of memory for chainwalkset.\n", bytesForChainWalkSet);
 
-			static CMemoryPool mp(bytesForChainWalkSet, debug);
-			unsigned int nAllocatedSize;
+			uint64 nAllocatedSize;
 			
 			if (doOldFormat)
 			{
 				if (debug) printf("Debug: This is a table in the old .rt format.\n");
+				static CMemoryPool mp(bytesForChainWalkSet, debug, maxMem);
 				RainbowChainO* pChain = (RainbowChainO*)mp.Allocate(nFileLen, nAllocatedSize);
-				if (debug) printf("Allocated %u bytes, filelen %lu\n", nAllocatedSize, (unsigned long)nFileLen);
+				if (debug) printf("Allocated %llu bytes, filelen %lu\n", nAllocatedSize, (unsigned long)nFileLen);
 				if (pChain != NULL)
 				{
 					nAllocatedSize = nAllocatedSize / sizeOfChain * sizeOfChain;		// Round to sizeOfChain boundary
@@ -1033,8 +1033,8 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			}
 			else
 			{
-				static CMemoryPool mpIndex(bytesForChainWalkSet, debug);
-				unsigned int nAllocatedSizeIndex;
+				static CMemoryPool mpIndex(bytesForChainWalkSet, debug, maxMem);
+				uint64 nAllocatedSizeIndex;
 
 				//int nIndexSize = 0;
 				//IndexChain *pIndex = NULL;
@@ -1054,7 +1054,9 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 						//printf("index nSize: %d\n", nSize);
 						//pIndex = (IndexChain*)new unsigned char[nSize];
 						IndexChain *pIndex = (IndexChain*)mpIndex.Allocate(nFileLenIndex, nAllocatedSizeIndex);
-						if (debug) printf("Debug: Allocated %u bytes for index with filelen %u\n", nAllocatedSizeIndex, nFileLenIndex);
+						if (debug) printf("Debug: Allocated %llu bytes for index with filelen %u\n", nAllocatedSizeIndex, nFileLenIndex);
+				
+						static CMemoryPool mp(bytesForChainWalkSet + nAllocatedSizeIndex, debug, maxMem);
 						
 						if (pIndex != NULL && nAllocatedSizeIndex > 0)
 						{
@@ -1068,7 +1070,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 									break;
 
 								// Load index chunk
-								if (debug) printf("Debug: Setting index to 0x00 in memory, %u bytes\n", nAllocatedSizeIndex);
+								if (debug) printf("Debug: Setting index to 0x00 in memory, %llu bytes\n", nAllocatedSizeIndex);
 								memset(pIndex, 0x00, nAllocatedSizeIndex);
 								printf("reading index... ");
 								clock_t t1 = clock();
@@ -1090,7 +1092,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 								//RainbowChain* pChain = (RainbowChain*)mp.Allocate(nFileLen, nAllocatedSize);
 								RainbowChain* pChain = (RainbowChain*)mp.Allocate(nCoveredRainbowTableChains * sizeOfChain, nAllocatedSize);
-								if (debug) printf("Debug: Allocated %u bytes for %u chains, filelen %lu\n", nAllocatedSize, nCoveredRainbowTableChains, (unsigned long)nFileLen);
+								if (debug) printf("Debug: Allocated %llu bytes for %u chains, filelen %lu\n", nAllocatedSize, nCoveredRainbowTableChains, (unsigned long)nFileLen);
 
 								if (pChain != NULL && nAllocatedSize > 0)
 								{
@@ -1217,7 +1219,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 		printf("can't open file\n");
 }
 
-void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads, bool resume, bool bDebug)
+void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads, uint64 i_maxMem, bool resume, bool bDebug)
 {
 #ifndef _WIN32
 	tty_init();
@@ -1226,6 +1228,7 @@ void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads,
 	debug = bDebug;
 
 	maxThreads = i_maxThreads;
+	maxMem = i_maxMem;
 	// Reset statistics
 	ResetStatistics();
 

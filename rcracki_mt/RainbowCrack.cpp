@@ -319,6 +319,7 @@ void Usage()
 	printf("                  -o [output_file] write (temporary) results to this file\n");
 	printf("                  -s [session_name] write session data with this name\n");
 	printf("                  -k keep precalculation on disk\n");
+	printf("                  -m [megabytes] limit memory usage\n");
 	printf("                  -v show debug information\n");
 	printf("\n");
 #ifdef _WIN32
@@ -341,22 +342,23 @@ int main(int argc, char* argv[])
 
 	vector<string> vPathName;
 	vector<string> vDefaultRainbowTablePath;
-	string sWildCharPathName = "";
-	string sInputType        = "";
-	string sInput            = "";
-	string outputFile		 = "";
-	string sApplicationPath  = "";
-	string sIniPathName      = "rcracki_mt.ini";
-	bool writeOutput		 = false;
-	string sSessionPathName  = "rcracki.session";
-	string sProgressPathName = "rcracki.progress";
-	string sPrecalcPathName  = "rcracki.precalc";
-	bool resumeSession       = false;
-	bool useDefaultRainbowTablePath = false;
-	bool debug               = false;
-	bool keepPrecalcFiles    = false;
-	string sAlgorithm		 = "";
-	int maxThreads			 = 1;
+	string sWildCharPathName			= "";
+	string sInputType						= "";
+	string sInput							= "";
+	string outputFile						= "";
+	string sApplicationPath				= "";
+	string sIniPathName					= "rcracki_mt.ini";
+	bool writeOutput						= false;
+	string sSessionPathName				= "rcracki.session";
+	string sProgressPathName			= "rcracki.progress";
+	string sPrecalcPathName				= "rcracki.precalc";
+	bool resumeSession					= false;
+	bool useDefaultRainbowTablePath	= false;
+	bool debug								= false;
+	bool keepPrecalcFiles				= false;
+	string sAlgorithm						= "";
+	int maxThreads							= 1;
+	uint64 maxMem							= 0;
 	CHashSet hs;
 
 	// Read defaults from ini file;
@@ -383,6 +385,9 @@ int main(int argc, char* argv[])
 					
 					if (sOption == "Threads") {
 						maxThreads = atoi(sValue.c_str());
+					}
+					else if (sOption == "MaxMemoryUsage" ) {
+						maxMem = atoi(sValue.c_str()) * 1024 *1024;
 					}
 					else if (sOption == "DefaultResultsFile") {
 						outputFile = sValue;
@@ -454,6 +459,11 @@ int main(int argc, char* argv[])
 			i++;
 			if (i < argc)
 				maxThreads = atoi(argv[i]);
+		}
+		else if ( cla == "-m" ) {
+			i++;
+			if ( i < argc )
+				maxMem = atoi(argv[i]) * 1024 * 1024;
 		}
 		else if (cla == "-o") {
 			writeOutput = true;
@@ -719,7 +729,7 @@ int main(int argc, char* argv[])
 	if (writeOutput)
 		ce.setOutputFile(outputFile);
 	ce.setSession(sSessionPathName, sProgressPathName, sPrecalcPathName, keepPrecalcFiles);
-	ce.Run(vPathName, hs, maxThreads, resumeSession, debug);
+	ce.Run(vPathName, hs, maxThreads, maxMem, resumeSession, debug);
 
 	// Remove session files
 	if (debug) printf("Debug: Removing session files.\n");

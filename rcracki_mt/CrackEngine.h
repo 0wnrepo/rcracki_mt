@@ -50,6 +50,7 @@ public:
 private:
 	CChainWalkSet m_cws;
 	int maxThreads;
+	uint64 maxMem;
 	bool writeOutput;
 	bool resumeSession;
 	string outputFile;
@@ -84,7 +85,7 @@ private:
 
 public:
 	void SearchRainbowTable(string sPathName, CHashSet& hs);
-	void Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads, bool resume, bool bDebug);
+	void Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads, uint64 i_maxMem, bool resume, bool bDebug);
 	float GetStatTotalDiskAccessTime();
 	float GetStatTotalCryptanalysisTime();
 	int   GetStatTotalChainWalkStep();

@@ -13,19 +13,20 @@
 
 testing:
 32-bit Debian GNU/Linux 5.0 (Lenny)
-	lm - complete
+	lm - 
 	md5
 	ntlm
 	sha1
+
 64-bit Debian GNU/Linux 5.0 (Lenny)
-	lm - complete
+	lm - 
 	md5
 	ntlm
 	sha1	
 
 32-bit MacOSX (10.5)
 	lm
-	md5 - complete
+	md5 - 
 	ntlm
 	sha1
 

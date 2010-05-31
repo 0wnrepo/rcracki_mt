@@ -123,7 +123,7 @@ bool SeperateString(string s, string sSeperator, vector<string>& vPart);
 string uint64tostr(uint64 n);
 string uint64tohexstr(uint64 n);
 string HexToStr(const unsigned char* pData, int nLen);
-unsigned int GetAvailPhysMemorySize();
+uint64 GetAvailPhysMemorySize();
 string GetApplicationPath();
 void ParseHash(string sHash, unsigned char* pHash, int& nHashLen);
 bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset);

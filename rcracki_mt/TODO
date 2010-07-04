@@ -1,6 +1,5 @@
 * linux thread priorities
 * testing/benchmarking suite
-* test new linux free memory code
 * replace clock_t usage:
 	"Note that the time can wrap around.  On a 32-bit system where CLOCKS_PER_SEC
 	equals 1000000 this function will return the same value approximately every
@@ -11,52 +10,11 @@
 	HashAlgorithm.cpp
 * more generic method for path seperator than _WIN32 ifdef?
 
-testing:
-32-bit Debian GNU/Linux 5.0 (Lenny)
-	lm - 
-	md5
-	ntlm
-	sha1
-
-64-bit Debian GNU/Linux 5.0 (Lenny)
-	lm - 
-	md5
-	ntlm
-	sha1	
-
-32-bit MacOSX (10.5)
-	lm
-	md5 - 
-	ntlm
-	sha1
-
-32-bit FreeBSD (7.2)
-	lm - lm_alpha-numeric
-	md5 - only 1 set
-	ntlm
-	sha1
-
-64-bit FreeBSD (7.2)
-	lm
-	md5 - only 1 set
-	ntlm
-	sha1
-
-32-bit NetBSD (5.0)
-	lm - lm_alpha-numeric
-	md5	
-	ntlm
-	sha1
-	
-64-bit OpenBSD (4.5)
-	lm - lm_alpha-numeric#1-7 and lm_all-space#1-7
-
 OpenBSD threading
--Wall
--pedantic
 
 misc warnings:
 sha1.cpp:298: warning: this decimal constant is unsigned only in ISO C90
+(above is on 32-bit linux)
 
 /tmp//ccWUTqDK.o(.text+0xcc7): In function `HashORACLE(unsigned char*, int, unsigned char*)':
 : warning: strcpy() is almost always misused, please use strlcpy()

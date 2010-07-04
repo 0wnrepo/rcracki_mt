@@ -340,7 +340,7 @@ void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash)
 // Code for MySQL password hashing
 //*********************************************************************************
 
-__inline__ void mysql_hash_password_323(unsigned long *result, const char *password) 
+inline void mysql_hash_password_323(unsigned long *result, const char *password) 
 {
 	register unsigned long nr=1345345333L, add=7, nr2=0x12345671L;
 	unsigned long tmp;

@@ -469,8 +469,8 @@ void CChainWalkContext::IndexToPlain()
 		m_nPlainLen = m_nPlainLenMinTotal;
 	uint64 nIndexOfX = m_nIndex - m_nPlainSpaceUpToX[m_nPlainLen - 1];
 
-// maybe this code should be used for some other 64 bit systems as well, added check for LP64 to try this
-#if defined(_WIN64) || defined(_LP64)
+// this is the generic code for non x86/x86-64 platforms
+#if !defined(_M_X64) && !defined(_M_X86) && !defined(__i386__) && !defined(__x86_64__)
 	
 	// Slow version
 	for (i = m_nPlainLen - 1; i >= 0; i--)
@@ -492,7 +492,7 @@ void CChainWalkContext::IndexToPlain()
 	// Fast version
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
-#ifdef _WIN32
+#if defined(_M_X64) || defined(_M_X86)
 		if (nIndexOfX < 0x100000000I64)
 			break;
 #else

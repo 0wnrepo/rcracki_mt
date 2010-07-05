@@ -10,6 +10,7 @@
  * Copyright 2009, 2010  Daniël Niggebrugge <niggebrugge@fox-it.com>
  * Copyright 2009 James Dickson
  * Copyright 2009, 2010 James Nobis <frt@quelrod.net>
+ * Copyright 2010 uroskn
  *
  * Modified by Martin Westergaard Jørgensen <martinwj2005@gmail.com> to support  * indexed and hybrid tables
  *

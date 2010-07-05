@@ -129,8 +129,8 @@ Please note that to compile under the BSDs you must use gmake.
 
 OpenBSD threading is a work in progress.
 
-openSUSE >= 11.2:
-make LIBS="-lcrypto -lpthread"
+*nix systems using openssl 1.0+ do not have md2.h - future versions will either
+include md2 code or drop md2 support accordingly.
 
 'OPTIONAL' TODO
 ================

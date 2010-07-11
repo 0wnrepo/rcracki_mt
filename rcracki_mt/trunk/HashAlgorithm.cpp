@@ -37,10 +37,10 @@
 #include <openssl/md4.h>
 //#include <openssl/md5.h>
 #include <openssl/sha.h>
-#include <openssl/ripemd.h>
+//#include <openssl/ripemd.h>
 #include "fast_md5.h"
 #include "md4.h"
-#include "sha1.h"
+//#include "sha1.h"
 #ifdef _WIN32
 	#pragma comment(lib, "libeay32.lib")
 #endif
@@ -268,13 +268,13 @@ void HashDoubleMD5(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 
 void HashSHA1(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
-	/*SHA_CTX ctx;
+	SHA_CTX ctx;
 	SHA1_Init(&ctx);
 	SHA1_Update(&ctx, pPlain, nPlainLen);
-	SHA1_Final(pHash, &ctx);*/
+	SHA1_Final(pHash, &ctx);
 
-	//SHA1(pPlain, nPlainLen, pHash);
-	SHA1_NEW(pPlain, nPlainLen, pHash);
+	SHA1(pPlain, nPlainLen, pHash);
+	//SHA1_NEW(pPlain, nPlainLen, pHash);
 }
 
 void HashRIPEMD160(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
@@ -311,10 +311,12 @@ void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash)
 		unicode_user[i*2] = username[i];
 		unicode_user[i*2+1] = 0x00;
 	}
-
+	/*
 	MD4_Init(&ctx);
 	MD4_Update(&ctx,unicode_pwd,nPlainLen*2);
 	MD4_Final(final1,&ctx);
+	*/
+	MD4_NEW( (unsigned char*)unicode_pwd, nPlainLen*2, final1 );
 
 	MD4_Init(&ctx);
 	MD4_Update(&ctx,final1,MD4_DIGEST_LENGTH);

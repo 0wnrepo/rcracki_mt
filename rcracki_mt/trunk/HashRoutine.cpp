@@ -47,7 +47,7 @@ CHashRoutine::CHashRoutine()
 	AddHashRoutine("md5",  HashMD5,  16);
 	AddHashRoutine("doublemd5",  HashDoubleMD5,  16);
 	AddHashRoutine("sha1", HashSHA1, 20);
-	AddHashRoutine("ripemd160", HashRIPEMD160, 20);
+//	AddHashRoutine("ripemd160", HashRIPEMD160, 20);
 	AddHashRoutine("mysql323", HashMySQL323, 8);
 	AddHashRoutine("mysqlsha1", HashMySQLSHA1, 20);
 	AddHashRoutine("ciscopix", HashPIX, 16);

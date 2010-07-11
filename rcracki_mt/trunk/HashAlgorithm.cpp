@@ -277,6 +277,7 @@ void HashSHA1(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 	//SHA1_NEW(pPlain, nPlainLen, pHash);
 }
 
+/*
 void HashRIPEMD160(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
 	RIPEMD160_CTX ctx;
@@ -286,6 +287,7 @@ void HashRIPEMD160(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 
 	//RIPEMD160(pPlain, nPlainLen, pHash);
 }
+*/
 
 void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash)
 {

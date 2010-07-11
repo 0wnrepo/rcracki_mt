@@ -30,7 +30,8 @@ OPTIMIZATION = -O3
 CFLAGS = -Wall -std=c++98 $(OPTIMIZATION) -c $(DEBUG)
 LFLAGS = -Wall -std=c++98 $(OPTIMIZATION) $(DEBUG)
 LIBS = -lcrypto -lpthread
-OBJS = ChainWalkContext.o ChainWalkSet.o CrackEngine.o fast_md5.o HashAlgorithm.o HashRoutine.o HashSet.o lm2ntlm.o md4.o MemoryPool.o Public.o RainbowCrack.o rcrackiThread.o sha1.o
+OBJS = ChainWalkContext.o ChainWalkSet.o CrackEngine.o fast_md5.o HashAlgorithm.o HashRoutine.o HashSet.o lm2ntlm.o md4.o MemoryPool.o Public.o RainbowCrack.o rcrackiThread.o 
+#sha1.o
 
 OSNAME = $(shell uname -s)
 STRIP = $(shell which strip) --strip-debug
@@ -80,7 +81,8 @@ CrackEngine.o: CrackEngine.h CrackEngine.cpp Public.h HashSet.h ChainWalkContext
 fast_md5.o: fast_md5.h fast_md5.cpp global.h
 	 $(CC) $(CFLAGS) fast_md5.cpp
 
-HashAlgorithm.o: HashAlgorithm.h HashAlgorithm.cpp Public.h fast_md5.h md4.h sha1.h
+#HashAlgorithm.o: HashAlgorithm.h HashAlgorithm.cpp Public.h fast_md5.h md4.h sha1.h
+HashAlgorithm.o: HashAlgorithm.h HashAlgorithm.cpp Public.h fast_md5.h md4.h
 	 $(CC) $(CFLAGS) HashAlgorithm.cpp
 
 HashRoutine.o: HashRoutine.h HashRoutine.cpp global.h HashAlgorithm.h
@@ -107,5 +109,5 @@ RainbowCrack.o: RainbowCrack.cpp CrackEngine.h lm2ntlm.h
 rcrackiThread.o: rcrackiThread.h rcrackiThread.cpp ChainWalkContext.h Public.h HashSet.h
 	 $(CC) $(CFLAGS) rcrackiThread.cpp
 
-sha1.o: sha1.h sha1.cpp global.h
-	 $(CC) $(CFLAGS) sha1.cpp
+#sha1.o: sha1.h sha1.cpp global.h
+#	 $(CC) $(CFLAGS) sha1.cpp

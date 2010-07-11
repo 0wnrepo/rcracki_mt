@@ -33,7 +33,7 @@
 #include "Public.h"
 
 #include <openssl/des.h>
-#include <openssl/md2.h>
+//#include <openssl/md2.h>
 #include <openssl/md4.h>
 //#include <openssl/md5.h>
 #include <openssl/sha.h>
@@ -228,6 +228,7 @@ void HashNTLM(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 	MD4_NEW(UnicodePlain, nPlainLen * 2, pHash);
 }
 
+/*
 void HashMD2(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
 	MD2_CTX ctx;
@@ -237,6 +238,7 @@ void HashMD2(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 
 	//MD2(pPlain, nPlainLen, pHash);
 }
+*/
 
 void HashMD4(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {

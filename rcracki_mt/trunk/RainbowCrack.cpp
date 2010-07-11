@@ -37,8 +37,6 @@
 	#include <dirent.h>
 #endif
 
-//#include <openssl/md4.h>
-
 #ifdef _WIN32
 	#pragma comment(lib, "libeay32.lib")
 #endif

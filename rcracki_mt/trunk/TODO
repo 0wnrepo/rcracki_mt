@@ -5,9 +5,12 @@
 	equals 1000000 this function will return the same value approximately every
 	72 minutes."
 * remove openssl dependencies
-	lm2ntlm.h
 	ChainWalkContext.cpp
+		rand.h
 	HashAlgorithm.cpp
+		des.h
+		md4.h (fix md4 so it can handle mscache lengths)
+		sha.h (the local sha1 impl is slower than openssl's)
 * more generic method for path seperator than _WIN32 ifdef?
 
 OpenBSD threading

@@ -247,9 +247,10 @@ bool NTLMPasswordSeek(unsigned char* pLMPassword, int nLMPasswordLen, int nLMPas
 {
 	if (nLMPasswordNext == nLMPasswordLen)
 	{
-		unsigned char md[16];
-		MD4(pLMPassword, nLMPasswordLen * 2, md);
-		if (memcmp(md, pNTLMHash, 16) == 0)
+		unsigned char md[MD4_DIGEST_LENGTH];
+		MD4_NEW(pLMPassword, nLMPasswordLen * 2, md);
+
+		if (memcmp(md, pNTLMHash, MD4_DIGEST_LENGTH) == 0)
 		{
 			sNTLMPassword = "";
 			int i;

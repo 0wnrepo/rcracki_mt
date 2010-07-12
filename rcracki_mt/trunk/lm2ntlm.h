@@ -30,10 +30,12 @@
 #ifdef _WIN32
 #include <conio.h>
 #endif
-#include "openssl/md4.h"
+//#include "openssl/md4.h"
 #include "time.h"
 #include "signal.h"
 #include "Public.h"
+#include "md4.h"
+
 using namespace std;
 
 class LM2NTLMcorrector

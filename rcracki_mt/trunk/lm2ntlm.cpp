@@ -62,7 +62,7 @@ bool LM2NTLMcorrector::LMPasswordCorrectUnicode(string hexPassword, unsigned cha
 		sPlain += (unsigned char)nValue;
 	}
 
-	memcpy(NTLMHash, pNTLMHash, 16);
+	memcpy(NTLMHash, pNTLMHash, MD4_DIGEST_LENGTH);
 
 
 	unsigned long int tmpLength = sPlain.size() * 2;
@@ -355,15 +355,18 @@ bool LM2NTLMcorrector::checkPermutations(int length, unsigned char* pTempMute, i
 // check password, maybe integrate this function in checkPermutations() for performance reasons.
 bool LM2NTLMcorrector::checkNTLMPassword(unsigned char* pLMPassword, int nLMPasswordLen, string& sNTLMPassword)
 {
-	unsigned char md[16];
+	unsigned char md[MD4_DIGEST_LENGTH];
 
 	//MD4(pLMPassword, nLMPasswordLen * 2, md);
+	/*
 	MD4_CTX ctx;
 	MD4_Init(&ctx);
 	MD4_Update(&ctx, pLMPassword, nLMPasswordLen * 2);
-	MD4_Final(md, &ctx);  
+	MD4_Final(md, &ctx);*/ 
 
-	if (memcmp(md, NTLMHash, 16) == 0)
+	MD4_NEW( pLMPassword, nLMPasswordLen * 2, md );
+
+	if (memcmp(md, NTLMHash, MD4_DIGEST_LENGTH) == 0)
 	{
 		sNTLMPassword = "";
 		int i;

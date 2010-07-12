@@ -91,7 +91,7 @@ HashRoutine.o: HashRoutine.h HashRoutine.cpp global.h HashAlgorithm.h
 HashSet.o: HashSet.h HashSet.cpp Public.h
 	 $(CC) $(CFLAGS) HashSet.cpp
 
-lm2ntlm.o: lm2ntlm.h lm2ntlm.cpp Public.h
+lm2ntlm.o: lm2ntlm.h lm2ntlm.cpp Public.h md4.h
 	 $(CC) $(CFLAGS) lm2ntlm.cpp
 
 md4.o: md4.h md4.cpp global.h

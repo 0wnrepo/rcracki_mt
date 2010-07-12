@@ -81,7 +81,7 @@ void MD4_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	// For the hash working space
 	//__attribute__((aligned(16))) UINT4 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	//__declspec(align(16)) UINT4 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	UINT4 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	UINT4 data[MD4_DIGEST_LENGTH] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 	// For the output result
 	UINT4 a,b,c,d;

@@ -9,6 +9,7 @@
  * Copyright Martin Westergaard Jørgensen <martinwj2005@gmail.com>
  * Copyright 2009, 2010 Daniël Niggebrugge <niggebrugge@fox-it.com>
  * Copyright 2009, 2010 James Nobis <frt@quelrod.net>
+ * Copyright 2010 Yngve AAdlandsvik
  *
  * This file is part of racrcki_mt.
  *
@@ -483,6 +484,7 @@ void CChainWalkContext::IndexToPlain()
 			{
 				m_Plain[i] = m_vCharset[j].m_PlainCharset[nIndexOfX % m_vCharset[j].m_nPlainCharsetLen];
 				nIndexOfX /= m_vCharset[j].m_nPlainCharsetLen;
+				break;
 			}
 		}
 	}

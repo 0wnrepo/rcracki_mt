@@ -50,12 +50,19 @@ rcracki_mt: $(OBJS)
 clean:
 	rm -f *.o
 	rm -f rcracki_mt
+	rm -f *.gcno *.gcda *.gcov
 
 debug: DEBUG += -DDEBUG -g
 debug: rcracki_mt
 
 debugall: DEBUG += -DDEBUG -g -ansi -Wextra -Wunused-macros -Wunsafe-loop-optimizations -Wundef -Woverlength-strings -Wdisabled-optimization -Wformat-extra-args -Wformat-security
 debugall: rcracki_mt
+
+gcovall: DEBUG += -DDEBUG -g -fprofile-arcs -ftest-coverage
+gcovall: rcracki_mt
+
+gprofall: DEBUG += -DDEBUG -g -pg
+gprofall: rcracki_mt
 
 install:
 	install -d $(BIN)

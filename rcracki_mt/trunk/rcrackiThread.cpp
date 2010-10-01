@@ -144,7 +144,6 @@ void rcrackiThread::PreCalculate()
 		t_cwc.HashToIndex(t_nPos);
 		int i;
 		for (i = t_nPos + 1; i <= t_nRainbowChainLen - 2; i++)
-		//for (i = t_nPos + 1; i <= 10; i++)
 		{
 			t_cwc.IndexToPlain();
 			t_cwc.PlainToHash();

@@ -28,10 +28,10 @@
 #include <string>
 #include <map>
 #ifdef _WIN32
-#include <conio.h>
+	#include <conio.h>
 #endif
 //#include "openssl/md4.h"
-#include "time.h"
+#include <time.h>
 #include "signal.h"
 #include "Public.h"
 #include "md4.h"

@@ -34,7 +34,7 @@
 typedef struct 
 {
 	unsigned char m_PlainCharset[255];
-	int m_nPlainCharsetLen;
+	unsigned int m_nPlainCharsetLen;
 	int m_nPlainLenMin;
 	int m_nPlainLenMax;
 	string m_sPlainCharsetName;

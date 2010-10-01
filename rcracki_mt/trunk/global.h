@@ -29,7 +29,7 @@
 
 //#include <stdint.h>
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#define uint64 unsigned __int64
 #else
 	#ifndef u_int64_t
@@ -39,7 +39,7 @@
 	#endif
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#define UINT4 unsigned __int32
 #else
 	#ifndef u_int32_t

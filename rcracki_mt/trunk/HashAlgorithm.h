@@ -58,7 +58,7 @@ void HashHALFLMCHALL(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 void HashNTLMCHALL(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashORACLE(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__GNUC__)
 char *strupr(char *s1);
 #endif
 #endif

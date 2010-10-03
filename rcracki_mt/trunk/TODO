@@ -16,9 +16,6 @@
 OpenBSD threading
 
 misc warnings:
-sha1.cpp:298: warning: this decimal constant is unsigned only in ISO C90
-(above is on 32-bit linux)
-
 /tmp//ccWUTqDK.o(.text+0xcc7): In function `HashORACLE(unsigned char*, int, unsigned char*)':
 : warning: strcpy() is almost always misused, please use strlcpy()
 /usr/lib/libstdc++.so.47.0: warning: strcat() is almost always misused, please use strlcat()

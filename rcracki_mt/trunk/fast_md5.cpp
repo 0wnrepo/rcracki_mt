@@ -10,9 +10,6 @@
  *  - Constants used whenever possible, it's the compiler's job to sort them out
  *  - Padding is done on 4-byte words, and memory copied as last resort.
  *
- * authors have been contacted and the code in this file has been approved
- * for gpl 2/3
- *
  * rcracki_mt is a multithreaded implementation and fork of the original 
  * RainbowCrack
  *

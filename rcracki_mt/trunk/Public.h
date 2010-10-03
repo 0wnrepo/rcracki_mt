@@ -1,7 +1,4 @@
 /*
- * authors have been contacted and the code in this file has been approved
- * for gpl 2/3
- *
  * rcracki_mt is a multithreaded implementation and fork of the original 
  * RainbowCrack
  *
@@ -13,8 +10,7 @@
  *
  * rcracki_mt is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
+ * the Free Software Foundation, version 2 of the License.
  *
  * rcracki_mt is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of

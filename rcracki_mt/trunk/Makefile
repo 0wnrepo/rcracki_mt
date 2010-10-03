@@ -1,6 +1,3 @@
-# authors have been contacted and the code in this file has been approved
-# for gpl 2/3
-#
 # rcracki_mt is a multithreaded implementation and fork of the original 
 # RainbowCrack
 #

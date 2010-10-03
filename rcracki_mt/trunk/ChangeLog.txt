@@ -1,5 +1,10 @@
 [rcracki_mt ChangeLog]
 
+TBD (TBD):
+* fix bug #3050821 from sourceforge - missing break for non x86/x86_64 arch
+* improve hash performance by moving off openssl to the local faster methods
+* sha1 local implementation was *slower* than openssl for x86/x86_64
+
 0.6.4 (05 Jul 2010, 03:12):
 * add -m to allow users to limit memory usage - courtesy of uroskn
 * fix memory code that made incorrect assumptions about the MemoryPool

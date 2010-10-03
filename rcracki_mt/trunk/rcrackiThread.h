@@ -58,8 +58,7 @@ private:
 
 public:
 	rcrackiThread(unsigned char* TargetHash, int thread_id, int nRainbowChainLen, int thread_count, uint64* pStartPosIndexE);
-	rcrackiThread(unsigned char* pHash);
-	rcrackiThread(unsigned char* pHash, bool oldFormat);
+	rcrackiThread(unsigned char* pHash, bool oldFormat = false);
 	rcrackiThread(void);
 	~rcrackiThread(void);
 

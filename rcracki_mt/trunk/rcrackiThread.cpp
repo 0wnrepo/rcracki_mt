@@ -41,10 +41,10 @@ rcrackiThread::rcrackiThread(unsigned char* TargetHash, int thread_id, int nRain
 }
 
 // create job for false alarm checking
-rcrackiThread::rcrackiThread(unsigned char* pHash)
+rcrackiThread::rcrackiThread(unsigned char* pHash, bool oldFormat)
 {
 	falseAlarmChecker = true;
-	falseAlarmCheckerO = false;
+	falseAlarmCheckerO = oldFormat;
 	t_pChainsFound.clear();
 	t_nGuessedPoss.clear();
 	t_pHash = pHash;
@@ -52,20 +52,6 @@ rcrackiThread::rcrackiThread(unsigned char* pHash)
 	t_nFalseAlarm = 0;
 	foundHash = false;
 }
-
-// create job for false alarm checking OLD format
-rcrackiThread::rcrackiThread(unsigned char* pHash, bool oldFormat)
-{
-	falseAlarmChecker = true;
-	falseAlarmCheckerO = true;
-	t_pChainsFoundO.clear();
-	t_nGuessedPoss.clear();
-	t_pHash = pHash;
-	t_nChainWalkStepDueToFalseAlarm = 0;
-	t_nFalseAlarm = 0;
-	foundHash = false;
-}
-
 
 void rcrackiThread::AddAlarmCheck(RainbowChain* pChain, int nGuessedPos)
 {

@@ -250,16 +250,13 @@ void HashMD4(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 
 void HashMD5(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
-	//MD5_NEW(pPlain, nPlainLen, pHash);
 	fast_MD5(pPlain, nPlainLen, pHash);
 }
 void HashDoubleMD5(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
-	//MD5_NEW(pPlain, nPlainLen, pHash);
 	fast_MD5(pPlain, nPlainLen, pHash);
 	unsigned char hash[16];
 	memcpy(hash, pHash, 16);
-	//MD5_NEW(hash, 16, pHash);
 	fast_MD5(hash, 16, pHash);
 }
 
@@ -267,11 +264,8 @@ void HashSHA1(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 {
 	SHA_CTX ctx;
 	SHA1_Init(&ctx);
-	SHA1_Update(&ctx, pPlain, nPlainLen);
+	SHA1_Update(&ctx, (unsigned char *) pPlain, nPlainLen);
 	SHA1_Final(pHash, &ctx);
-
-	SHA1(pPlain, nPlainLen, pHash);
-	//SHA1_NEW(pPlain, nPlainLen, pHash);
 }
 
 /*
@@ -428,7 +422,7 @@ void HashPIX(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 	free (pass);
 }
 
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__GNUC__)
 char *strupr(char *s1)
 {
 	char *p = s1;

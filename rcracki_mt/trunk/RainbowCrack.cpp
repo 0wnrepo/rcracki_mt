@@ -754,13 +754,14 @@ int main(int argc, char* argv[])
 	// Statistics
 	printf("statistics\n");
 	printf("-------------------------------------------------------\n");
-	printf("plaintext found:          %d of %d (%.2f%%)\n", hs.GetStatHashFound(),
+	printf("plaintext found:            %d of %d (%.2f%%)\n", hs.GetStatHashFound(),
 															hs.GetStatHashTotal(),
 															100.0f * hs.GetStatHashFound() / hs.GetStatHashTotal());
-	printf("total disk access time:   %.2f s\n", ce.GetStatTotalDiskAccessTime());
-	printf("total cryptanalysis time: %.2f s\n", ce.GetStatTotalCryptanalysisTime());
-	printf("total chain walk step:    %d\n",     ce.GetStatTotalChainWalkStep());
-	printf("total false alarm:        %d\n",     ce.GetStatTotalFalseAlarm());
+	printf("total disk access time:     %.2f s\n", ce.GetStatTotalDiskAccessTime());
+	printf("total cryptanalysis time:   %.2f s\n", ce.GetStatTotalCryptanalysisTime());
+	printf("total pre-calculation time: %.2f s\n", ce.GetStatTotalPrecalculationTime());
+	printf("total chain walk step:      %d\n",     ce.GetStatTotalChainWalkStep());
+	printf("total false alarm:          %d\n",     ce.GetStatTotalFalseAlarm());
 	printf("total chain walk step due to false alarm: %d\n", ce.GetStatTotalChainWalkStepDueToFalseAlarm());
 //	printf("total chain walk step skipped due to checkpoints: %d\n", ce.GetStatTotalFalseAlarmSkipped()); // Checkpoints not used - yet
 	printf("\n");

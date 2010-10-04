@@ -108,9 +108,15 @@ int tty_getchar();
 void tty_done();
 void tty_init();
 void tty_flush(void);
+// end nmap code
 
+#include <sys/time.h>
+
+#else
+	int gettimeofday( struct timeval *tv, struct timezone *tz );
 #endif
 
+timeval sub_timeofday( timeval tv2, timeval tv );
 
 unsigned int GetFileLen(FILE* file);
 string TrimString(string s);

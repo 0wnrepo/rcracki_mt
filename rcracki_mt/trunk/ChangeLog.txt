@@ -1,6 +1,8 @@
 [rcracki_mt ChangeLog]
 
 TBD (TBD):
+* replaced clock_t usage with gettimeofday
+* add pre-calculation timing per feature request #3025688 from sourceforge
 * fix bug #3050821 from sourceforge - missing break for non x86/x86_64 arch
 * improve hash performance by moving off openssl to the local faster methods
 * sha1 local implementation was *slower* than openssl for x86/x86_64

@@ -24,7 +24,7 @@
  * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#pragma warning(disable : 4786 4267 4018)
 #endif
 
@@ -32,7 +32,8 @@
 
 #include <ctype.h>
 #include <openssl/rand.h>
-#ifdef _WIN32
+
+#if defined(_WIN32) && !defined(__GNUC__)
 	#pragma comment(lib, "libeay32.lib")
 #endif
 
@@ -157,7 +158,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 					if(sCharsetName == vCharsets[m_vCharset.size()].sName)
 					{
 						stCharset tCharset;
-						tCharset.m_nPlainCharsetLen = (int) sCharsetContent.size();							
+						tCharset.m_nPlainCharsetLen = sCharsetContent.size();							
 						memcpy(tCharset.m_PlainCharset, sCharsetContent.c_str(), tCharset.m_nPlainCharsetLen);
 						tCharset.m_sPlainCharsetName = sCharsetName;
 						tCharset.m_sPlainCharsetContent = sCharsetContent;	
@@ -172,7 +173,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 				else if (sCharsetName == sName)
 				{
 					stCharset tCharset;
-					tCharset.m_nPlainCharsetLen = (int) sCharsetContent.size();							
+					tCharset.m_nPlainCharsetLen = sCharsetContent.size();							
 					memcpy(tCharset.m_PlainCharset, sCharsetContent.c_str(), tCharset.m_nPlainCharsetLen);
 					tCharset.m_sPlainCharsetName = sCharsetName;
 					tCharset.m_sPlainCharsetContent = sCharsetContent;							
@@ -408,7 +409,7 @@ void CChainWalkContext::Dump()
 	printf("hash length: %d\n", m_nHashLen);
 
 	printf("plain charset: ");
-	int i;
+	unsigned int i;
 	for (i = 0; i < m_vCharset[0].m_nPlainCharsetLen; i++)
 	{
 		if (isprint(m_vCharset[0].m_PlainCharset[i]))
@@ -455,6 +456,7 @@ void CChainWalkContext::IndexToPlain()
 {
 	int i;
 	m_nPlainLen = 0;
+///*
 	for (i = m_nPlainLenMaxTotal - 1; i >= m_nPlainLenMinTotal - 1; i--)
 	{
 		if (m_nIndex >= m_nPlainSpaceUpToX[i])
@@ -463,6 +465,16 @@ void CChainWalkContext::IndexToPlain()
 			break;
 		}
 	}
+
+	// this is an optimized version of the above
+/*
+	for (i = m_nPlainLenMaxTotal - 1; i >= m_nPlainLenMinTotal - 1
+		&& m_nIndex < m_nPlainSpaceUpToX[i]; i--)
+	{ }
+	
+	m_nPlainLen = i + 1;
+*/
+
 	if(m_nPlainLen == 0)
 		m_nPlainLen = m_nPlainLenMinTotal;
 	uint64 nIndexOfX = m_nIndex - m_nPlainSpaceUpToX[m_nPlainLen - 1];
@@ -491,6 +503,7 @@ void CChainWalkContext::IndexToPlain()
 	// Fast version
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
+		// 0x100000000 = 2^32
 #if defined(_M_X64) || defined(_M_X86)
 		if (nIndexOfX < 0x100000000I64)
 			break;
@@ -522,18 +535,22 @@ void CChainWalkContext::IndexToPlain()
 			if(i < nCharsetLen) // We found the correct charset
 			{
 
-//		m_Plain[i] = m_PlainCharset[nIndexOfX32 % m_vCharset[j].m_nPlainCharsetLen];
+//		m_Plain[i] = m_vCharset[j].m_PlainCharset[nIndexOfX32 % m_vCharset[j].m_nPlainCharsetLen];
 //		nIndexOfX32 /= m_vCharset[j].m_nPlainCharsetLen;
 
-		unsigned int nPlainCharsetLen = m_vCharset[j].m_nPlainCharsetLen;
-		unsigned int nTemp;
-//XXX x86 specific
-#ifdef _WIN32
+
+//	moving nPlainCharsetLen into the asm body and avoiding the extra temp
+//	variable results in a performance gain
+//				unsigned int nPlainCharsetLen = m_vCharset[j].m_nPlainCharsetLen;
+				unsigned int nTemp;
+
+#if defined(_WIN32) && !defined(__GNUC__)
+
 		__asm
 		{
 			mov eax, nIndexOfX32
 			xor edx, edx
-			div nPlainCharsetLen
+			div m_vCharset[j].m_nPlainCharsetLen
 			mov nIndexOfX32, eax
 			mov nTemp, edx
 		}
@@ -545,7 +562,7 @@ void CChainWalkContext::IndexToPlain()
 								"mov %%eax, %0;"
 								"mov %%edx, %1;"
 								: "=m"(nIndexOfX32), "=m"(nTemp)
-								: "m"(nIndexOfX32), "m"(nPlainCharsetLen)
+								: "m"(nIndexOfX32), "m"(m_vCharset[j].m_nPlainCharsetLen)
 								: "%eax", "%edx"
 							 );
 		m_Plain[i] = m_vCharset[j].m_PlainCharset[nTemp];
@@ -583,11 +600,7 @@ string CChainWalkContext::GetPlain()
 	for (i = 0; i < m_nPlainLen; i++)
 	{
 		char c = m_Plain[i];
-		//if (c >= 32 && c <= 126)
-		//if (c >= 32)
-			sRet += c;
-		//else
-		//	sRet += '?';
+		sRet += c;
 	}
 	
 	return sRet;
@@ -597,24 +610,7 @@ string CChainWalkContext::GetBinary()
 {
 	return HexToStr(m_Plain, m_nPlainLen);
 }
-/*
-string CChainWalkContext::GetPlainBinary()
-{
-	string sRet;
-	sRet += GetPlain();
-	int i;
-	for (i = 0; i < m_nPlainLenMax - m_nPlainLen; i++)
-		sRet += ' ';
 
-	sRet += "|";
-
-	sRet += GetBinary();
-	for (i = 0; i < m_nPlainLenMax - m_nPlainLen; i++)
-		sRet += "  ";
-
-	return sRet;
-}
-*/
 string CChainWalkContext::GetHash()
 {
 	return HexToStr(m_Hash, m_nHashLen);

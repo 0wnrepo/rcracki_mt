@@ -62,6 +62,7 @@ private:
 	// Statistics
 	float m_fTotalDiskAccessTime;
 	float m_fTotalCryptanalysisTime;
+	float m_fTotalPrecalculationTime;
 	int m_nTotalChainWalkStep;
 	int m_nTotalFalseAlarm;
 	int m_nTotalChainWalkStepDueToFalseAlarm;
@@ -86,6 +87,7 @@ public:
 	void Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads, uint64 i_maxMem, bool resume, bool bDebug);
 	float GetStatTotalDiskAccessTime();
 	float GetStatTotalCryptanalysisTime();
+	float GetStatTotalPrecalculationTime();
 	int   GetStatTotalChainWalkStep();
 	int   GetStatTotalFalseAlarm();
 	int   GetStatTotalChainWalkStepDueToFalseAlarm();

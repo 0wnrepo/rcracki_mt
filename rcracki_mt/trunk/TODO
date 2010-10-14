@@ -1,10 +1,7 @@
-* linux thread priorities
 * testing/benchmarking suite
 * remove openssl dependencies
-	ChainWalkContext.cpp
-		rand.h
 	HashAlgorithm.cpp
-		des.h
+		des.h - can't use frt upstream as it's BSD licensed ad clause and is GPL incompatible
 		md4.h (fix md4 so it can handle mscache lengths)
 		sha.h (the local sha1 impl is slower than openssl's)
 * more generic method for path seperator than _WIN32 ifdef?

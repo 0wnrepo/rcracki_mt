@@ -31,11 +31,6 @@
 #include "ChainWalkContext.h"
 
 #include <ctype.h>
-#include <openssl/rand.h>
-
-#if defined(_WIN32) && !defined(__GNUC__)
-	#pragma comment(lib, "libeay32.lib")
-#endif
 
 //////////////////////////////////////////////////////////////////////
 
@@ -46,6 +41,7 @@ int CChainWalkContext::m_nPlainLenMinTotal = 0;
 int CChainWalkContext::m_nPlainLenMaxTotal = 0;
 int CChainWalkContext::m_nHybridCharset = 0;
 bool CChainWalkContext::isOldRtFormat = false;
+bool CChainWalkContext::isRti2RtFormat = false;
 vector<stCharset> CChainWalkContext::m_vCharset;
 uint64 CChainWalkContext::m_nPlainSpaceUpToX[MAX_PLAIN_LEN + 1];
 uint64 CChainWalkContext::m_nPlainSpaceTotal;
@@ -284,7 +280,11 @@ bool CChainWalkContext::SetupWithPathName(string sPathName, int& nRainbowChainLe
 		printf("%s is not a rainbow table\n", sPathName.c_str());
 		return false;
 	}
-	if (sPathName.substr(sPathName.size() - 4) == ".rti")
+	if (sPathName.substr(sPathName.size() - 5) == ".rti2")
+	{
+		isRti2RtFormat = true;
+	}
+	else if (sPathName.substr(sPathName.size() - 4) == ".rti")
 	{
 		isOldRtFormat = false;
 	}
@@ -436,12 +436,6 @@ void CChainWalkContext::Dump()
 	printf("\n");
 }
 
-void CChainWalkContext::GenerateRandomIndex()
-{
-	RAND_bytes((unsigned char*)&m_nIndex, 8);
-	m_nIndex = m_nIndex % m_nPlainSpaceTotal;
-}
-
 void CChainWalkContext::SetIndex(uint64 nIndex)
 {
 	m_nIndex = nIndex;
@@ -479,10 +473,10 @@ void CChainWalkContext::IndexToPlain()
 		m_nPlainLen = m_nPlainLenMinTotal;
 	uint64 nIndexOfX = m_nIndex - m_nPlainSpaceUpToX[m_nPlainLen - 1];
 
-// this is the generic code for non x86/x86-64 platforms
-#if !defined(_M_X64) && !defined(_M_X86) && !defined(__i386__) && !defined(__x86_64__)
+// this is the generic code for non ia32 x86 platforms
+#if !defined(_M_X86) && !defined(__i386__)
 	
-	// Slow version
+	// 32-bit/generic version (slow for non 64-bit platforms)
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
 		int nCharsetLen = 0;
@@ -500,11 +494,11 @@ void CChainWalkContext::IndexToPlain()
 #else
 
 
-	// Fast version
+	// Fast ia32 version
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
 		// 0x100000000 = 2^32
-#if defined(_M_X64) || defined(_M_X86)
+#if defined(_M_X86)
 		if (nIndexOfX < 0x100000000I64)
 			break;
 #else
@@ -627,4 +621,9 @@ bool CChainWalkContext::CheckHash(unsigned char* pHash)
 bool CChainWalkContext::isOldFormat()
 {
 	return isOldRtFormat;
+}
+
+bool CChainWalkContext::isRti2Format()
+{
+	return isRti2RtFormat;
 }

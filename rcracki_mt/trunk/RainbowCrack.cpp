@@ -94,6 +94,14 @@ void GetTableList(string sWildCharPathName, vector<string>& vPathName)
 					vPathName.push_back(sPathName);
 				}
 			}
+			if (sName.size()>5) {
+				if (sName.substr(sName.size()-5, 5) == ".rti2" && !(fd.attrib & _A_SUBDIR))
+				{
+					string sPathName = sPath + sName;
+					vPathName.push_back(sPathName);
+				}
+			}
+
 			if (sName != "." && sName != ".." && (fd.attrib & _A_SUBDIR))
 			{
 				string sPath_sub = sPath + sName + '\\';
@@ -151,6 +159,13 @@ void GetTableList(string sWildCharPathName, vector<string>& vPathName)
 					//string sPathName_sub = sPath_sub + sName_sub;
 					vPathName.push_back(sWildCharPathName);
 					//printf("sPathName_sub: %s\n", sPathName_sub.c_str());
+				}
+			}
+			if ( sWildCharPathName.size() > 5 )
+			{
+				if ( sWildCharPathName.substr( sWildCharPathName.size() - 5, 5 ) == ".rti2" )
+				{
+					vPathName.push_back( sWildCharPathName );
 				}
 			}
 		}

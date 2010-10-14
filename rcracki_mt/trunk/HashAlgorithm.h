@@ -28,7 +28,7 @@
 
 void HashLM(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashNTLM(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
-void HashMD2(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
+//void HashMD2(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashMD4(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashMD5(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashDoubleMD5(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);

@@ -23,12 +23,13 @@
 SHELL = /bin/sh
 BIN = $(DESTDIR)/usr/bin
 CC = g++
-OPTIMIZATION = -O3
-CFLAGS = -Wall -std=c++98 $(OPTIMIZATION) -c $(DEBUG)
-LFLAGS = -Wall -std=c++98 $(OPTIMIZATION) $(DEBUG)
+OPTIMIZATION = -O3 -mtune=native
+CFLAGS = -Wall -ansi $(OPTIMIZATION) -c $(DEBUG)
+LFLAGS = -Wall -ansi -filt $(OPTIMIZATION) $(DEBUG)
 LIBS = -lcrypto -lpthread
-OBJS = ChainWalkContext.o ChainWalkSet.o CrackEngine.o fast_md5.o HashAlgorithm.o HashRoutine.o HashSet.o lm2ntlm.o md4.o MemoryPool.o Public.o RainbowCrack.o rcrackiThread.o 
+OBJS = BaseRTReader.o ChainWalkContext.o ChainWalkSet.o CrackEngine.o fast_md5.o HashAlgorithm.o HashRoutine.o HashSet.o lm2ntlm.o md4.o MemoryPool.o Public.o RainbowCrack.o rcrackiThread.o RTI2Reader.o
 #sha1.o
+WARNALL = -Wextra -Wunused-macros -Wunsafe-loop-optimizations -Wundef -Woverlength-strings -Wdisabled-optimization -Wformat-extra-args -Wformat-security -Winline
 
 OSNAME = $(shell uname -s)
 STRIP = $(shell which strip) --strip-debug
@@ -45,15 +46,49 @@ rcracki_mt: $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) $(LIBS) -o rcracki_mt
 
 clean:
-	rm -f *.o
-	rm -f rcracki_mt
-	rm -f *.gcno *.gcda *.gcov
+	rm -f *.o *.gcno *.gcda *.gcov rcracki_mt
 
 debug: DEBUG += -DDEBUG -g
 debug: rcracki_mt
 
-debugall: DEBUG += -DDEBUG -g -ansi -Wextra -Wunused-macros -Wunsafe-loop-optimizations -Wundef -Woverlength-strings -Wdisabled-optimization -Wformat-extra-args -Wformat-security
+debugall: DEBUG += -DDEBUG -g $(WARNALL)
 debugall: rcracki_mt
+
+dumpasmall: DEBUG += -S -fverbose-asm
+dumpasmall: rcracki_mt
+
+dumpasmprofileuseall: DEBUG += -S -fverbose-asm
+dumpasmprofileuseall: profileuseall
+
+debugprofileuseall: DEBUG += -fprofile-use
+debugprofileuseall: debugall
+
+m32: DEBUG += -m32
+m32: rcracki_mt
+
+m32debug: DEBUG += -m32
+m32debug: debug
+
+m32debugall: DEBUG += -m32
+m32debugall: debugll
+
+m32dumpasmall: DEBUG += -m32
+m32dumpasmall: dumpasmall
+
+m32dumpasmprofileuseall: DEBUG += -S -fverbose-asm -m32
+m32dumpasmprofileuseall: profileuseall
+
+m32profilegenall: DEBUG += -m32
+m32profilegenall: profilegenall
+
+m32profileuseall: DEBUG += -m32
+m32profileuseall: profileuseall
+
+profilegenall: DEBUG += -fprofile-generate $(WARNALL)
+profilegenall: rcracki_mt
+
+profileuseall: DEBUG += -fprofile-use $(WARNALL)
+profileuseall: rcracki_mt
 
 gcovall: DEBUG += -DDEBUG -g -fprofile-arcs -ftest-coverage
 gcovall: rcracki_mt
@@ -73,13 +108,16 @@ strip:
 uninstall:
 	rm -f $(BIN)/rcracki_mt
 
+BaseRTReader.o: BaseRTReader.h BaseRTReader.cpp
+	 $(CC) $(CFLAGS) BaseRTReader.cpp
+
 ChainWalkContext.o: ChainWalkContext.h ChainWalkContext.cpp HashRoutine.h Public.h
 	 $(CC) $(CFLAGS) ChainWalkContext.cpp
 
 ChainWalkSet.o: Public.h ChainWalkSet.h ChainWalkSet.cpp
 	 $(CC) $(CFLAGS) ChainWalkSet.cpp
 
-CrackEngine.o: CrackEngine.h CrackEngine.cpp Public.h HashSet.h ChainWalkContext.h MemoryPool.h ChainWalkSet.h rcrackiThread.h
+CrackEngine.o: CrackEngine.h CrackEngine.cpp Public.h HashSet.h ChainWalkContext.h MemoryPool.h ChainWalkSet.h rcrackiThread.h RTI2Reader.h
 	 $(CC) $(CFLAGS) CrackEngine.cpp
 
 fast_md5.o: fast_md5.h fast_md5.cpp global.h
@@ -112,6 +150,9 @@ RainbowCrack.o: RainbowCrack.cpp CrackEngine.h lm2ntlm.h
 
 rcrackiThread.o: rcrackiThread.h rcrackiThread.cpp ChainWalkContext.h Public.h HashSet.h
 	 $(CC) $(CFLAGS) rcrackiThread.cpp
+
+RTI2Reader.o: RTI2Reader.h RTI2Reader.cpp BaseRTReader.h
+	$(CC) $(CFLAGS) RTI2Reader.cpp
 
 #sha1.o: sha1.h sha1.cpp global.h
 #	 $(CC) $(CFLAGS) sha1.cpp

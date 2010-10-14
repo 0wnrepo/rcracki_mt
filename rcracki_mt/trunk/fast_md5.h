@@ -29,7 +29,6 @@
  * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef FAST_MD5_H
 #define FAST_MD5_H
 
@@ -37,8 +36,6 @@
 
 #define MD5_DIGEST_LENGTH 16
 
-void
-fast_MD5(unsigned char *pData, int len, unsigned char *pDigest);
-
+void fast_MD5(unsigned char *pData, int len, unsigned char *pDigest);
 
 #endif // FAST_MD5_H

@@ -29,6 +29,11 @@
 #endif
 
 #include "CrackEngine.h"
+#include "RTI2Reader.h"
+
+#ifndef _WIN32
+	#include <sys/resource.h>
+#endif
 
 CCrackEngine::CCrackEngine()
 {
@@ -298,15 +303,28 @@ void CCrackEngine::SearchTableChunkOld(RainbowChainO* pChain, int nRainbowChainL
 	vector<rcrackiThread*> threadPool;
 	vector<pthread_t> pThreads;
 
+	#ifndef _WIN32
+		/*
+		 * On linux you cannot set the priority of a thread in the non real time
+		 * scheduling groups.  You can set the priority of the process.  In
+		 * windows BELOW_NORMAL represents a 1/8th drop in priority and this would
+		 * be 20 * 1/8 on linux or about 2.5
+		 */
+		setpriority( PRIO_PROCESS, 0, 2 );
+	#endif
+
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 	#ifdef _WIN32
 	sched_param param;
+	/*
+	 * windows scheduling is 0 to 32 (low to high) with 8 as normal and 7 as
+	 * BELOW_NORMAL
+	 */
 	param.sched_priority = THREAD_PRIORITY_BELOW_NORMAL;
 	pthread_attr_setschedparam (&attr, &param);
 	#endif
-	// XXX else set it to 5 or something (for linux)?
 
 	bool pausing = false;
 
@@ -614,6 +632,16 @@ void CCrackEngine::SearchTableChunk(RainbowChain* pChain, int nRainbowChainLen, 
 
 	vector<rcrackiThread*> threadPool;
 	vector<pthread_t> pThreads;
+	
+	#ifndef _WIN32
+		/*
+		 * On linux you cannot set the priority of a thread in the non real time
+		 * scheduling groups.  You can set the priority of the process.  In
+		 * windows BELOW_NORMAL represents a 1/8th drop in priority and this would
+		 * be 20 * 1/8 on linux or about 2.5
+		 */
+		setpriority( PRIO_PROCESS, 0, 2 );
+	#endif
 
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -973,6 +1001,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 	{
 		// File length check
 		bool doOldFormat = CChainWalkContext::isOldFormat();
+		bool doRti2Format = CChainWalkContext::isRti2Format();
 		UINT4 sizeOfChain;
 		bool fVerified = false;
 		UINT4 nFileLen = GetFileLen(file);
@@ -983,7 +1012,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			sizeOfChain = 8;
 
 		//if (nFileLen % 8 != 0 || nRainbowChainCount * 8 != nFileLen)
-		if (nFileLen % sizeOfChain != 0 || nRainbowChainCount * sizeOfChain != nFileLen)
+		if ( (nFileLen % sizeOfChain != 0 || nRainbowChainCount * sizeOfChain != nFileLen) && doRti2Format == false )
 			printf("file length mismatch\n");
 		else
 		{
@@ -996,10 +1025,24 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			if (debug) printf("Debug: Saving %u bytes of memory for chainwalkset.\n", bytesForChainWalkSet);
 
 			uint64 nAllocatedSize;
-			
-			if (doOldFormat)
+
+			if (doRti2Format || doOldFormat)
 			{
-				if (debug) printf("Debug: This is a table in the old .rt format.\n");
+				RTI2Reader *pReader = NULL;
+
+				if(doRti2Format) {
+					pReader = new RTI2Reader(sPathName);
+
+				}
+
+				if (debug)
+				{
+					if ( doOldFormat )
+						printf("Debug: This is a table in the old .rt format.\n");
+					else if ( doRti2Format )
+						printf("Debug: This is a table in the .rti2 format.\n");
+				}
+
 				static CMemoryPool mp(bytesForChainWalkSet, debug, maxMem);
 				RainbowChainO* pChain = (RainbowChainO*)mp.Allocate(nFileLen, nAllocatedSize);
 				if (debug) printf("Allocated %llu bytes, filelen %lu\n", nAllocatedSize, (unsigned long)nFileLen);
@@ -1016,8 +1059,21 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 						// Load table chunk
 						if (debug) printf("reading...\n");
+						unsigned int nDataRead = 0;
 						gettimeofday( &tv, NULL );
-						unsigned int nDataRead = fread(pChain, 1, nAllocatedSize, file);
+						if ( doRti2Format )
+						{
+							nDataRead = nAllocatedSize / 16;
+							pReader->ReadChains(nDataRead, pChain);
+							nDataRead *= 8; // Convert from chains read to bytes
+
+							if ( nDataRead == 0 ) // No more data
+								break;
+						}
+						else
+						{
+							nDataRead = fread(pChain, 1, nAllocatedSize, file);
+						}
 						gettimeofday( &tv2, NULL );
 						final = sub_timeofday( tv2, tv );
 

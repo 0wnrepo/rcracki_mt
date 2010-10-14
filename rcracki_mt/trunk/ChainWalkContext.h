@@ -48,7 +48,7 @@ private:
 	static HASHROUTINE m_pHashRoutine;							// Configuration
 	static int m_nHashLen;										// Configuration
 	static bool isOldRtFormat;
-
+	static bool isRti2RtFormat;
 	static vector<stCharset> m_vCharset;
 	static int m_nPlainLenMinTotal, m_nPlainLenMaxTotal;
 	static uint64 m_nPlainSpaceUpToX[MAX_PLAIN_LEN + 1];		// Performance consideration
@@ -83,9 +83,9 @@ public:
 	static int GetRainbowTableIndex();
 	static void Dump();
 	static bool isOldFormat();
+	static bool isRti2Format();
 
 
-	void GenerateRandomIndex();
 	void SetIndex(uint64 nIndex);
 	void SetHash(unsigned char* pHash);		// The length should be m_nHashLen
 

@@ -38,7 +38,7 @@
 #include "fast_md5.h"
 #include "md4.h"
 //#include "sha1.h"
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#pragma comment(lib, "libeay32.lib")
 #endif
 

@@ -1,6 +1,7 @@
 [rcracki_mt ChangeLog]
 
 0.6.5 (TBD):
+* code changes to allow building via mingw and avoid VC++
 * linux thread priority set to nice value of 2
 * rti2 support
 * replaced clock_t usage with gettimeofday

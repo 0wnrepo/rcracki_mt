@@ -32,7 +32,7 @@
  * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#pragma warning(disable : 4786 4267 4018)
 #endif
 
@@ -49,7 +49,7 @@
 	#include <dirent.h>
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#pragma comment(lib, "libeay32.lib")
 #endif
 
@@ -63,7 +63,7 @@ void GetTableList(string sWildCharPathName, vector<string>& vPathName)
 	string sPath;
 	int n = sWildCharPathName.find_last_of('\\');
 
-	if (n == (sWildCharPathName.size() - 1))
+	if ( (unsigned)n == (sWildCharPathName.size() - 1))
 	{
 		sWildCharPathName = sWildCharPathName.substr(0, n);
 		n = sWildCharPathName.find_last_of('\\');

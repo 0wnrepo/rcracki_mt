@@ -109,11 +109,14 @@ void tty_done();
 void tty_init();
 void tty_flush(void);
 // end nmap code
+#endif
 
-#include <sys/time.h>
-
-#else
+#if defined(_WIN32) && !defined(__GNUC__)
 	int gettimeofday( struct timeval *tv, struct timezone *tz );
+#endif
+
+#if !defined(_WIN32) || defined(__GNUC__)
+	#include <sys/time.h>
 #endif
 
 timeval sub_timeofday( timeval tv2, timeval tv );

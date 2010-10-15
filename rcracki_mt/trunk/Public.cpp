@@ -22,13 +22,17 @@
  * along with rcracki_mt.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	#pragma warning(disable : 4786 4267 4018)
 #endif
 
 #include "Public.h"
 
 #ifdef _WIN32
+	#include <windows.h>
+#endif
+
+#if defined(_WIN32) && !defined(__GNUC__)
 	#include <windows.h>
 	#include <time.h>
 
@@ -301,7 +305,7 @@ string HexToStr(const unsigned char* pData, int nLen)
 
 uint64 GetAvailPhysMemorySize()
 {
-#ifdef _WIN32
+#if defined(_WIN32)
 	MEMORYSTATUS ms;
 	GlobalMemoryStatus(&ms);
 	return ms.dwAvailPhys;

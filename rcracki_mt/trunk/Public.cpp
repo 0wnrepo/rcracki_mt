@@ -7,7 +7,7 @@
  * Copyright 2009, 2010 Daniël Niggebrugge <niggebrugge@fox-it.com>
  * Copyright 2009, 2010 James Nobis <frt@quelrod.net>
  *
- * This file is part of racrcki_mt.
+ * This file is part of rcracki_mt.
  *
  * rcracki_mt is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -207,7 +207,7 @@ bool ReadLinesFromFile(string sPathName, vector<string>& vLine)
 		}
 
 		int n;
-		while ((n = content.find("\n", 0)) != -1)
+		while ((n = content.find("\n", 0)) != string::npos)
 		{
 			string line = content.substr(0, n);
 			line = TrimString(line);
@@ -245,8 +245,8 @@ bool SeperateString(string s, string sSeperator, vector<string>& vPart)
 	unsigned int i;
 	for (i = 0; i < sSeperator.size(); i++)
 	{
-		int n = s.find(sSeperator[i]);
-		if (n != -1)
+		int n;
+		if ( (n = s.find(sSeperator[i])) != string::npos)
 		{
 			vPart.push_back(s.substr(0, n));
 			s = s.substr(n + 1);
@@ -335,6 +335,7 @@ string GetApplicationPath()
 	GetModuleFileName(NULL, fullPath, FILENAME_MAX);
 #else
 	char szTmp[32];
+	// XXX linux/proc file system dependen
 	sprintf(szTmp, "/proc/%d/exe", getpid());
 	int bytes = readlink(szTmp, fullPath, FILENAME_MAX);
 	if(bytes >= 0)

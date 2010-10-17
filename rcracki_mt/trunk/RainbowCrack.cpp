@@ -16,7 +16,7 @@
  * 2009-01-04 - <james.dickson@comhem.se> - Slightly modified (or "fulhack" as 
  * we say in sweden)  to support cain .lst files.
  *
- * This file is part of racrcki_mt.
+ * This file is part of rcracki_mt.
  *
  * rcracki_mt is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

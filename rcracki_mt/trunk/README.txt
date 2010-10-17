@@ -92,7 +92,8 @@ faster and smaller. Rcracki also supported hybrid tables.
 Daniël Niggebrugge <neinbrucke> further enhanced this version and made it multi threaded, creating rcracki_mt. More 
 features were added over time, making it less of an unofficial version with every release.
 
-James Nobis - <quel> is making improvements on the *nix compatibility.
+James Nobis - <quel> improved *nix compatibility and 64-bit compatability and
+continues work on the project.
 
 
 SUPPORTED HASH ALGORITHMS
@@ -108,22 +109,22 @@ SUPPORTED PLATFORMS
 ================
 Rcracki_mt is released both as win32 binary and as source package. Rcracki_mt should work on any Microsoft Windows system, but is only tested on a 32 bit Windows XP. 
 
-The source should work on Linux versions.  It has been tested on:
-32-bit Ubuntu 8.10 (Intrepid Ibex)
-32-bit Debian GNU/Linux 5.0 (Lenny)
-64-bit Debian GNU/Linux 5.0 (Lenny)
+The source should work on Linux distributions.  It has been tested on:
+32-bit Ubuntu
+32-bit Debian GNU/Linux
+64-bit Debian GNU/Linux
 
 The source should also work on other platforms and has been tested on:
-32-bit MacOSX (10.5)
+32-bit MacOSX
 
-32-bit FreeBSD (7.2)
-64-bit FreeBSD (7.2)
-32-bit NetBSD (5.0)
-32-bit OpenBSD (4.5) - you must install and use eg++ (g++ 4.2 from ports)
-64-bit OpenBSD (4.5)
+32-bit FreeBSD
+64-bit FreeBSD
+32-bit NetBSD
+32-bit OpenBSD - you must install and use eg++ from ports
+64-bit OpenBSD
 
 Only compilation has been tested on:
-64-bit MacOSX (10.6)
+64-bit MacOSX
 
 Please note that to compile under the BSDs you must use gmake.
 

@@ -35,15 +35,18 @@ void HashDoubleMD5(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashSHA1(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 //void HashRIPEMD160(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash);
+
 //****************************************************************************
 // MySQL Password Hashing
 //****************************************************************************
+
 void HashMySQL323(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 void HashMySQLSHA1(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 
 //****************************************************************************
 // Cisco PIX Password Hashing
 //****************************************************************************
+
 void HashPIX(unsigned char* pPlain, int nPlainLen, unsigned char* pHash);
 
 //****************************************************************************

@@ -32,7 +32,9 @@ OBJS = BaseRTReader.o ChainWalkContext.o ChainWalkSet.o CrackEngine.o fast_md5.o
 WARNALL = -Wextra -Wunused-macros -Wunsafe-loop-optimizations -Wundef -Woverlength-strings -Wdisabled-optimization -Wformat-extra-args -Wformat-security -Winline
 
 OSNAME = $(shell uname -s)
-STRIP = $(shell which strip) --strip-debug
+# apparently --string-debug works on Linux, OpenBSD, NetBSD, and FreeBSD
+# but not on OSX so to the short name -S
+STRIP = $(shell which strip) -S
 
 #LIBS_Darwin = -lcrypto
 LIBS_NetBSD = -ldes

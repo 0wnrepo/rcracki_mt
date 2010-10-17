@@ -9,20 +9,20 @@
 OpenBSD threading
 
 misc warnings:
-/tmp//ccWUTqDK.o(.text+0xcc7): In function `HashORACLE(unsigned char*, int, unsigned char*)':
-: warning: strcpy() is almost always misused, please use strlcpy()
-/usr/lib/libstdc++.so.47.0: warning: strcat() is almost always misused, please use strlcat()
+################################################################################
+OpenBSD x86_64
 
-/tmp//ccmjYwuS.o(.text+0xbf9): In function `CChainWalkSet::CheckOrRotatePreCalcFile()':
+/usr/local/lib/gcc/amd64-unknown-openbsd4.5/4.2.0/../../../libestdc++.so.8.0: warning: vsprintf() is often misused, please use vsnprintf()
+/usr/local/lib/gcc/amd64-unknown-openbsd4.5/4.2.0/../../../libestdc++.so.8.0: warning: strcpy() is almost always misused, please use strlcpy()
+/usr/local/lib/gcc/amd64-unknown-openbsd4.5/4.2.0/../../../libestdc++.so.8.0: warning: strcat() is almost always misused, please use strlcat()
+ChainWalkSet.o(.text+0x121): In function `CChainWalkSet::CheckOrRotatePreCalcFile()':
 : warning: sprintf() is often misused, please use snprintf()
 
-ChainWalkSet.cpp: In member function 'bool CChainWalkSet::FindInFile(long long
-unsigned int*, unsigned char*, int)':
-ChainWalkSet.cpp:154: warning: 'offset' may be used uninitialized in this
-function
+################################################################################
+only on win32 mingw32
 
 ChainWalkContext.cpp: In member function 'void CChainWalkContext::HashToIndex(int)':
-ChainWalkContext.cpp:544: warning: dereferencing type-punned pointer will break strict-aliasing rules
+ChainWalkContext.cpp:574: warning: dereferencing type-punned pointer will break strict-aliasing rules
 
 HashAlgorithm.cpp: In function 'void HashPIX(unsigned char*, int, unsigned char*)':
-HashAlgorithm.cpp:396: warning: dereferencing type-punned pointer will break strict-aliasing rules
+HashAlgorithm.cpp:406: warning: dereferencing type-punned pointer will break strict-aliasing rules

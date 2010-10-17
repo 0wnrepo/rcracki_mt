@@ -37,7 +37,11 @@ CMemoryPool::CMemoryPool(unsigned int bytesSaved, bool bDebug, uint64 maxMem)
 
 	if ( debug )
 	{
-		printf( "Debug: nAvailPhys: %llu\n", nAvailPhys );
+		#ifdef _WIN32
+			printf( "Debug: nAvailPhys: %I64u\n", nAvailPhys );
+		#else
+			printf( "Debug: nAvailPhys: %llu\n", nAvailPhys );
+		#endif
 		printf( "Debug: bytesSaved: %d\n", bytesSaved );
 	}
 

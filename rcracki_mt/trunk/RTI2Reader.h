@@ -49,12 +49,12 @@ class RTI2Reader : BaseRTReader
 {
 private:
 	FILE *m_pFile;
-	unsigned int m_chainPosition;
+	UINT4 m_chainPosition;
 	unsigned char *m_pPos, *m_pChainPos;
 	static RTI2Header *m_pHeader;
 	unsigned char *m_pIndex;
-	unsigned int m_chainsizebytes;
-	unsigned int m_indexrowsizebytes;
+	UINT4 m_chainsizebytes;
+	UINT4 m_indexrowsizebytes;
 	
 
 public:

@@ -175,13 +175,13 @@ void HashORACLE(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 	DES_key_schedule ks1,ks2;
 	unsigned char deskey_fixed[]={ 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef};
 	int i,j;
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	strcpy_s(username, sizeof(username), "SYS");
 #else
 	strcpy(username, "SYS");
 #endif
 	int userlen = 3;
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 	_strupr((char*) pPlain);
 #else
 	strupr((char*) pPlain);

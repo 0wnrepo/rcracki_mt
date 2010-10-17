@@ -970,12 +970,12 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 	// FileName
 #ifdef _WIN32
-	int nIndex = sPathName.find_last_of('\\');
+	string::size_type nIndex = sPathName.find_last_of('\\');
 #else
-	int nIndex = (int) sPathName.find_last_of('/');
+	string::size_type nIndex = sPathName.find_last_of('/');
 #endif
 	string sFileName;
-	if (nIndex != -1)
+	if (nIndex != string::npos)
 		sFileName = sPathName.substr(nIndex + 1);
 	else
 		sFileName = sPathName;
@@ -1045,7 +1045,12 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 				static CMemoryPool mp(bytesForChainWalkSet, debug, maxMem);
 				RainbowChainO* pChain = (RainbowChainO*)mp.Allocate(nFileLen, nAllocatedSize);
-				if (debug) printf("Allocated %llu bytes, filelen %lu\n", nAllocatedSize, (unsigned long)nFileLen);
+				#ifdef _WIN32
+					if (debug) printf("Allocated %I64u bytes, filelen %lu\n", nAllocatedSize, (unsigned long)nFileLen);
+				#else
+					if (debug) printf("Allocated %llu bytes, filelen %lu\n", nAllocatedSize, (unsigned long)nFileLen);
+				#endif
+
 				if (pChain != NULL)
 				{
 					nAllocatedSize = nAllocatedSize / sizeOfChain * sizeOfChain;		// Round to sizeOfChain boundary
@@ -1163,7 +1168,11 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 						//printf("index nSize: %d\n", nSize);
 						//pIndex = (IndexChain*)new unsigned char[nSize];
 						IndexChain *pIndex = (IndexChain*)mpIndex.Allocate(nFileLenIndex, nAllocatedSizeIndex);
-						if (debug) printf("Debug: Allocated %llu bytes for index with filelen %u\n", nAllocatedSizeIndex, nFileLenIndex);
+						#ifdef _WIN32
+							if (debug) printf("Debug: Allocated %I64u bytes for index with filelen %u\n", nAllocatedSizeIndex, nFileLenIndex);
+						#else
+							if (debug) printf("Debug: Allocated %llu bytes for index with filelen %u\n", nAllocatedSizeIndex, nFileLenIndex);
+						#endif
 				
 						static CMemoryPool mp(bytesForChainWalkSet + nAllocatedSizeIndex, debug, maxMem);
 						
@@ -1176,7 +1185,11 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 							while ( (unsigned long)ftell(fIndex) != nFileLenIndex )	// Index chunk read loop
 							{
 								// Load index chunk
+#ifdef _WIN32
+								if (debug) printf("Debug: Setting index to 0x00 in memory, %I64u bytes\n", nAllocatedSizeIndex);
+#else
 								if (debug) printf("Debug: Setting index to 0x00 in memory, %llu bytes\n", nAllocatedSizeIndex);
+#endif
 								memset(pIndex, 0x00, nAllocatedSizeIndex);
 								printf("reading index... ");
 								gettimeofday( &tv, NULL );
@@ -1199,7 +1212,11 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 								//RainbowChain* pChain = (RainbowChain*)mp.Allocate(nFileLen, nAllocatedSize);
 								RainbowChain* pChain = (RainbowChain*)mp.Allocate(nCoveredRainbowTableChains * sizeOfChain, nAllocatedSize);
-								if (debug) printf("Debug: Allocated %llu bytes for %u chains, filelen %lu\n", nAllocatedSize, nCoveredRainbowTableChains, (unsigned long)nFileLen);
+								#ifdef _WIN32
+									if (debug) printf("Debug: Allocated %I64u bytes for %u chains, filelen %lu\n", nAllocatedSize, nCoveredRainbowTableChains, (unsigned long)nFileLen);
+								#else
+									if (debug) printf("Debug: Allocated %llu bytes for %u chains, filelen %lu\n", nAllocatedSize, nCoveredRainbowTableChains, (unsigned long)nFileLen);
+								#endif
 
 								if (pChain != NULL && nAllocatedSize > 0)
 								{

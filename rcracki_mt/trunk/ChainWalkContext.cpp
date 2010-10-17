@@ -264,11 +264,11 @@ bool CChainWalkContext::SetupWithPathName(string sPathName, int& nRainbowChainLe
 	// something like lm_alpha#1-7_0_100x16_test.rt
 
 #ifdef _WIN32
-	int nIndex = sPathName.find_last_of('\\');
+	string::size_type nIndex = sPathName.find_last_of('\\');
 #else
-	int nIndex = (int) sPathName.find_last_of('/');
+	string::size_type nIndex = sPathName.find_last_of('/');
 #endif
-	if (nIndex != -1)
+	if (nIndex != string::npos)
 		sPathName = sPathName.substr(nIndex + 1);
 
 	if (sPathName.size() < 3)

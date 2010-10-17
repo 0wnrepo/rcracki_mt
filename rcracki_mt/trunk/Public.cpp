@@ -165,8 +165,8 @@ bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset)
 	if(sCharset.substr(0, 6) != "hybrid") // Not hybrid charset
 		return false;
 
-	UINT4 nEnd = (int) sCharset.rfind(')');
-	UINT4 nStart = (int) sCharset.rfind('(');
+	string::size_type nEnd = sCharset.rfind(')');
+	string::size_type nStart = (int) sCharset.rfind('(');
 	string sChar = sCharset.substr(nStart + 1, nEnd - nStart - 1);
 	vector<string> vParts;
 	SeperateString(sChar, ",", vParts);
@@ -206,7 +206,7 @@ bool ReadLinesFromFile(string sPathName, vector<string>& vLine)
 				content[i] = '\n';
 		}
 
-		int n;
+		string::size_type n;
 		while ((n = content.find("\n", 0)) != string::npos)
 		{
 			string line = content.substr(0, n);
@@ -245,7 +245,7 @@ bool SeperateString(string s, string sSeperator, vector<string>& vPart)
 	unsigned int i;
 	for (i = 0; i < sSeperator.size(); i++)
 	{
-		int n;
+		string::size_type n;
 		if ( (n = s.find(sSeperator[i])) != string::npos)
 		{
 			vPart.push_back(s.substr(0, n));
@@ -344,12 +344,12 @@ string GetApplicationPath()
 
 	string sApplicationPath = fullPath;
 #ifdef _WIN32
-	int nIndex = sApplicationPath.find_last_of('\\');
+	string::size_type nIndex = sApplicationPath.find_last_of('\\');
 #else
-	int nIndex = sApplicationPath.find_last_of('/');
+	string::size_type nIndex = sApplicationPath.find_last_of('/');
 #endif
 
-	if (nIndex != -1)
+	if ( nIndex != string::npos )
 		sApplicationPath = sApplicationPath.substr(0, nIndex+1);
 
 	//printf ("\n\nDebug: The application directory is %s\n", sApplicationPath.c_str());

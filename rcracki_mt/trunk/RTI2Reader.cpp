@@ -59,8 +59,8 @@ RTI2Reader::RTI2Reader(string Filename)
 	memcpy(m_pHeader, m_pIndex, sizeof(RTI2Header));
 	m_pHeader->m_cppos = (unsigned int*)(m_pIndex + 8);
 	m_pHeader->prefixstart = *(uint64*)(m_pIndex + 8 + (m_pHeader->rti_cplength * 4));
-	m_chainsizebytes = ceil((float)(m_pHeader->rti_startptlength + m_pHeader->rti_endptlength + m_pHeader->rti_cplength) / 8); // Get the size of each chain in bytes
-	m_indexrowsizebytes = ceil((float)m_pHeader->rti_index_numchainslength / 8);
+	m_chainsizebytes = (UINT4)ceil((float)(m_pHeader->rti_startptlength + m_pHeader->rti_endptlength + m_pHeader->rti_cplength) / 8); // Get the size of each chain in bytes
+	m_indexrowsizebytes = (UINT4)ceil((float)m_pHeader->rti_index_numchainslength / 8);
 	// Check the filesize
 	fseek(m_pFile, 0, SEEK_END);
 	len = ftell(m_pFile);
@@ -144,7 +144,11 @@ int RTI2Reader::ReadChains(unsigned int &numChains, RainbowChainO *pData)
 		// Load the ending point prefix	
 		pData[chainsProcessed].nIndexE = ( m_pHeader->prefixstart + indexRow ) << m_pHeader->rti_endptlength;
 		// Append the ending point suffix
+#if defined(_WIN32) && !defined(__GNUC__)
+		pData[chainsProcessed].nIndexE |= (chainrow & (0xFFFFFFFFFFFFFFFFI64 >> m_pHeader->rti_cplength)) >> m_pHeader->rti_startptlength;
+#else
 		pData[chainsProcessed].nIndexE |= (chainrow & (0xFFFFFFFFFFFFFFFFllu >> m_pHeader->rti_cplength)) >> m_pHeader->rti_startptlength;
+#endif
 		//pData[chainsProcessed].nCheckPoint = (chainrow >> m_pHeader->rti_startptlength + m_pHeader->rti_endptlength);
 		curRowPosition++;
 		chainsProcessed++;

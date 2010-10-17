@@ -61,15 +61,15 @@ void GetTableList(string sWildCharPathName, vector<string>& vPathName)
 	//vPathName.clear();
 
 	string sPath;
-	int n = sWildCharPathName.find_last_of('\\');
+	string::size_type n = sWildCharPathName.find_last_of('\\');
 
-	if ( (unsigned)n == (sWildCharPathName.size() - 1))
+	if ( n == (sWildCharPathName.size() - 1) )
 	{
 		sWildCharPathName = sWildCharPathName.substr(0, n);
 		n = sWildCharPathName.find_last_of('\\');
 	}
 
-	if (n != -1)
+	if (n != string::npos)
 		sPath = sWildCharPathName.substr(0, n + 1);
 
 	_finddata_t fd;

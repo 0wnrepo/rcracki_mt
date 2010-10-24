@@ -469,10 +469,10 @@ void CChainWalkContext::IndexToPlain()
 		m_nPlainLen = m_nPlainLenMinTotal;
 	uint64 nIndexOfX = m_nIndex - m_nPlainSpaceUpToX[m_nPlainLen - 1];
 
-// this is the generic code for non ia32 x86 platforms
-#if !defined(_M_X86) && !defined(__i386__)
+// this is the generic code for non x86/x86_64 platforms
+#if !defined(_M_X64) && !defined(_M_IX86) && !defined(__i386__) && !defined(__x86_64__)
 	
-	// 32-bit/generic version (slow for non 64-bit platforms)
+	// generic version (slow for non 64-bit platforms and gcc < 4.5.x)
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
 		int nCharsetLen = 0;
@@ -487,14 +487,14 @@ void CChainWalkContext::IndexToPlain()
 			}
 		}
 	}
-#else
 
+#elif defined(_M_X64) || defined(_M_IX86) || defined(__i386__) || defined(__x86_64__)
 
 	// Fast ia32 version
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
 		// 0x100000000 = 2^32
-#ifdef _M_X86
+#ifdef _M_IX86
 		if (nIndexOfX < 0x100000000I64)
 			break;
 #else
@@ -536,11 +536,14 @@ void CChainWalkContext::IndexToPlain()
 
 #if defined(_WIN32) && !defined(__GNUC__)
 
+		// VC++ still needs this
+		unsigned int nPlainCharsetLen = m_vCharset[j].m_nPlainCharsetLen;
+
 		__asm
 		{
 			mov eax, nIndexOfX32
 			xor edx, edx
-			div m_vCharset[j].m_nPlainCharsetLen
+			div nPlainCharsetLen
 			mov nIndexOfX32, eax
 			mov nTemp, edx
 		}

@@ -1,6 +1,6 @@
 [rcracki_mt ChangeLog]
 
-0.6.5 (TBD):
+0.6.5 (24 Oct 2010, 18:21:25):
 * code changes to allow building via mingw and avoid VC++
 * linux thread priority set to nice value of 2
 * rti2 support

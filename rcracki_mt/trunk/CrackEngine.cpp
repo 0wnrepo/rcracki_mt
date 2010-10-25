@@ -1064,16 +1064,14 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 						// Load table chunk
 						if (debug) printf("reading...\n");
-						unsigned int nDataRead = 0;
+						unsigned int nDataRead = 0, nDataToRead = 0;
 						gettimeofday( &tv, NULL );
 						if ( doRti2Format )
 						{
-							nDataRead = nAllocatedSize / 16;
+							nDataToRead = nAllocatedSize / 16;
+							nDataRead = nDataToRead;
 							pReader->ReadChains(nDataRead, pChain);
 							nDataRead *= 8; // Convert from chains read to bytes
-
-							if ( nDataRead == 0 ) // No more data
-								break;
 						}
 						else
 						{
@@ -1138,6 +1136,13 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 						// Already finished?
 						if (!hs.AnyHashLeftWithLen(CChainWalkContext::GetHashLen()))
 							break;
+
+						// finished the current table
+						if( doRti2Format && nDataToRead > (nDataRead / 8) )
+						{
+							delete pReader;
+							break;
+						}
 					}
 				}
 				else

@@ -45,11 +45,15 @@ RTI2Reader::RTI2Reader(string Filename)
 	}
 	m_chainPosition = 0;
 
-	unsigned int len = GetFileLen(pFileIndex);
+	long len = GetFileLen(pFileIndex);
 	fseek(pFileIndex, 0, SEEK_SET);
 
-	m_pIndex = new unsigned char[len];
-	if(fread(m_pIndex, 1, len, pFileIndex) != len)
+	m_pIndex = new (nothrow) unsigned char[len];
+	if(m_pIndex == NULL) {
+		printf("Error allocating %ld MB memory for index in RTI2Reader::RTI2Reader()", len / (1024 * 1024));
+		exit(-2);
+	}
+	if(fread(m_pIndex, 1, len, pFileIndex) != (unsigned long)len)
 	{
 		printf("Error while reading index file");
 		exit(1);
@@ -59,15 +63,15 @@ RTI2Reader::RTI2Reader(string Filename)
 	memcpy(m_pHeader, m_pIndex, sizeof(RTI2Header));
 	m_pHeader->m_cppos = (unsigned int*)(m_pIndex + 8);
 	m_pHeader->prefixstart = *(uint64*)(m_pIndex + 8 + (m_pHeader->rti_cplength * 4));
-	m_chainsizebytes = (UINT4)ceil((float)(m_pHeader->rti_startptlength + m_pHeader->rti_endptlength + m_pHeader->rti_cplength) / 8); // Get the size of each chain in bytes
-	m_indexrowsizebytes = (UINT4)ceil((float)m_pHeader->rti_index_numchainslength / 8);
+	m_chainsizebytes = (uint32)ceil((float)(m_pHeader->rti_startptlength + m_pHeader->rti_endptlength + m_pHeader->rti_cplength) / 8); // Get the size of each chain in bytes
+	m_indexrowsizebytes = (uint32)ceil((float)m_pHeader->rti_index_numchainslength / 8);
 	// Check the filesize
 	fseek(m_pFile, 0, SEEK_END);
 	len = ftell(m_pFile);
 	fseek(m_pFile, 0, SEEK_SET);
 	if(len % m_chainsizebytes > 0)
 	{
-		printf("Invalid filesize %u\n", len);
+		printf("Invalid filesize %ld\n", len);
 		return;
 	}
 	
@@ -83,7 +87,7 @@ RTI2Reader::~RTI2Reader(void)
 
 unsigned int RTI2Reader::GetChainsLeft()
 {
-	int len = GetFileLen(m_pFile);
+	long len = GetFileLen(m_pFile);
 	return len / m_chainsizebytes - m_chainPosition;
 }
 

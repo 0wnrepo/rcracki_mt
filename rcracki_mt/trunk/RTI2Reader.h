@@ -3,7 +3,6 @@
  * RainbowCrack
  *
  * Copyright 2010 Martin Westergaard Jørgensen <martinwj2005@gmail.com>
- * Copyright 2010 Daniël Niggebrugge <niggebrugge@fox-it.com>
  * Copyright 2010 James Nobis <frt@quelrod.net>
  *
  * This file is part of rcracki_mt.
@@ -49,18 +48,18 @@ class RTI2Reader : BaseRTReader
 {
 private:
 	FILE *m_pFile;
-	UINT4 m_chainPosition;
+	uint32 m_chainPosition;
 	unsigned char *m_pPos, *m_pChainPos;
 	static RTI2Header *m_pHeader;
 	unsigned char *m_pIndex;
-	UINT4 m_chainsizebytes;
-	UINT4 m_indexrowsizebytes;
+	uint32 m_chainsizebytes;
+	uint32 m_indexrowsizebytes;
 	
 
 public:
 	RTI2Reader(string Filename);
 	~RTI2Reader(void);
-	int ReadChains(unsigned int &numChains, RainbowChainO *pData);
+	int ReadChains(uint32 &numChains, RainbowChainO *pData);
 	unsigned int GetChainsLeft();
 	static RTI2Header *GetHeader() { return m_pHeader; }
 };

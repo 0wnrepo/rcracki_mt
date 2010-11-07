@@ -42,7 +42,7 @@ void CHashSet::AddHash(string sHash)
 	if (sHash == "aad3b435b51404ee")
 		return;
 
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (m_vHash[i] == sHash)
@@ -72,7 +72,7 @@ string CHashSet::GetHashInfo(int i)
 
 bool CHashSet::AnyhashLeft()
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (!m_vFound[i])
@@ -84,7 +84,7 @@ bool CHashSet::AnyhashLeft()
 
 bool CHashSet::AnyHashLeftWithLen(int nLen)
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (!m_vFound[i])
@@ -99,7 +99,7 @@ void CHashSet::GetLeftHashWithLen(vector<string>& vHash, int nLen)
 {
 	vHash.clear();
 
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (!m_vFound[i])
@@ -110,7 +110,7 @@ void CHashSet::GetLeftHashWithLen(vector<string>& vHash, int nLen)
 
 void CHashSet::AddHashInfo(string sHash, bool found, string sPlain, string sBinary)
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (m_vHash[i] == sHash)
@@ -125,7 +125,7 @@ void CHashSet::AddHashInfo(string sHash, bool found, string sPlain, string sBina
 
 void CHashSet::SetPlain(string sHash, string sPlain, string sBinary)
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (m_vHash[i] == sHash)
@@ -147,7 +147,7 @@ bool CHashSet::GetPlain(string sHash, string& sPlain, string& sBinary)
 		return true;
 	}
 
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (m_vHash[i] == sHash)
@@ -167,7 +167,7 @@ bool CHashSet::GetPlain(string sHash, string& sPlain, string& sBinary)
 int CHashSet::GetStatHashFound()
 {
 	int nHashFound = 0;
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < m_vHash.size(); i++)
 	{
 		if (m_vFound[i])

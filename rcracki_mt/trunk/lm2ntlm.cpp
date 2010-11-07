@@ -50,7 +50,7 @@ bool LM2NTLMcorrector::LMPasswordCorrectUnicode(string hexPassword, unsigned cha
 {
 	string sPlain = "";
 
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < hexPassword.size() / 2; i++)
 	{
 		string sSub = hexPassword.substr(i * 2, 2);

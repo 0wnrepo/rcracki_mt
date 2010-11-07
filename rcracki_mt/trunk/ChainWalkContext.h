@@ -85,7 +85,6 @@ public:
 	static bool isOldFormat();
 	static bool isRti2Format();
 
-
 	void SetIndex(uint64 nIndex);
 	void SetHash(unsigned char* pHash);		// The length should be m_nHashLen
 

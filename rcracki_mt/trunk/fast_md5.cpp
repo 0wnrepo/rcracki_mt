@@ -245,7 +245,7 @@
 
 
 #ifndef MD5_pad_w1
-static inline UINT4 MD5_pad_w1(UINT4 data)
+static inline uint32 MD5_pad_w1(uint32 data)
 {
 // XXX x86 specific
 	__asm__ (
@@ -263,7 +263,7 @@ static inline UINT4 MD5_pad_w1(UINT4 data)
 #endif
 
 #ifndef MD5_pad_w3
-static inline UINT4 MD5_pad_w3(UINT4 data)
+static inline uint32 MD5_pad_w3(uint32 data)
 {
 // XXX x86 specific
 	__asm__ (
@@ -279,7 +279,7 @@ static inline UINT4 MD5_pad_w3(UINT4 data)
 #endif
 
 
-static inline void MD5_copy_pad_block(UINT4 *dData, UINT4 *wIn, int blocklen, int len)
+static inline void MD5_copy_pad_block(uint32 *dData, uint32 *wIn, int blocklen, int len)
 {
 	register int cl;
 
@@ -313,7 +313,7 @@ static inline void MD5_copy_pad_block(UINT4 *dData, UINT4 *wIn, int blocklen, in
 // fast initializer array
 //__attribute__((aligned(16)))
 //__declspec(align(16))
-static const UINT4 CC[4] = {Ca, Cb, Cc, Cd};
+static const uint32 CC[4] = {Ca, Cb, Cc, Cd};
 
 
 
@@ -323,13 +323,13 @@ static const UINT4 CC[4] = {Ca, Cb, Cc, Cd};
  */
 void fast_MD5(unsigned char *pData, int len, unsigned char *pDigest)
 {
-	#define wIn		((UINT4 *)pData)
-	#define wOut	((UINT4 *)pDigest)
+	#define wIn		((uint32 *)pData)
+	#define wOut	((uint32 *)pDigest)
 
-	register UINT4 a;
-	register UINT4 b;
-	register UINT4 c;
-	register UINT4 d;
+	register uint32 a;
+	register uint32 b;
+	register uint32 c;
+	register uint32 d;
 
 	switch (len) {
 		case 0:
@@ -383,7 +383,7 @@ void fast_MD5(unsigned char *pData, int len, unsigned char *pDigest)
 	}
 
 	// data block used for padding
-	UINT4 dData[16];
+	uint32 dData[16];
 
 	if (len < 56) {
 		// 16 < length < 56
@@ -404,7 +404,7 @@ void fast_MD5(unsigned char *pData, int len, unsigned char *pDigest)
 	} else {
 		// len >= 56
 
-		#define wIn		((UINT4 *)pData)
+		#define wIn		((uint32 *)pData)
 
 		// original len
 		int tlen = len;
@@ -479,7 +479,7 @@ void fast_MD5(unsigned char *pData, int len, unsigned char *pDigest)
 			);
 
 			#undef 	wIn
-			#define wIn		((UINT4 *)pData)
+			#define wIn		((uint32 *)pData)
 			return;
 		}
 	}

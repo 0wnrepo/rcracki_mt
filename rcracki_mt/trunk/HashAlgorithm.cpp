@@ -3,7 +3,7 @@
  * RainbowCrack
  *
  * Copyright (C) Zhu Shuanglei <shuanglei@hotmail.com>
- * Copyright Martin Westergaard Jørgensen <martinwj2005@gmail.com>
+ * Copyright 2009, 2010 Martin Westergaard Jørgensen <martinwj2005@gmail.com>
  * Copyright 2009, 2010 Daniël Niggebrugge <niggebrugge@fox-it.com>
  * Copyright 2009, 2010 James Nobis <frt@quelrod.net>
  *
@@ -296,11 +296,7 @@ void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash)
 		unicode_user[i*2] = username[i];
 		unicode_user[i*2+1] = 0x00;
 	}
-	/*
-	MD4_Init(&ctx);
-	MD4_Update(&ctx,unicode_pwd,nPlainLen*2);
-	MD4_Final(final1,&ctx);
-	*/
+
 	MD4_NEW( (unsigned char*)unicode_pwd, nPlainLen*2, final1 );
 
 	MD4_Init(&ctx);
@@ -314,7 +310,7 @@ void HashMSCACHE(unsigned char *pPlain, int nPlainLen, unsigned char* pHash)
 	{
 		unicode_pwd[i*2] = pPlain[i];
 		unicode_pwd[i*2+1] = 0x00;
-	}*/	
+	}*/
 	/*
 	unsigned char *buf = (unsigned char*)calloc(MSCACHE_HASH_SIZE + nSaltLength, sizeof(unsigned char));	
 	HashNTLM(pPlain, nPlainLen, buf, NULL);
@@ -396,10 +392,6 @@ void HashPIX(unsigned char* pPlain, int nPlainLen, unsigned char* pHash)
 
 	memcpy (pass,pPlain,nPlainLen);
 
-	/*MD5_CTX ctx;
-	MD5_Init(&ctx);
-	MD5_Update(&ctx, (unsigned char *) pass, MD5_DIGEST_LENGTH);
-	MD5_Final(final, &ctx);*/
 	fast_MD5((unsigned char *) pass, MD5_DIGEST_LENGTH, final);
 
 	char* p = (char*) temp;

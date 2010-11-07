@@ -82,12 +82,12 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	if (length > 16)
 		return;
 
-	UINT4 Message_Block_Index    = 0;
+	uint32 Message_Block_Index    = 0;
 
 	union
 	{
 		unsigned char Message_Block[64];
-		UINT4 Message_Block_W[16];
+		uint32 Message_Block_W[16];
 	};
 
 	Message_Block_W[0] = 0x00000000;
@@ -96,7 +96,7 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	Message_Block_W[3] = 0x00000000;
 	Message_Block_W[4] = 0x00000000;
 
-	UINT4 Intermediate_Hash[5] = { H0, H1, H2, H3, H4 };
+	uint32 Intermediate_Hash[5] = { H0, H1, H2, H3, H4 };
 	
 	memcpy(Message_Block, pData, length);
 	Message_Block_Index += length;
@@ -104,12 +104,12 @@ void SHA1_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	//padMessage
 	Message_Block[length] = 0x80;
 	
-	UINT4 W_15 = length << 3;
+	uint32 W_15 = length << 3;
 
 	int           t;                 /* Loop counter                */
-	UINT4      temp;              /* Temporary word value        */
-	UINT4      W[80];             /* Word sequence               */
-	UINT4      A, B, C, D, E;     /* Word buffers                */
+	uint32      temp;              /* Temporary word value        */
+	uint32      W[80];             /* Word sequence               */
+	uint32      A, B, C, D, E;     /* Word buffers                */
 
     /*
      *  Initialize the first 16 words in the array W

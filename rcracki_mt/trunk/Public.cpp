@@ -129,11 +129,13 @@ timeval sub_timeofday( timeval tv2, timeval tv )
 	return final;
 }
 
-unsigned int GetFileLen(FILE* file)
+long GetFileLen(FILE* file)
 {
-	long int pos = ftell(file);
+	// XXX on x86/x86_64 linux returns long
+	// 32-bit this is a problem if the file is > (2^31-1) bytes
+	long pos = ftell(file);
 	fseek(file, 0, SEEK_END);
-	long int len = ftell(file);
+	long len = ftell(file);
 	fseek(file, pos, SEEK_SET);
 
 	return len;
@@ -170,7 +172,7 @@ bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset)
 	string sChar = sCharset.substr(nStart + 1, nEnd - nStart - 1);
 	vector<string> vParts;
 	SeperateString(sChar, ",", vParts);
-	for(UINT4 i = 0; i < vParts.size(); i++)
+	for(uint32 i = 0; i < vParts.size(); i++)
 	{
 		tCharset stCharset;
 		vector<string> vParts2;
@@ -184,6 +186,55 @@ bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset)
 	}
 	return true;
 }
+#ifdef BOINC
+bool boinc_ReadLinesFromFile(string sPathName, vector<string>& vLine)
+{
+	vLine.clear();
+	char input_path[512];
+	boinc_resolve_filename(sPathName.c_str(), input_path, sizeof(input_path));
+	FILE *file = boinc_fopen(input_path, "rb");
+	if (!file) {
+		fprintf(stderr,
+			"Couldn't find input file, resolved name %s.\n", input_path
+		);
+		exit(-1);
+	}
+
+	if (file != NULL)
+	{
+		long len = GetFileLen(file);
+		char* data = new char[len + 1];
+		fread(data, 1, len, file);
+		data[len] = '\0';
+		string content = data;
+		content += "\n";
+		delete [] data;
+
+		unsigned int i;
+		for (i = 0; i < content.size(); i++)
+		{
+			if (content[i] == '\r')
+				content[i] = '\n';
+		}
+
+		string::size_type n;
+		while ((n = content.find("\n", 0)) != string::npos)
+		{
+			string line = content.substr(0, n);
+			line = TrimString(line);
+			if (line != "")
+				vLine.push_back(line);
+			content = content.substr(n + 1);
+		}
+
+		fclose(file);
+	}
+	else
+		return false;
+
+	return true;
+}
+#endif
 bool ReadLinesFromFile(string sPathName, vector<string>& vLine)
 {
 	vLine.clear();
@@ -191,7 +242,7 @@ bool ReadLinesFromFile(string sPathName, vector<string>& vLine)
 	FILE* file = fopen(sPathName.c_str(), "rb");
 	if (file != NULL)
 	{
-		unsigned int len = GetFileLen(file);
+		long len = GetFileLen(file);
 		char* data = new char[len + 1];
 		fread(data, 1, len, file);
 		data[len] = '\0';
@@ -303,9 +354,9 @@ string HexToStr(const unsigned char* pData, int nLen)
 	return sRet;
 }
 
-uint64 GetAvailPhysMemorySize()
+unsigned long GetAvailPhysMemorySize()
 {
-#if defined(_WIN32)
+#ifdef _WIN32
 	MEMORYSTATUS ms;
 	GlobalMemoryStatus(&ms);
 	return ms.dwAvailPhys;
@@ -335,10 +386,11 @@ string GetApplicationPath()
 	GetModuleFileName(NULL, fullPath, FILENAME_MAX);
 #else
 	char szTmp[32];
-	// XXX linux/proc file system dependen
+	// XXX linux/proc file system dependent
 	sprintf(szTmp, "/proc/%d/exe", getpid());
 	int bytes = readlink(szTmp, fullPath, FILENAME_MAX);
-	if(bytes >= 0)
+
+	if( bytes >= 0 )
 		fullPath[bytes] = '\0';
 #endif
 
@@ -352,13 +404,12 @@ string GetApplicationPath()
 	if ( nIndex != string::npos )
 		sApplicationPath = sApplicationPath.substr(0, nIndex+1);
 
-	//printf ("\n\nDebug: The application directory is %s\n", sApplicationPath.c_str());
 	return sApplicationPath;
 }
 
 void ParseHash(string sHash, unsigned char* pHash, int& nHashLen)
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < sHash.size() / 2; i++)
 	{
 		string sSub = sHash.substr(i * 2, 2);

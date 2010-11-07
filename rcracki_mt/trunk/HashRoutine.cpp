@@ -71,7 +71,7 @@ void CHashRoutine::AddHashRoutine(string sHashRoutineName, HASHROUTINE pHashRout
 string CHashRoutine::GetAllHashRoutineName()
 {
 	string sRet;
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < vHashRoutineName.size(); i++)
 		sRet += vHashRoutineName[i] + " ";
 
@@ -80,7 +80,7 @@ string CHashRoutine::GetAllHashRoutineName()
 
 void CHashRoutine::GetHashRoutine(string sHashRoutineName, HASHROUTINE& pHashRoutine, int& nHashLen)
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < vHashRoutineName.size(); i++)
 	{
 		if (sHashRoutineName == vHashRoutineName[i])

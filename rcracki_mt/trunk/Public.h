@@ -109,6 +109,7 @@ void tty_done();
 void tty_init();
 void tty_flush(void);
 // end nmap code
+
 #endif
 
 #if defined(_WIN32) && !defined(__GNUC__)
@@ -121,14 +122,15 @@ void tty_flush(void);
 
 timeval sub_timeofday( timeval tv2, timeval tv );
 
-unsigned int GetFileLen(FILE* file);
+long GetFileLen(FILE* file);
 string TrimString(string s);
+bool boinc_ReadLinesFromFile(string sPathName, vector<string>& vLine);
 bool ReadLinesFromFile(string sPathName, vector<string>& vLine);
 bool SeperateString(string s, string sSeperator, vector<string>& vPart);
 string uint64tostr(uint64 n);
 string uint64tohexstr(uint64 n);
 string HexToStr(const unsigned char* pData, int nLen);
-uint64 GetAvailPhysMemorySize();
+unsigned long GetAvailPhysMemorySize();
 string GetApplicationPath();
 void ParseHash(string sHash, unsigned char* pHash, int& nHashLen);
 bool GetHybridCharsets(string sCharset, vector<tCharset>& vCharset);

@@ -42,11 +42,11 @@
 		(a) = ROTATE_LEFT ((a), (s)); \
 	}
 #define GG(a, b, c, d, x, s) { \
-		(a) += G ((b), (c), (d)) + (x) + (UINT4)0x5a827999; \
+		(a) += G ((b), (c), (d)) + (x) + (uint32)0x5a827999; \
 		(a) = ROTATE_LEFT ((a), (s)); \
 	}
 #define HH(a, b, c, d, x, s) { \
-		(a) += H ((b), (c), (d)) + (x) + (UINT4)0x6ed9eba1; \
+		(a) += H ((b), (c), (d)) + (x) + (uint32)0x6ed9eba1; \
 		(a) = ROTATE_LEFT ((a), (s)); \
 	}
 #define S11 3
@@ -66,8 +66,8 @@
 void MD4_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 {
 	// access data as 4-byte word
-	#define	uData 				((UINT4 *)pData)
-	#define	uDigest				((UINT4 *)pDigest)
+	#define	uData 				((uint32 *)pData)
+	#define	uDigest				((uint32 *)pDigest)
 
 	// pad word and append bit at appropriate location
 	#define MD4_pad_w0()		(0x00000080)
@@ -76,12 +76,12 @@ void MD4_NEW( unsigned char * pData, int length, unsigned char * pDigest)
 	#define MD4_pad_w3(data)	(((data) & 0x00FFFFFF) | 0x80000000)
 
 	// For the hash working space
-	//__attribute__((aligned(16))) UINT4 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	//__declspec(align(16)) UINT4 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	UINT4 data[MD4_DIGEST_LENGTH] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	//__attribute__((aligned(16))) uint32 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	//__declspec(align(16)) uint32 data[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	uint32 data[MD4_DIGEST_LENGTH] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 	// For the output result
-	UINT4 a,b,c,d;
+	uint32 a,b,c,d;
 
 	switch (length)
 	{

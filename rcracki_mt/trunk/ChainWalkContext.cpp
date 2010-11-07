@@ -83,14 +83,19 @@ bool CChainWalkContext::LoadCharset(string sName)
 	bool readCharset = false;
 	vector<string> vLine;
 
-	if ( ReadLinesFromFile("charset.txt", vLine) )
-		readCharset = true;
-	else if ( ReadLinesFromFile(GetApplicationPath() + "charset.txt", vLine) )
-		readCharset = true;
+	#ifdef BOINC
+		if ( boinc_ReadLinesFromFile( "charset.txt", vLine ) )
+			readCharset = true;
+	#else
+		if ( ReadLinesFromFile("charset.txt", vLine) )
+			readCharset = true;
+		else if ( ReadLinesFromFile(GetApplicationPath() + "charset.txt", vLine) )
+			readCharset = true;
+	#endif
 
-	if (readCharset)
+	if ( readCharset )
 	{
-		UINT4 i;
+		uint32 i;
 		for (i = 0; i < vLine.size(); i++)
 		{
 			// Filter comment
@@ -107,7 +112,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 								
 				// sCharsetName charset check
 				bool fCharsetNameCheckPass = true;
-				UINT4 j;
+				uint32 j;
 				for (j = 0; j < sCharsetName.size(); j++)
 				{
 					if (   !isalpha(sCharsetName[j])
@@ -178,6 +183,7 @@ bool CChainWalkContext::LoadCharset(string sName)
 	}
 	else
 		printf("can't open charset configuration file\n");
+
 	return false;
 }
 
@@ -218,7 +224,7 @@ bool CChainWalkContext::SetPlainCharset(string sCharsetName, int nPlainLenMin, i
 	m_nPlainLenMaxTotal = 0;
 	m_nPlainLenMinTotal = 0;
 	uint64 nTemp = 1;
-	UINT4 j, k = 1;
+	uint32 j, k = 1;
 	for(j = 0; j < m_vCharset.size(); j++)
 	{
 		int i;
@@ -476,7 +482,7 @@ void CChainWalkContext::IndexToPlain()
 	for (i = m_nPlainLen - 1; i >= 0; i--)
 	{
 		int nCharsetLen = 0;
-		for(UINT4 j = 0; j < m_vCharset.size(); j++)
+		for(uint32 j = 0; j < m_vCharset.size(); j++)
 		{
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset
@@ -503,7 +509,7 @@ void CChainWalkContext::IndexToPlain()
 #endif
 
 		int nCharsetLen = 0;
-		for(UINT4 j = 0; j < m_vCharset.size(); j++)
+		for(uint32 j = 0; j < m_vCharset.size(); j++)
 		{
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset
@@ -515,11 +521,11 @@ void CChainWalkContext::IndexToPlain()
 		}
 	}
 
-	UINT4 nIndexOfX32 = (UINT4)nIndexOfX;
+	uint32 nIndexOfX32 = (uint32)nIndexOfX;
 	for (; i >= 0; i--)
 	{
 		int nCharsetLen = 0;
-		for(UINT4 j = 0; j < m_vCharset.size(); j++)
+		for(uint32 j = 0; j < m_vCharset.size(); j++)
 		{
 			nCharsetLen += m_vCharset[j].m_nPlainLenMax;
 			if(i < nCharsetLen) // We found the correct charset
@@ -528,14 +534,12 @@ void CChainWalkContext::IndexToPlain()
 //		m_Plain[i] = m_vCharset[j].m_PlainCharset[nIndexOfX32 % m_vCharset[j].m_nPlainCharsetLen];
 //		nIndexOfX32 /= m_vCharset[j].m_nPlainCharsetLen;
 
-
 //	moving nPlainCharsetLen into the asm body and avoiding the extra temp
 //	variable results in a performance gain
 //				unsigned int nPlainCharsetLen = m_vCharset[j].m_nPlainCharsetLen;
 				unsigned int nTemp;
 
 #if defined(_WIN32) && !defined(__GNUC__)
-
 		// VC++ still needs this
 		unsigned int nPlainCharsetLen = m_vCharset[j].m_nPlainCharsetLen;
 

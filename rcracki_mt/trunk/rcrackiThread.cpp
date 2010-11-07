@@ -139,7 +139,7 @@ void rcrackiThread::PreCalculate()
 
 void rcrackiThread::CheckAlarm()
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < t_pChainsFound.size(); i++)
 	{
 		RainbowChain* t_pChain = t_pChainsFound[i];
@@ -179,7 +179,7 @@ void rcrackiThread::CheckAlarm()
 
 void rcrackiThread::CheckAlarmO()
 {
-	UINT4 i;
+	uint32 i;
 	for (i = 0; i < t_pChainsFoundO.size(); i++)
 	{
 		RainbowChainO* t_pChain = t_pChainsFoundO[i];

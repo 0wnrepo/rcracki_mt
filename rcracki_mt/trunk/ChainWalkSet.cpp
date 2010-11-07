@@ -67,7 +67,7 @@ string CChainWalkSet::CheckOrRotatePreCalcFile()
 		sprintf(sPreCalcFileName, "%s.%d", sPrecalcPathName.c_str(), preCalcPart);
 		string sReturnPreCalcPath(sPreCalcFileName);
 
-		unsigned int fileLen = 0;
+		long fileLen = 0;
 
 		FILE* file = fopen(sReturnPreCalcPath.c_str(), "ab");
 		if(file!=NULL)

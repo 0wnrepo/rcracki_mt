@@ -1,0 +1,21 @@
+Windows users
+Extract the binary archive to a directory and setup is complete.
+
+If you wish to build from source you can either use VC++ or MSYS/mingw.  You will need both openssl and pthreads includes and libraries.
+
+*nix users
+All systems will need the includes and libraries for openssl and pthreads.  Depending upon your system and package manager they will be named something similar to libssl-dev and libc6-dev.
+
+Runtime performance is best when built using gcc 4.4.x or 4.5.x.
+
+Linux users
+run make and you should be finished
+
+*BSD users
+You must use gmake instead of make at the current time.
+
+Mac OSX users
+Depending upon your version and installed dev tools make may be sufficient but if it fails then run gmake.
+
+Linux binary builds/packages
+https://build.opensuse.org/package/show?package=rcracki&project=home%3Aquelrod is the head/trunk build and you may look for derived packages named similar to the release names.

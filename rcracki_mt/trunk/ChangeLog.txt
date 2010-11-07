@@ -1,5 +1,10 @@
 [rcracki_mt ChangeLog]
 
+0.6.5.2 (06 Nov 2010, 20:40:05):
+* rti2 fixes part 2
+* UINT4 -> uint32
+* memory long/unsigned cleanup
+
 0.6.5.1 (25 Oct 2010, 15:50:10):
 * rti2 fixes courtesy of PowerBlade
 

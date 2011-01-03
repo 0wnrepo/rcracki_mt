@@ -60,7 +60,7 @@ public:
 	RTI2Reader(string Filename);
 	~RTI2Reader(void);
 	int ReadChains(uint32 &numChains, RainbowChainO *pData);
-	unsigned int GetChainsLeft();
+	uint32 GetChainsLeft();
 	static RTI2Header *GetHeader() { return m_pHeader; }
 };
 

@@ -1,3 +1,4 @@
+* make use of prefix index for searching tables - decrease i/o
 * testing/benchmarking suite
 * remove openssl dependencies
 	HashAlgorithm.cpp

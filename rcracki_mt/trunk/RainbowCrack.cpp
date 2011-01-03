@@ -720,10 +720,9 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
-	// (Over)write session data if we are not resuming
-	if (!resumeSession)
+	else
 	{
+	// (Over)write session data if we are not resuming
 		FILE* file = fopen(sSessionPathName.c_str(), "w");
 		string buffer = "";
 
@@ -775,11 +774,11 @@ int main(int argc, char* argv[])
 	printf("total disk access time:     %.2f s\n", ce.GetStatTotalDiskAccessTime());
 	printf("total cryptanalysis time:   %.2f s\n", ce.GetStatTotalCryptanalysisTime());
 	printf("total pre-calculation time: %.2f s\n", ce.GetStatTotalPrecalculationTime());
-	printf("total chain walk step:      %d\n",     ce.GetStatTotalChainWalkStep());
-// XXX: NEXT	printf("total chain walk step:      %llu\n",     ce.GetStatTotalChainWalkStep());
+//	printf("total chain walk step:      %d\n",     ce.GetStatTotalChainWalkStep());
+	printf("total chain walk step:      %llu\n",     ce.GetStatTotalChainWalkStep());
 	printf("total false alarm:          %d\n",     ce.GetStatTotalFalseAlarm());
-	printf("total chain walk step due to false alarm: %d\n", ce.GetStatTotalChainWalkStepDueToFalseAlarm());
-//	XXX: NEXT printf("total chain walk step due to false alarm: %llu\n", ce.GetStatTotalChainWalkStepDueToFalseAlarm());
+//	printf("total chain walk step due to false alarm: %d\n", ce.GetStatTotalChainWalkStepDueToFalseAlarm());
+	printf("total chain walk step due to false alarm: %llu\n", ce.GetStatTotalChainWalkStepDueToFalseAlarm());
 //	printf("total chain walk step skipped due to checkpoints: %d\n", ce.GetStatTotalFalseAlarmSkipped()); // Checkpoints not used - yet
 	printf("\n");
 

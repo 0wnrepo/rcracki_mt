@@ -121,6 +121,7 @@ rcrackiThread::~rcrackiThread(void)
 
 void rcrackiThread::PreCalculate()
 {
+	//XXX is this correct for multiple threads?
 	for (t_nPos = t_nRainbowChainLen - 2 - t_ID; t_nPos >= 0; t_nPos -= t_count)
 	{
 		t_cwc.SetHash(t_TargetHash);

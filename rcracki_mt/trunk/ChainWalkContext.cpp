@@ -553,15 +553,11 @@ void CChainWalkContext::IndexToPlain()
 		}
 		m_Plain[i] = m_vCharset[j].m_PlainCharset[nTemp];
 #else
-		__asm__ __volatile__ (	"mov %2, %%eax;"
-								"xor %%edx, %%edx;"
+		__asm__ __volatile__ ("xor %%edx, %%edx;"
 								"divl %3;"
-								"mov %%eax, %0;"
-								"mov %%edx, %1;"
-								: "=m"(nIndexOfX32), "=m"(nTemp)
-								: "m"(nIndexOfX32), "m"(m_vCharset[j].m_nPlainCharsetLen)
-								: "%eax", "%edx"
-							 );
+								: "=a"(nIndexOfX32), "=d"(nTemp)
+								: "a"(nIndexOfX32), "rm"(m_vCharset[j].m_nPlainCharsetLen)
+								: );
 		m_Plain[i] = m_vCharset[j].m_PlainCharset[nTemp];
 #endif
 		break;

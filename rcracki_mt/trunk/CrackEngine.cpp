@@ -999,6 +999,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 	FILE* file = fopen(sPathName.c_str(), "rb");
 	if (file != NULL)
 	{
+		// XXX file type detection code needs a serious overhaul
 		// File length check
 		bool doOldFormat = CChainWalkContext::isOldFormat();
 		bool doRti2Format = CChainWalkContext::isRti2Format();
@@ -1011,7 +1012,6 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 		else
 			sizeOfChain = 8;
 
-		//if (nFileLen % 8 != 0 || nRainbowChainCount * 8 != nFileLen)
 		if ( ( (unsigned long)nFileLen % sizeOfChain != 0 || nRainbowChainCount * sizeOfChain != (unsigned long)nFileLen) && doRti2Format == false )
 			printf("file length mismatch\n");
 		else
@@ -1030,10 +1030,7 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 			{
 				RTI2Reader *pReader = NULL;
 
-				if(doRti2Format) {
-					pReader = new RTI2Reader(sPathName);
-
-				}
+				if(doRti2Format)
 
 				if (debug)
 				{
@@ -1045,11 +1042,11 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 
 				static CMemoryPool mp(bytesForChainWalkSet, debug, maxMem);
 				RainbowChainO* pChain = NULL;
-				if(doRti2Format) {
+				if(doRti2Format)
 					pChain = (RainbowChainO*)mp.Allocate(pReader->GetChainsLeft() * 16, nAllocatedSize);
-				} else {
+				else
 					pChain = (RainbowChainO*)mp.Allocate(nFileLen, nAllocatedSize);
-				}
+
 				#if defined(_WIN32) && !defined(__GNUC__)
 					if (debug) printf("Allocated %I64 bytes, filelen %ld\n", nAllocatedSize, nFileLen);
 				#else
@@ -1091,11 +1088,12 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 						printf("%u bytes read, disk access time: %.2f s\n", nDataRead, fTime);
 						m_fTotalDiskAccessTime += fTime;
 
-						int nRainbowChainCountRead = nDataRead / 16;
+						int nRainbowChainCountRead;
 
-						if(doRti2Format) {
+						if(doRti2Format)
 							nRainbowChainCountRead = nDataRead / 8;
-						}
+						else
+							nRainbowChainCountRead = nDataRead / 16;
 
 						// Verify table chunk
 						if (!fVerified)
@@ -1241,7 +1239,6 @@ void CCrackEngine::SearchRainbowTable(string sPathName, CHashSet& hs)
 								{
 									nAllocatedSize = nAllocatedSize / sizeOfChain * sizeOfChain;		// Round to sizeOfChain boundary
 
-									//fseek(file, 0, SEEK_SET);
 									//bool fVerified = false;
 									uint32 nProcessedChains = 0;
 									while ( ftell(file) != nFileLen 
@@ -1373,6 +1370,7 @@ void CCrackEngine::Run(vector<string> vPathName, CHashSet& hs, int i_maxThreads,
 	// Reset statistics
 	ResetStatistics();
 
+	// XXX it's not like the STL has a sort method...
 	// Sort vPathName (CChainWalkSet need it)
 	uint32 i, j;
 	for (i = 0; i < vPathName.size() - 1; i++)
@@ -1435,8 +1433,7 @@ float CCrackEngine::GetStatTotalPrecalculationTime()
 	return m_fTotalPrecalculationTime;
 }
 
-// XXX: NEXT uint64
-int CCrackEngine::GetStatTotalChainWalkStep()
+uint64 CCrackEngine::GetStatTotalChainWalkStep()
 {
 	return m_nTotalChainWalkStep;
 }
@@ -1446,8 +1443,7 @@ int CCrackEngine::GetStatTotalFalseAlarm()
 	return m_nTotalFalseAlarm;
 }
 
-// XXX: NEXT uint64
-int CCrackEngine::GetStatTotalChainWalkStepDueToFalseAlarm()
+uint64 CCrackEngine::GetStatTotalChainWalkStepDueToFalseAlarm()
 {
 	return m_nTotalChainWalkStepDueToFalseAlarm;
 }

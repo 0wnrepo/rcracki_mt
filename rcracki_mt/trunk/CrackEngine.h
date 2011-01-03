@@ -63,11 +63,9 @@ private:
 	float m_fTotalDiskAccessTime;
 	float m_fTotalCryptanalysisTime;
 	float m_fTotalPrecalculationTime;
-	// XXX: NEXT uint64
-	int m_nTotalChainWalkStep;
+	uint64 m_nTotalChainWalkStep;
 	int m_nTotalFalseAlarm;
-	// XXX: NEXT uint64
-	int m_nTotalChainWalkStepDueToFalseAlarm;
+	uint64 m_nTotalChainWalkStepDueToFalseAlarm;
 	FILE *m_fChains;
 
 private:
@@ -90,11 +88,9 @@ public:
 	float GetStatTotalDiskAccessTime();
 	float GetStatTotalCryptanalysisTime();
 	float GetStatTotalPrecalculationTime();
-	// XXX: NEXT uint64
-	int   GetStatTotalChainWalkStep();
+	uint64   GetStatTotalChainWalkStep();
 	int   GetStatTotalFalseAlarm();
-	// XXX: NEXT uint64
-	int   GetStatTotalChainWalkStepDueToFalseAlarm();
+	uint64   GetStatTotalChainWalkStepDueToFalseAlarm();
 	void setOutputFile(string sPathName);
 	void setSession(string sSessionPathName, string sProgressPathName, string sPrecalcPathName, bool keepPrecalc);
 };

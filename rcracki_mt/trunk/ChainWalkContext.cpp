@@ -410,8 +410,12 @@ void CChainWalkContext::Dump()
 	printf("hash routine: %s\n", m_sHashRoutineName.c_str());
 	printf("hash length: %d\n", m_nHashLen);
 
+	printf( "m_vCharset[0].m_nPlainCharSetLen: %d\n", m_vCharset[0].m_nPlainCharsetLen );
+	printf( "m_vCharset[1].m_nPlainCharSetLen: %d\n", m_vCharset[1].m_nPlainCharsetLen );
+
 	printf("plain charset: ");
 	unsigned int i;
+	
 	for (i = 0; i < m_vCharset[0].m_nPlainCharsetLen; i++)
 	{
 		if (isprint(m_vCharset[0].m_PlainCharset[i]))

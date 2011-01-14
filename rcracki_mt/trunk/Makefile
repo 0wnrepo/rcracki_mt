@@ -23,6 +23,7 @@
 SHELL = /bin/sh
 BIN = $(DESTDIR)/usr/bin
 CC = g++
+# -mtune=native doesn't work on NetBSD 5.1 with gcc 4.1.3 and make (fine with gmake)
 OPTIMIZATION = -O3 -mtune=native
 CFLAGS = -Wall -ansi $(OPTIMIZATION) -c $(DEBUG)
 LFLAGS = -Wall -ansi -filt $(OPTIMIZATION) $(DEBUG)
